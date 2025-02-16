@@ -40,3 +40,16 @@
 .read-the-docs {
   color: #888;
 }
+
+#navbar{
+    display: flex;
+    flex-direction: row;
+}
+.link{
+    background-color: burlywood;
+    padding: 2em;
+    margin: 0 0.5em 3em 0.5em;
+}
+.link:hover{
+    background-color: antiquewhite;
+}
