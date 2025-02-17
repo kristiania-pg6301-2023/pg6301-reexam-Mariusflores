@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react'
 import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
-import axios from "axios"
-import './App.css'
+import './App.css';
+import {LoginPage} from "./pages/loginPage.jsx";
 
 function NavBar() {
     return <header id={"navbar"}>
@@ -9,7 +8,7 @@ function NavBar() {
             <Link to={"/"}>Home page</Link>
         </div>
         <div className={"link"}>
-            <Link to={"/hello"}> Test </Link>
+            <Link to={"/login"}> Login </Link>
         </div>
 
     </header>;
@@ -23,10 +22,10 @@ function App(){
              <NavBar/>
              <Routes>
                  <Route path={"/"} element={<h1> Home page</h1>}/>
-                 <Route path={"/hello"} element={<h1> Hello</h1>}/>
+                 <Route path={"/login"} element={<LoginPage/>}/>
              </Routes>
 
-         </BrowserRouter>;
+         </BrowserRouter>
     </>
   )
 }
