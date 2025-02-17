@@ -1,5 +1,4 @@
-
-export function postsApi(db){
+export function postsApi(db) {
 
 
 }

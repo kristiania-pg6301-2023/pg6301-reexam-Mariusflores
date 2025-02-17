@@ -14,20 +14,20 @@ function NavBar() {
     </header>;
 }
 
-function App(){
+function App() {
 
-  return (
-    <>
-       <BrowserRouter>
-             <NavBar/>
-             <Routes>
-                 <Route path={"/"} element={<h1> Home page</h1>}/>
-                 <Route path={"/login"} element={<LoginPage/>}/>
-             </Routes>
+    return (
+        <>
+            <BrowserRouter>
+                <NavBar/>
+                <Routes>
+                    <Route path={"/"} element={<h1> Home page</h1>}/>
+                    <Route path={"/login"} element={<LoginPage/>}/>
+                </Routes>
 
-         </BrowserRouter>
-    </>
-  )
+            </BrowserRouter>
+        </>
+    )
 }
 
 export default App
