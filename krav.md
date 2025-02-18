@@ -5,13 +5,14 @@
   med google eller Entra ID
   - [x] Logge seg inn med bruker navn og passord
   - [x] Logge seg inn med google
-- [ ] En bruker som er logget inn kan se på sin profilside
+- [x] En bruker som er logget inn kan se på sin profilside
+  - [x] Bruker kan se sine egne innlegg på profilsiden
 - [x] Brukere skal forbli pålogget når de refresher websiden (cookies)
 - [ ] En bruker som er logget inn kan klikke på et innlegg for hvem som har reagert på innlegget og kommentarer.
       Detaljene skal inkludere en overskrift, tekst, navn, bilde(om tilgjengelig) på den som publiserte det
 - [ ] Brukere kan publisere nye inlegg. innlegg kan være mellom 10 ord og 1000 tegn
 - [ ] Systemet hindrer en bruker fra å publisere mer enn 5 innlegg innenfor en time
-- [ ] Brukeren skal forhindres fra å sende inn en nyhetsartikkel som mangler tekst
+- [x] Brukeren skal forhindres fra å sende inn en nyhetsartikkel som mangler tekst
 - [ ] En bruker skal kunne redigere et innlegg de selv har publisert
 - [ ] en bruker skal kunne slette et innlegg de selv har publisert
 - [ ] Brukere skal reagere på andres innlegg med en av flere emojis

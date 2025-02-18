@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import {Strategy as GithubStrategy} from "passport-github2";
 import { db } from './db.js';
 import {
   findOrCreateUser,
@@ -55,6 +56,30 @@ passport.use(
     }
   )
 );
+
+/**
+ * Setup GitHub OAuth Strategy
+ * */
+
+passport.use(
+  new GithubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: process.env.GITHUB_CALLBACK_URL,
+    },
+    async (accessToken, refreshToken, profile, done) =>{
+      try{
+
+        //Check if user exists in db
+        const user = await findOrCreateUser(db, profile, 'github' );
+        return done(null, user);
+      } catch (error) {
+        return done(error);
+      }
+    }
+  )
+)
 
 /**
  * Serialize user into session

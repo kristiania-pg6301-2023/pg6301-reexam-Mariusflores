@@ -25,6 +25,7 @@
     "mongodb": "^6.13.0",
     "nodemon": "^3.1.9",
     "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-session": "^1.0.2",

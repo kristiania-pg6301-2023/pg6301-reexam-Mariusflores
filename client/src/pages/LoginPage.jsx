@@ -1,35 +1,49 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import{faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faUser, faKey} from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 export function LoginPage({ setUser }) {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+
+
   const handleGoogleLogin = async () => {
     window.location.href = 'http://localhost:8000/auth/google';
   };
+  function handleGithubLogin() {
+    window.location.href = 'http://localhost:8000/auth/github';
+  };
+
 
   async function handleLogin(e) {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    const response = await fetch('http://localhost:8000/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-      credentials: 'include',
-    });
-    if (response.ok) {
+      const response = await fetch('http://localhost:8000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: 'include',
+      });
       const data = await response.json();
-      setUser(data.user);
-      if (confirm('Successfully Logged in')) {
-        navigate('/profile');
+
+      if (response.ok) {
+        setUser(data.user);
+        window.location.href="/home"
+      }else{
+        toast.error(data.message || "Failed to log in, Please make sure Username/Password is correct")
+
       }
+    } catch (error) {
+      toast.error("An error occurred. Please make sure Username and Password is correct");
+      console.error("Error logging in:", error);
     }
   }
 
@@ -62,7 +76,7 @@ export function LoginPage({ setUser }) {
         <button onClick={handleLogin}>Log in</button>
       </form>
 
-      <div>
+      <div style={{display: "flex", flexDirection: "row", justifyContent:"center", margin : "1em",}}>
         <button
           onClick={handleGoogleLogin}
           style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px 15px" }}
@@ -71,7 +85,16 @@ export function LoginPage({ setUser }) {
           Log in with Google
         </button>
 
+        <button
+          onClick={handleGithubLogin}
+          style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px 15px" }}
+        >
+          <FontAwesomeIcon icon={faGithub} size="lg" />
+          Log in with GitHub
+        </button>
+
       </div>
+
       <p>
         Dont have an account? <Link to={'/register'}>register</Link> or log in with Google
         (Recommended)

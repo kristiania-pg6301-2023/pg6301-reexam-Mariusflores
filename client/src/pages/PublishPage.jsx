@@ -1,26 +1,33 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export function PublishPage() {
 
   const [content, setContent] = useState("");
-  const [message, setMessage] = useState("");
+
   async function handlePublish(e) {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    const response = await fetch("http://localhost:8000/post/publish", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({content}),
-      credentials: 'include'
-    });
-    const data = await response.json()
+      const response = await fetch("http://localhost:8000/post/publish", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ content }),
+        credentials: 'include'
+      });
+      const data = await response.json()
 
-    if(response.ok){
-      window.location.href ="http://localhost:5173/home";
-    } else {
-      setMessage(data.message || 'Registraion failed');
+      if (response.ok) {
+        toast.success("Successfully Posted👉")
+        window.location.href = "http://localhost:5173/home";
+      } else {
+        toast.error(data.message || "Failed to post")
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+      console.error("Error posting:", error);
     }
 
   }
@@ -43,7 +50,6 @@ export function PublishPage() {
         <button type={'submit'}>Post</button>
       </form>
 
-      {message && <p>{message}</p>}
     </>
   );
 }

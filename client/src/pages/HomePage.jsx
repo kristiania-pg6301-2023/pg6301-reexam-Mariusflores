@@ -20,7 +20,6 @@ export function HomePage({user}) {
 
     return mapPosts(posts);
   }else{
-    setTimeout(window.location.href="/login", 1000)
     return (<h1>Redirecting to Login page</h1>)
 
   }

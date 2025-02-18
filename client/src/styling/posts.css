@@ -6,7 +6,29 @@
     margin-bottom: 20px;
     max-width: 600px;
     word-wrap: break-word;
+    position: relative;
+    border: 1px solid #ddd;
+
 }
+
+
+.delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ff4d4d;
+    transition: color 0.2s ease-in-out;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.delete-button:hover {
+    color: #d40000;
+}
+
 
 .post-username {
     font-weight: bold;
@@ -22,4 +44,10 @@
     font-size: 16px;
     margin-top: 10px;
     color: #333;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
 }

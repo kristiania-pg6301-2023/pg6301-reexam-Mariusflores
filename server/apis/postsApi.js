@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 export async function createPost(db, userid, content) {
 
   const newPost = {
@@ -11,6 +13,14 @@ export async function createPost(db, userid, content) {
   return newPost;
 
 }
+
+/**
+ * Get Post by id
+ * */
+export async function getPostById(db, postId){
+  return await db.collection('posts').findOne({ _id: new ObjectId(postId) });
+}
+
 
 /**
  * $lookup to join users collection with posts and retrieve desired fields
@@ -68,4 +78,10 @@ export async function getAllPostsFromUser(db, userid){
       }
     }
   ]).toArray();
+}
+
+export async function deletePostById(db, postId){
+
+  return await db.collection('posts').deleteOne({_id: new ObjectId(postId)});
+
 }

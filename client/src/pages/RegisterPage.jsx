@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -7,24 +8,28 @@ export function RegisterPage() {
   const [message, setMessage] = useState('');
 
   async function handleRegister(e) {
-    e.preventDefault();
 
-    const response = await fetch('http://localhost:8000/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password, email }),
-    });
+    try {
+      e.preventDefault();
 
-    const data = await response.json();
-    if (response.ok) {
-      console.log('registration successful');
-      if (confirm('Registration successful! Click OK to log in.')) {
-        window.location.href = 'http://localhost:5173/login';
+      const response = await fetch('http://localhost:8000/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password, email }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log('registration successful');
+        toast.success("Registration successful, you can now log in")
+      } else {
+        toast.error(data.message || "Registration failed, please try again");
       }
-    } else {
-      setMessage(data.message || 'Registraion failed');
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+      console.error("Error deleting post:", error);
     }
   }
 
