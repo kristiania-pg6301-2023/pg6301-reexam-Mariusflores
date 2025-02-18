@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import{faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faUser, faKey} from '@fortawesome/free-solid-svg-icons';
 
 export function LoginPage({ setUser }) {
   const navigate = useNavigate();
@@ -34,21 +37,25 @@ export function LoginPage({ setUser }) {
     <>
       <form onSubmit={handleLogin}>
         <h2>Login</h2>
-        <div>
-          <label>Username:</label>
+        <div style={{ display: "flex", alignItems: "center", border: "1px solid gray", padding: "5px", borderRadius: "5px" }}>
+          <FontAwesomeIcon icon={faUser} style={{ marginRight: "8px" }} />
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            style={{ border: "none", outline: "none", flex: 1 }}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div style={{ display: "flex", alignItems: "center", border: "1px solid gray", padding: "5px", borderRadius: "5px" }}>
+          <FontAwesomeIcon icon={faKey} style={{ marginRight: "8px" }} />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            style={{ border: "none", outline: "none", flex: 1 }}
             required
           />
         </div>
@@ -56,7 +63,14 @@ export function LoginPage({ setUser }) {
       </form>
 
       <div>
-        <button onClick={handleGoogleLogin}>Log in with Google</button>
+        <button
+          onClick={handleGoogleLogin}
+          style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px 15px" }}
+        >
+          <FontAwesomeIcon icon={faGoogle} size="lg" />
+          Log in with Google
+        </button>
+
       </div>
       <p>
         Dont have an account? <Link to={'/register'}>register</Link> or log in with Google

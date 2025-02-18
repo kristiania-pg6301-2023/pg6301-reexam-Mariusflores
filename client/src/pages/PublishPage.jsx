@@ -18,7 +18,7 @@ export function PublishPage() {
     const data = await response.json()
 
     if(response.ok){
-      window.location.href ="http://localhost:5173/";
+      window.location.href ="http://localhost:5173/home";
     } else {
       setMessage(data.message || 'Registraion failed');
     }

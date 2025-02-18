@@ -25,18 +25,22 @@ function App() {
       credentials: 'include',
     });
     setUser(null); // ✅ Updates state after logout
+    window.location.reload();
   };
 
   return (
     <BrowserRouter>
       <NavBar user={user} onLogout={handleLogout} />
       <Routes>
-        <Route path="/home" element={<HomePage/>} />
-        <Route path="/login" element={<LoginPage setUser={setUser} />} />{' '}
+        <Route path="/" element={<LoginPage setUser={setUser} />} /> {/* Default route (Login Page) */}
+        <Route path="/login" element={<LoginPage setUser={setUser} />} />
+        <Route path="/home" element={<HomePage user={user} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage user={user} />} />
-        <Route path="/publish" element={<PublishPage/>} />
+        <Route path="/publish" element={<PublishPage />} />
+        <Route path="*" element={<HomePage user={user} />} /> {/* Redirect unknown URLs to login */}
       </Routes>
+
     </BrowserRouter>
   );
 }
