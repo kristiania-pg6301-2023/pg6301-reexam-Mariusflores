@@ -71,17 +71,23 @@ router.get(
  * GitHub OAuth Login Route
  **/
 
-router.get("/github", passport.authenticate("github", {
-  scope: ['user:email'],
-}));
+router.get(
+  '/github',
+  passport.authenticate('github', {
+    scope: ['user:email'],
+  })
+);
 
 /**
  * GitHub OAuth Callback
  * */
-router.get("/github/callback", passport.authenticate('github', {
-  failureRedirect: '/login',
-  successRedirect: '/profile'
-}));
+router.get(
+  '/github/callback',
+  passport.authenticate('github', {
+    failureRedirect: '/login',
+    successRedirect: '/profile',
+  })
+);
 /**
  * Checks If user logged in
  * */
@@ -100,13 +106,13 @@ router.post('/logout', (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
 
-    req.session.destroy((err) => { // ✅ Ensure session is destroyed
-      if (err) console.error("Session destroy error:", err);
+    req.session.destroy((err) => {
+      // ✅ Ensure session is destroyed
+      if (err) console.error('Session destroy error:', err);
       res.clearCookie('connect.sid', { path: '/' });
       res.json({ message: 'Logged Out' });
     });
   });
 });
-
 
 export default router;

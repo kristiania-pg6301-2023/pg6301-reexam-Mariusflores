@@ -1,5 +1,11 @@
 import sanitizeHtml from 'sanitize-html';
-import { createPost, deletePostById, getAllPosts, getAllPostsFromUser, getPostById } from '../apis/postsApi.js';
+import {
+  createPost,
+  deletePostById,
+  getAllPosts,
+  getAllPostsFromUser,
+  getPostById,
+} from '../apis/postsApi.js';
 import { db } from '../config/db.js';
 import express from 'express';
 import { ObjectId } from 'mongodb';
@@ -44,7 +50,6 @@ router.post('/publish', async (req, res) => {
 
     res.status(201).json({ message: 'Post published', post: newPost });
     console.log('Created post');
-
   } catch (error) {
     console.error('Error publishing post:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -72,12 +77,11 @@ router.post('/delete/:postId', async (req, res) => {
     }
 
     if (userid.toString() !== post.userid.toString()) {
-      return res.status(403).json({ message: 'Cannot delete someone else\'s post' });
+      return res.status(403).json({ message: "Cannot delete someone else's post" });
     }
     //delete post
     await deletePostById(db, new ObjectId(postId));
     res.status(200).json({ message: 'Post deleted' });
-
   } catch (error) {
     console.error('Error deleting post', error);
     return res.status(500).json({ message: 'Internal Server Error' });
@@ -116,8 +120,5 @@ router.get('/user/posts/:userid?', async (req, res) => {
 /**
  * Delete requests
  * */
-
-
-
 
 export default router;

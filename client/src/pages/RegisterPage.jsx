@@ -8,7 +8,6 @@ export function RegisterPage() {
   const [message, setMessage] = useState('');
 
   async function handleRegister(e) {
-
     try {
       e.preventDefault();
 
@@ -23,13 +22,13 @@ export function RegisterPage() {
       const data = await response.json();
       if (response.ok) {
         console.log('registration successful');
-        toast.success("Registration successful, you can now log in")
+        toast.success('Registration successful, you can now log in');
       } else {
-        toast.error(data.message || "Registration failed, please try again");
+        toast.error(data.message || 'Registration failed, please try again');
       }
     } catch (error) {
-      toast.error("An error occurred. Please try again.");
-      console.error("Error deleting post:", error);
+      toast.error('An error occurred. Please try again.');
+      console.error('Error deleting post:', error);
     }
   }
 

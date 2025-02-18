@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { mapPosts } from "../components/MapPosts.jsx";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { mapPosts } from '../components/MapPosts.jsx';
 
 export function ProfilePage({ user }) {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ export function ProfilePage({ user }) {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login"); // Redirect if user is null
+      navigate('/login'); // Redirect if user is null
       return;
     }
 
@@ -18,14 +18,14 @@ export function ProfilePage({ user }) {
       const signal = controller.signal; // Extract signal
 
       fetch(`http://localhost:8000/post/user/posts/${user.id}`, {
-        credentials: "include",
+        credentials: 'include',
         signal: signal, // Attach signal to fetch
       })
         .then((res) => res.json())
         .then((data) => setPosts(data))
         .catch((error) => {
-          if (error.name !== "AbortError") {
-            console.error("Error fetching posts:", error);
+          if (error.name !== 'AbortError') {
+            console.error('Error fetching posts:', error);
           }
         });
 

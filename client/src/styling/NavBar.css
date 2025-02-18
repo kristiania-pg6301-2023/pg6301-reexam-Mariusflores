@@ -12,10 +12,9 @@
   z-index: 1000; /* Ensures the navbar stays above other elements */
 }
 
-.link{
-  color:#ffffff;
+.link {
+  color: #ffffff;
 }
-
 
 .link-container {
   padding: 2em;

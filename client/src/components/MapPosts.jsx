@@ -12,21 +12,21 @@ export function mapPosts(posts) {
         credentials: 'include',
         method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
         },
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        toast.success("Post deleted successfully!");
+        toast.success('Post deleted successfully!');
         window.location.reload();
       } else {
-        toast.error(data.message || "Failed to delete post");
+        toast.error(data.message || 'Failed to delete post');
       }
     } catch (error) {
-      toast.error("An error occurred. Please try again.");
-      console.error("Error deleting post:", error);
+      toast.error('An error occurred. Please try again.');
+      console.error('Error deleting post:', error);
     }
   }
 
@@ -45,9 +45,7 @@ export function mapPosts(posts) {
           </button>
           <h3 className="post-username">{post.username || 'Unknown User'}</h3>
           <p className="post-content">{post.content}</p>
-          <p className="post-timestamp">
-            {new Date(post.timestamp).toLocaleString()}
-          </p>
+          <p className="post-timestamp">{new Date(post.timestamp).toLocaleString()}</p>
         </div>
       ))}
     </>
