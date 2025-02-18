@@ -1,11 +1,42 @@
 // Fetch User by ID
+import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+
+// Generate a unique 18-digit number
+export function generateUserId() {
+  const min = 100000;  // Smallest 6-digit number
+  const max = 999999;  // Largest 6-digit number
+  const randomNum = crypto.randomInt(min, max);
+  return `local:${randomNum}`;
+}
+
 export async function getUserById(db, id) {
   return await db.collection('users').findOne({ id });
 }
 
-//Create new User
-export async function createUser(db, user) {
-  return await db.collection('users').insertOne(user);
+export async function getUserByUsername(db, username){
+  return await db.collection('users').findOne({username});
+}
+
+//Create new User (localAuth - with hashed password
+export async function createUser(db, username, password, email) {
+
+  if(!username || !password){
+
+    throw new Error("Username and password required");
+  }
+  const hashedPassword = await bcrypt.hash(password, 10)
+
+  const newUser = {
+    id: generateUserId(),
+    username: username,
+    email: email || '',
+    password: hashedPassword,
+    provider: 'local',
+    createdAt: new Date(),
+  };
+
+  return await db.collection('users').insertOne(newUser);
 }
 
 //Find or create a user based on OAuth profile
@@ -19,8 +50,14 @@ export async function findOrCreateUser(db, profile, provider) {
       username: profile.displayName,
       email: profile.emails?.[0]?.value || '',
       provider,
+      createdAt : new Date(),
     };
-    await createUser(db, user);
+    await db.collection('users').insertOne(user);
   }
   return user;
+}
+
+//Verify Password
+export async function verifyPassword(user, password){
+  return await bcrypt.compare(password, user.password);
 }

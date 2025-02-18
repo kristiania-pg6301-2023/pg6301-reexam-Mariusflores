@@ -3,9 +3,8 @@
 - [ ] Anonyme brukere skal se de siste innleggene og reaksjoner (emojis) når de kommer til nettsiden
 - Brukere kan logge seg inn. brukere skal kunne registrere med brukernavn og passord (anbefales ikke) eller logge inn
   med google eller Entra ID
-  - [ ] Logge seg inn med bruker navn og passord
+  - [x] Logge seg inn med bruker navn og passord
   - [x] Logge seg inn med google
-  - [ ] Logge seg inn med Entra ID
 - [ ] En bruker som er logget inn kan se på sin profilside
 - [x] Brukere skal forbli pålogget når de refresher websiden (cookies)
 - [ ] En bruker som er logget inn kan klikke på et innlegg for hvem som har reagert på innlegget og kommentarer.

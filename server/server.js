@@ -15,10 +15,10 @@ const app = express();
  * Middleware
  * */
 
-app.use(express.static('../client/dist'));
 app.use(corsMiddelware());
 app.use(express.json());
 app.use(sessionMiddleware());
+app.use(express.static('../client/dist'));
 
 //Starts passport.js authentication
 app.use(passport.initialize());
@@ -49,3 +49,5 @@ const server = app.listen(process.env.PORT || 8000, async () => {
   await connectDB();
   console.log('Server started on http://localhost:' + server.address().port);
 });
+
+export {app, server};
