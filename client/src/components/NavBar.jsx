@@ -11,6 +11,9 @@ export function NavBar({ user, onLogout }) {
       {user ? (
         <>
           <div className="link">
+            <Link to={"/publish"}>Post</Link>
+          </div>
+          <div className="link">
             <Link to="/profile">Profile</Link>
           </div>
           <div className="link">

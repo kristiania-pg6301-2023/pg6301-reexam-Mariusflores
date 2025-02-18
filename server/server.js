@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import passport from './config/passport.js';
 import path from 'path';
 import authRoutes from './routes/authRoutes.js';
+import postRoutes from './routes/postRoutes.js'
 import { connectDB } from './config/db.js';
 import { corsMiddelware } from './middlewares/corsMiddelware.js';
 import { sessionMiddleware } from './middlewares/sessionMiddleware.js';
@@ -29,6 +30,7 @@ app.use(passport.session());
  * Routes
  * */
 app.use('/auth', authRoutes);
+app.use('/post', postRoutes);
 
 /**
  * Serve Frontend
