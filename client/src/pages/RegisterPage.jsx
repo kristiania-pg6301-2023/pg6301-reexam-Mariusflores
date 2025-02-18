@@ -5,7 +5,6 @@ export function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
 
   async function handleRegister(e) {
     try {
@@ -61,7 +60,7 @@ export function RegisterPage() {
         </div>
         <button type={'submit'}>Register</button>
       </form>
-      {message && <p>{message}</p>}
+
     </>
   );
 }

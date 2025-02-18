@@ -3,7 +3,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../styling/posts.css';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
 
 export function mapPosts(posts) {
   async function handleDelete(_id) {
