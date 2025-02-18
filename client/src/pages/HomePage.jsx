@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import '../styling/posts.css'
+import { mapPosts } from '../components/MapPosts.jsx';
+
 
 export function HomePage({user}) {
+
   if(user) {
     const [posts, setPosts] = useState([]);
 
@@ -16,21 +18,10 @@ export function HomePage({user}) {
     }, []);
 
 
-
-    return (
-      <>
-        {posts.length === 0 ? <p>No posts available.</p> : null}
-
-        {posts.map((post) => (
-          <div className={'post-container'} key={post._id}> {/* Add unique key */}
-            <h3 className={'post-username'}>{post.username || "Unknown User"}</h3>
-            <p className={'post-content'}>{post.content}</p>
-            <p className={'post-timestamp'}>{new Date(post.timestamp).toLocaleString()}</p> {/* Format timestamp */}
-          </div>
-        ))}
-      </>
-    );
+    return mapPosts(posts);
   }else{
-    return (<h1>Log in to explore😃</h1>)
+    setTimeout(window.location.href="/login", 1000)
+    return (<h1>Redirecting to Login page</h1>)
+
   }
 }

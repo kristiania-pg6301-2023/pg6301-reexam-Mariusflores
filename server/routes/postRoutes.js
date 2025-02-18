@@ -1,13 +1,18 @@
 import sanitizeHtml from 'sanitize-html';
-import { createPost, getAllPosts } from '../apis/postsApi.js';
+import { createPost, getAllPosts, getAllPostsFromUser } from '../apis/postsApi.js';
 import { db } from '../config/db.js';
 import express from 'express';
 
 const router = express.Router();
 
+// Extract user ID from session
+function extractUser(req) {
+  return req.user ? req.user.id : null;
+}
+
 router.post('/publish', async (req, res) => {
   try {
-    const userId = req.user ? req.user.id : null; // Extract user ID from session (if using Passport.js)
+    const userId = extractUser(req);
 
     if (!userId) {
       return res.status(401).json({ message: 'Unauthorized. Please log in.' });
@@ -52,6 +57,20 @@ router.get('/all', async (req, res) => {
   }
 });
 
+router.get("/user/posts/:userid?", async (req, res) => {
+  try {
+    //Dual use case, for fetching logged in users posts, as well as other peoples posts
+    let userid = req.params.userid || extractUser(req);
+
+    if(!userid){
+      return res.status(401).json({message:"Uauthorized. Please log in"})
+    }
+    const userPosts = await getAllPostsFromUser(db, userid);
+    res.json(userPosts);
+  }catch (Error){
+    res.status(500).json({message: "Failed to fetch posts"})
+  }
+})
 
 
 export default router;

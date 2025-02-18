@@ -8,8 +8,8 @@ import { faHouse, faPen, faRightToBracket, faUser } from '@fortawesome/free-soli
 export function NavBar({ user, onLogout }) {
   return (
     <header id="navbar">
-      <div className="link">
-        <Link to="/home">Home</Link>
+      <div className="link-container">
+        <Link className={'link'} to="/home">Home</Link>
         <span className="icon">
                 <FontAwesomeIcon icon={faHouse} size={'0.5'} />
         </span>
@@ -17,15 +17,14 @@ export function NavBar({ user, onLogout }) {
 
       {user ? (
         <>
-          <div className="link">
-
-            <Link to={'/publish'}>Post</Link>
+          <div className="link-container">
+            <Link className={'link'} to={'/publish'}>Post</Link>
             <span className="icon">
                 <FontAwesomeIcon icon={faPen} size={'0.5'} />
           </span>
           </div>
-          <div className="link">
-            <Link to="/profile">Profile</Link>
+          <div className="link-container">
+            <Link className={'link'} to="/profile">Profile</Link>
             <span className="icon">
                 <FontAwesomeIcon icon={faUser} size={'0.5'} />
           </span>
@@ -35,8 +34,8 @@ export function NavBar({ user, onLogout }) {
           </div>
         </>
       ) : (
-        <div className="link">
-          <Link to="/login">Login</Link>
+        <div className="link-container">
+          <Link className={'link'} to="/login">Login</Link>
           <span className="icon">
                 <FontAwesomeIcon icon={faRightToBracket} size={'0.5'} />
           </span>

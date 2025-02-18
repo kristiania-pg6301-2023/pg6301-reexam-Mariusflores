@@ -32,7 +32,7 @@ function App() {
     <BrowserRouter>
       <NavBar user={user} onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<LoginPage setUser={setUser} />} /> {/* Default route (Login Page) */}
+        <Route path="/" element={<HomePage user={user} />} /> {/* Default route (Login Page) */}
         <Route path="/login" element={<LoginPage setUser={setUser} />} />
         <Route path="/home" element={<HomePage user={user} />} />
         <Route path="/register" element={<RegisterPage />} />

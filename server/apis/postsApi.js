@@ -38,3 +38,34 @@ export async function getAllPosts(db) {
     }
   ]).toArray();
 }
+
+/**
+ * Get all posts from user
+ * */
+export async function getAllPostsFromUser(db, userid){
+
+  return await db.collection('posts').aggregate([
+    {
+      $match: {userid: userid} // Filter by userid
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "userid",
+        foreignField: "id",
+        as: "userDetails"
+      }
+    },
+    {
+      $unwind: "$userDetails"
+    },
+    {
+      $project: {
+        content: 1,
+        timestamp: 1,
+        username: "$userDetails.username",
+        _id: 1
+      }
+    }
+  ]).toArray();
+}
