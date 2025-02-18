@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import '../styling/NavBar.css'
+import { Link } from 'react-router-dom';
+import '../styling/NavBar.css';
 
 export function NavBar({ user, onLogout }) {
   return (

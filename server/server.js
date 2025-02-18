@@ -50,4 +50,4 @@ const server = app.listen(process.env.PORT || 8000, async () => {
   console.log('Server started on http://localhost:' + server.address().port);
 });
 
-export {app, server};
+export { app, server };

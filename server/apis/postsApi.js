@@ -1,1 +1,1 @@
-export function postsApi(db) {}
+export function createPost() {}

@@ -14,35 +14,34 @@ router.post('/register', async (req, res) => {
 
     // Check if username or password is missing
     if (!username || !password) {
-      return res.status(400).json({ message: "Username and password are required" });
+      return res.status(400).json({ message: 'Username and password are required' });
     }
 
     // Check if user already exists
     const existingUser = await getUserByUsername(db, username);
     if (existingUser) {
-      return res.status(409).json({ message: "Username already taken" });
+      return res.status(409).json({ message: 'Username already taken' });
     }
 
     // Create new user
     const newUser = await createUser(db, username, password, email);
 
-    console.log("✅ User registered:", newUser); // Debugging log
+    console.log('✅ User registered:', newUser); // Debugging log
 
-    return res.status(201).json({ message: "Registration successful" }); // Ensure response is sent once
+    return res.status(201).json({ message: 'Registration successful' }); // Ensure response is sent once
   } catch (error) {
-    console.error("❌ Registration error:", error);
+    console.error('❌ Registration error:', error);
 
-    return res.status(500).json({ message: "Internal server error" }); // Catch unexpected errors
+    return res.status(500).json({ message: 'Internal server error' }); // Catch unexpected errors
   }
 });
-
 
 /**
  * Login Local User Auth
  * */
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.json({message: 'Login Successful', user: req.user});
+  res.json({ message: 'Login Successful', user: req.user });
 });
 
 /**
@@ -92,7 +91,5 @@ router.post('/logout', (req, res, next) => {
     });
   });
 });
-
-
 
 export default router;

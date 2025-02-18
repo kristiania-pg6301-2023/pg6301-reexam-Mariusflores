@@ -1,30 +1,36 @@
 import passport from 'passport';
-import {Strategy as LocalStrategy} from 'passport-local'
+import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { db } from './db.js';
-import { findOrCreateUser, getUserById, getUserByUsername, verifyPassword } from '../apis/userApi.js';
-
+import {
+  findOrCreateUser,
+  getUserById,
+  getUserByUsername,
+  verifyPassword,
+} from '../apis/userApi.js';
 
 /**
  * Local Strategy
  * */
 
 passport.use(
-  new LocalStrategy({usernameField: 'username', passwordField: 'password'},
+  new LocalStrategy(
+    { usernameField: 'username', passwordField: 'password' },
     async (username, password, done) => {
-    try {
-      const user = await getUserByUsername (db, username);
-      if(!user) return done(null, false, {message: 'User not found'});
+      try {
+        const user = await getUserByUsername(db, username);
+        if (!user) return done(null, false, { message: 'User not found' });
 
-      const isValid = await verifyPassword(user, password);
-      if(!isValid) return done(null, false, {message: 'Invalid password'});
+        const isValid = await verifyPassword(user, password);
+        if (!isValid) return done(null, false, { message: 'Invalid password' });
 
-      return done(null, user);
-    }catch (error){
-      return done(error);
+        return done(null, user);
+      } catch (error) {
+        return done(error);
+      }
     }
-  })
-)
+  )
+);
 
 /**
  * Setup Passport Google OAuth Strategy
