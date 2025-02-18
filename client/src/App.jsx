@@ -6,6 +6,7 @@ import { RegisterPage } from './pages/RegisterPage.jsx';
 import { ProfilePage } from './pages/ProfilePage.jsx';
 import { useEffect, useState } from 'react';
 import { PublishPage } from './pages/PublishPage.jsx';
+import { HomePage } from './pages/HomePage.jsx';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -30,7 +31,7 @@ function App() {
     <BrowserRouter>
       <NavBar user={user} onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<h1>Home page</h1>} />
+        <Route path="/home" element={<HomePage/>} />
         <Route path="/login" element={<LoginPage setUser={setUser} />} />{' '}
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage user={user} />} />

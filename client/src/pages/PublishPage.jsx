@@ -1,4 +1,3 @@
-import { useSubmit } from 'react-router-dom';
 import { useState } from 'react';
 
 export function PublishPage() {
@@ -42,9 +41,9 @@ export function PublishPage() {
           />
         </div>
         <button type={'submit'}>Post</button>
-
-        
       </form>
+
+      {message && <p>{message}</p>}
     </>
   );
 }

@@ -11,3 +11,30 @@ export async function createPost(db, userid, content) {
   return newPost;
 
 }
+
+/**
+ * $lookup to join users collection with posts and retrieve desired fields
+ * */
+export async function getAllPosts(db) {
+  return await db.collection("posts").aggregate([
+    {
+      $lookup: {
+        from: "users",        // Collection to join
+        localField: "userid", // Field in "posts" collection
+        foreignField: "id",  // Field in "users" collection (assuming _id is the user identifier)
+        as: "userDetails"     // Output field name
+      }
+    },
+    {
+      $unwind: "$userDetails" // Flatten user array (optional)
+    },
+    {
+      $project: { // Select only the fields you need
+        content: 1,
+        timestamp: 1,
+        username: "$userDetails.username", // Get username from joined user document
+        _id: 1 // Include post ID if needed
+      }
+    }
+  ]).toArray();
+}

@@ -5,7 +5,7 @@ export function NavBar({ user, onLogout }) {
   return (
     <header id="navbar">
       <div className="link">
-        <Link to="/">Home</Link>
+        <Link to="/home">Home</Link>
       </div>
 
       {user ? (
