@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { mapPosts } from '../components/MapPosts.jsx';
+import PostList from '../components/PostList.jsx';
 
 export function ProfilePage({ user }) {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export function ProfilePage({ user }) {
       <div>
         <h2>Welcome, {user.username}!</h2>
       </div>
-      {mapPosts(posts)}
+      {<PostList posts={posts}/>}>
     </>
   );
 }

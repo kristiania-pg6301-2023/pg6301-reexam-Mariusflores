@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { mapPosts } from '../components/MapPosts.jsx';
+import PostList from '../components/PostList.jsx';
 
 export function HomePage({ user }) {
   if (user) {
@@ -15,7 +15,7 @@ export function HomePage({ user }) {
         .catch((error) => console.error('Error fetching posts:', error));
     }, []);
 
-    return mapPosts(posts);
+    return <PostList posts={posts}/>;
   } else {
     return <h1>Redirecting to Login page</h1>;
   }
