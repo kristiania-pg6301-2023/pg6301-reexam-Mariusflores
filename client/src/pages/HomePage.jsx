@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import PostList from '../components/PostList.jsx';
 
-export function HomePage({ user }) {
+export function HomePage() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
