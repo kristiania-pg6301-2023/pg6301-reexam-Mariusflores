@@ -1,5 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 import {
+  addReactionToPost,
   createPost,
   deletePostById, editPostById,
   getAllPosts,
@@ -147,6 +148,35 @@ router.post('/edit/:postId', async (req, res) => {
     console.error('Error editing post', error);
     return res.status(500).json({ message: 'Internal Server Error' });
   }
+})
+
+router.post("/react/:postId", async (req, res) => {
+  try{
+
+    const postId = req.params.postId;
+    const {reaction} = req.body;
+    const userid = extractUser(req);
+
+    if(!userid){
+      res.status(401).json({message: "Unauthorized. Please log in"});
+    }
+
+    if(!ObjectId.isValid(postId)){
+      return res.status(400).json({ message: 'Invalid post ID' });
+    }
+
+    const post = await getPostById(db, postId);
+    if(!post){
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    await addReactionToPost(db, postId, userid, reaction);
+    return res.status(200).json({message: "Successfully added reaction"});
+
+  }catch (error){
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+
 })
 
 /**

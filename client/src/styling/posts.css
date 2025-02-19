@@ -156,3 +156,25 @@
   background: #d32f2f;
 }
 
+/*Reaction styling*/
+.reaction-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.reaction-button {
+  background: #f0f0f0;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background 0.2s ease-in-out;
+}
+
+.reaction-button:hover {
+  background: #ddd;
+}
+
+

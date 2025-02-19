@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import '../styling/register.css'; // Import the new CSS file
 
 export function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -32,10 +33,10 @@ export function RegisterPage() {
   }
 
   return (
-    <>
-      <h3>Register new user</h3>
+    <div className="register-container">
+      <h3>Register New User</h3>
 
-      <form onSubmit={handleRegister}>
+      <form className="register-form" onSubmit={handleRegister}>
         <div>
           <label>Username:</label>
           <input
@@ -55,12 +56,11 @@ export function RegisterPage() {
           />
         </div>
         <div>
-          <label>Email(Optional):</label>
+          <label>Email (Optional):</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
-        <button type={'submit'}>Register</button>
+        <button className="register-button" type="submit">Register</button>
       </form>
-
-    </>
+    </div>
   );
 }

@@ -42,6 +42,7 @@ export async function getAllPosts(db) {
           // Select only the fields you need
           content: 1,
           timestamp: 1,
+          reactions: 1,
           username: '$userDetails.username', // Get username from joined user document
           _id: 1, // Include post ID if needed
         },
@@ -75,6 +76,7 @@ export async function getAllPostsFromUser(db, userid) {
         $project: {
           content: 1,
           timestamp: 1,
+          reactions: 1,
           username: '$userDetails.username',
           _id: 1,
         },
@@ -83,14 +85,30 @@ export async function getAllPostsFromUser(db, userid) {
     .toArray();
 }
 
+/**
+ *
+ * Delete Post using ID
+ * */
+
 export async function deletePostById(db, postId) {
   return await db.collection('posts').deleteOne({ _id: new ObjectId(postId) });
 }
 
+/**
+ * Edit Post content field
+ * */
 export async function editPostById(db, postId, newContent) {
   return await db.collection('posts').updateOne(
     { _id: new ObjectId(postId) }, // Find the post by ID
     { $set: { content: newContent } } // Update only the content field
   );
 }
+
+export async function addReactionToPost(db, postId, userId, reaction) {
+  return await db.collection('posts').updateOne(
+    { _id: new ObjectId(postId) }, // Ensure correct ID reference
+    { $push: { reactions: { userId, reaction } } } // Push object into reactions array
+  );
+}
+
 

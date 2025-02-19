@@ -3,7 +3,10 @@ import { toast } from 'react-toastify';
 import { faEllipsisV, faTrash, faEdit, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function PostItem({ post, onDelete, onEdit }) {
+// Define available reactions
+const REACTIONS = ['👍', '❤️', '😂', '🔥', '😢'];
+
+export default function PostItem({ post, onDelete, onEdit, onReact }) {
   const [activeMenu, setActiveMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
@@ -25,6 +28,10 @@ export default function PostItem({ post, onDelete, onEdit }) {
 
     await onEdit(post._id, editedContent);
     setIsEditing(false);
+  }
+
+  async function handleReaction(reaction) {
+    await onReact(post._id, reaction);
   }
 
   return (
@@ -67,6 +74,19 @@ export default function PostItem({ post, onDelete, onEdit }) {
       )}
 
       <p className="post-timestamp">{new Date(post.timestamp).toLocaleString()}</p>
+
+      {/* Reactions Section */}
+      <div className="reaction-bar">
+        {REACTIONS.map((reaction) => (
+          <button
+            key={reaction}
+            className="reaction-button"
+            onClick={() => handleReaction(reaction)}
+          >
+            {reaction} {post.reactions?.filter((r) => r.reaction === reaction).length || 0}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

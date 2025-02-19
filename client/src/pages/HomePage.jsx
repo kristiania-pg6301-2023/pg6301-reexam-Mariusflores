@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import PostList from '../components/PostList.jsx';
 
 export function HomePage({ user }) {
-  if (user) {
+
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -16,7 +16,5 @@ export function HomePage({ user }) {
     }, []);
 
     return <PostList posts={posts}/>;
-  } else {
-    return <h1>Redirecting to Login page</h1>;
-  }
+
 }
