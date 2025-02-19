@@ -86,3 +86,11 @@ export async function getAllPostsFromUser(db, userid) {
 export async function deletePostById(db, postId) {
   return await db.collection('posts').deleteOne({ _id: new ObjectId(postId) });
 }
+
+export async function editPostById(db, postId, newContent) {
+  return await db.collection('posts').updateOne(
+    { _id: new ObjectId(postId) }, // Find the post by ID
+    { $set: { content: newContent } } // Update only the content field
+  );
+}
+

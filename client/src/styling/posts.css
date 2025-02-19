@@ -48,3 +48,111 @@
   font-weight: bold;
   margin-top: 10px;
 }
+/* Three-dot menu button */
+.menu-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  font-size: 18px;
+}
+
+.menu-button:hover {
+  color: black;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #1a1a1a;
+}
+
+.dropdown-item:hover {
+  background: #f0f0f0;
+}
+
+/* Delete button styling */
+.dropdown-item.delete {
+  color: #ff4d4d;
+}
+
+.dropdown-item.delete:hover {
+  background: #ffe6e6;
+}
+
+/* Edit mode styles */
+.edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-textarea {
+  width: 100%;
+  min-height: 60px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.save-button, .cancel-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.save-button {
+  background: #4caf50;
+  color: white;
+}
+
+.cancel-button {
+  background: #f44336;
+  color: white;
+}
+
+.save-button:hover {
+  background: #388e3c;
+}
+
+.cancel-button:hover {
+  background: #d32f2f;
+}
+
