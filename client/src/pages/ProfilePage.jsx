@@ -41,7 +41,7 @@ export function ProfilePage({ user }) {
       <div>
         <h2>Welcome, {user.username}!</h2>
       </div>
-      {<PostList posts={posts}/>}>
+      {<PostList posts={posts} setPosts={setPosts}/>}>
     </>
   );
 }

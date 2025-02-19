@@ -15,6 +15,6 @@ export function HomePage({ user }) {
         .catch((error) => console.error('Error fetching posts:', error));
     }, []);
 
-    return <PostList posts={posts}/>;
+    return <PostList posts={posts} setPosts={setPosts}/>;
 
 }

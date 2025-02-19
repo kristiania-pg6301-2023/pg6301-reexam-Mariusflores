@@ -2,7 +2,7 @@ import PostItem from './PostItem';
 import { toast } from 'react-toastify';
 import '../styling/posts.css'
 
-export default function PostList({ posts }) {
+export default function PostList({ posts, setPosts }) {
   async function handleDelete(_id) {
     try {
       const response = await fetch(`http://localhost:8000/post/delete/${_id}`, {
