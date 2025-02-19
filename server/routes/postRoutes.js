@@ -57,7 +57,6 @@ router.post('/publish', async (req, res) => {
   }
 });
 
-
 /**
  * Delete post by postId
  * Validates that post is from authenticated user
@@ -100,14 +99,13 @@ router.post('/delete/:postId', async (req, res) => {
  * */
 
 router.post('/edit/:postId', async (req, res) => {
-
   try {
     const postId = req.params.postId;
     const { newContent } = req.body;
     const userid = getUserFromSession(req);
 
     if (!userid) {
-      return res.status(401).json("Unauthorized. Please log in.")
+      return res.status(401).json('Unauthorized. Please log in.');
     }
     if (!newContent) {
       return res.status(400).json({ message: 'Content required' });
@@ -138,49 +136,45 @@ router.post('/edit/:postId', async (req, res) => {
     }
     //edit post
     await editPostById(db, postId, newContent);
-    return res.status(200).json({message: "Post edited successfully"});
-  }catch (error) {
+    return res.status(200).json({ message: 'Post edited successfully' });
+  } catch (error) {
     console.error('Error editing post', error);
     return res.status(500).json({ message: 'Internal Server Error' });
   }
-})
+});
 
-router.post("/react/:postId", async (req, res) => {
-  try{
-
+router.post('/react/:postId', async (req, res) => {
+  try {
     const postId = req.params.postId;
-    const {reaction} = req.body;
+    const { reaction } = req.body;
     const userid = getUserFromSession(req);
 
-    if(!userid){
-      return res.status(401).json({message: "Unauthorized. Please log in"});
+    if (!userid) {
+      return res.status(401).json({ message: 'Unauthorized. Please log in' });
     }
 
-    if(!ObjectId.isValid(postId)){
+    if (!ObjectId.isValid(postId)) {
       return res.status(400).json({ message: 'Invalid post ID' });
     }
 
     const post = await getPostById(db, postId);
-    if(!post){
+    if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
-    console.log("checking if user has reacted..")
+    console.log('checking if user has reacted..');
     console.log(post.reactions);
-    if (post.reactions.some(reaction => reaction.userId === userid)) {
-      return res.status(409).json({ message: "You can only react to a post once" });
+    if (post.reactions.some((reaction) => reaction.userId === userid)) {
+      return res.status(409).json({ message: 'You can only react to a post once' });
     }
 
-
-    console.log("checked if user has reacted")
+    console.log('checked if user has reacted');
 
     await addReactionToPost(db, postId, userid, reaction);
-    return res.status(200).json({message: "Successfully added reaction"});
-
-  }catch (error){
+    return res.status(200).json({ message: 'Successfully added reaction' });
+  } catch (error) {
     return res.status(500).json({ message: 'Internal Server Error' });
   }
-
-})
+});
 
 /**
  * Get Requests

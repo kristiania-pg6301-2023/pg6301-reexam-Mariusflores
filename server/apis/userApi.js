@@ -16,7 +16,6 @@ export async function getUserById(db, id) {
   return await db.collection('users').findOne({ id });
 }
 
-
 /**
  * Gets user by username
  * */

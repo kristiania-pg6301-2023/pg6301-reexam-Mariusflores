@@ -115,5 +115,3 @@ export async function addReactionToPost(db, postId, userId, reaction) {
     { $push: { reactions: { userId, reaction } } } // Push object into reactions array
   );
 }
-
-

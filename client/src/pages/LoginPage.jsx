@@ -33,7 +33,7 @@ export function LoginPage({ setUser }) {
 
       if (response.ok) {
         setUser(data.user);
-        navigate("/home");
+        navigate('/home');
       } else {
         toast.error(
           data.message || 'Failed to log in, Please make sure Username/Password is correct'

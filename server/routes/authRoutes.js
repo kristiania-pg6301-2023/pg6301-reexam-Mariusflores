@@ -64,8 +64,6 @@ router.post('/logout', (req, res, next) => {
   });
 });
 
-
-
 /**
  * Get Routes
  * */
@@ -124,7 +122,5 @@ router.get('/me', (req, res) => {
     res.status(404).json({ message: 'Not Authenticated' });
   }
 });
-
-
 
 export default router;

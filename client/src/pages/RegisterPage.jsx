@@ -59,7 +59,9 @@ export function RegisterPage() {
           <label>Email (Optional):</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
-        <button className="register-button" type="submit">Register</button>
+        <button className="register-button" type="submit">
+          Register
+        </button>
       </form>
     </div>
   );

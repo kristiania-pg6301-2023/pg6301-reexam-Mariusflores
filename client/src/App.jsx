@@ -37,15 +37,9 @@ function App() {
       <ToastContainer position={'top-center'} autoClose={3000} />
       <NavBar user={user} onLogout={handleLogout} />
       <Routes>
-        <Route
-          path="/"
-          element={<HomePage user={user} />}
-        />
+        <Route path="/" element={<HomePage user={user} />} />
         <Route path="/login" element={<LoginPage setUser={setUser} />} />
-        <Route
-          path="/home"
-          element={<HomePage user={user} />}
-        />
+        <Route path="/home" element={<HomePage user={user} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/profile"

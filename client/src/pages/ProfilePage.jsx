@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import PostList from '../components/PostList.jsx';
 import SettingsButton from '../components/SettingsButton.jsx';
 
-
 export function ProfilePage({ user }) {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);

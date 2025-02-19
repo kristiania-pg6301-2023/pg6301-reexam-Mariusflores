@@ -1,6 +1,6 @@
 import PostItem from './PostItem';
 import { toast } from 'react-toastify';
-import '../styling/PostItem.css'
+import '../styling/PostItem.css';
 
 export default function PostList({ posts, setPosts }) {
   async function handleDelete(_id) {
@@ -57,9 +57,11 @@ export default function PostList({ posts, setPosts }) {
       const data = await response.json();
       if (response.ok) {
         toast.success('Reaction added!');
-        setPosts(posts.map((post) =>
-          post._id === postId ? { ...post, reactions: [...post.reactions, { reaction }] } : post
-        ));
+        setPosts(
+          posts.map((post) =>
+            post._id === postId ? { ...post, reactions: [...post.reactions, { reaction }] } : post
+          )
+        );
       } else {
         toast.error(data.message || 'Failed to add reaction');
       }
@@ -74,7 +76,13 @@ export default function PostList({ posts, setPosts }) {
       {posts.length === 0 ? <p>No posts available.</p> : null}
 
       {posts.map((post) => (
-        <PostItem key={post._id} post={post} onDelete={handleDelete} onEdit={handleEdit} onReact={handleReaction} />
+        <PostItem
+          key={post._id}
+          post={post}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+          onReact={handleReaction}
+        />
       ))}
     </>
   );
