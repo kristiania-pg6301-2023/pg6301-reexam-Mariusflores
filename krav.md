@@ -1,6 +1,6 @@
 ## Funksjonelle Krav:
 
-- [ ] Anonyme brukere skal se de siste innleggene og reaksjoner (emojis) når de kommer til nettsiden
+- [x] Anonyme brukere skal se de siste innleggene og reaksjoner (emojis) når de kommer til nettsiden
 - Brukere kan logge seg inn. brukere skal kunne registrere med brukernavn og passord (anbefales ikke) eller logge inn
   med google eller Entra ID
   - [x] Logge seg inn med bruker navn og passord
@@ -13,9 +13,9 @@
 - [ ] Brukere kan publisere nye inlegg. innlegg kan være mellom 10 ord og 1000 tegn
 - [ ] Systemet hindrer en bruker fra å publisere mer enn 5 innlegg innenfor en time
 - [x] Brukeren skal forhindres fra å sende inn en nyhetsartikkel som mangler tekst
-- [ ] En bruker skal kunne redigere et innlegg de selv har publisert
-- [ ] en bruker skal kunne slette et innlegg de selv har publisert
-- [ ] Brukere skal reagere på andres innlegg med en av flere emojis
+- [x] En bruker skal kunne redigere et innlegg de selv har publisert
+- [x] en bruker skal kunne slette et innlegg de selv har publisert
+- [x] Brukere skal reagere på andres innlegg med en av flere emojis
 - [ ] **Valgfritt**: Brukere kan legge til kommentarer til andres innlegg
 - [ ] **Valgfritt**: Brukere kan legge til andre brukere som venner
 - [ ] Alle feil fra server skal presenteres til en bruker på en pen måte, med mulighet for brukeren til å prøve igjen
