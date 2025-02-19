@@ -1,6 +1,6 @@
 import PostItem from './PostItem';
 import { toast } from 'react-toastify';
-import '../styling/posts.css'
+import '../styling/PostItem.css'
 
 export default function PostList({ posts, setPosts }) {
   async function handleDelete(_id) {

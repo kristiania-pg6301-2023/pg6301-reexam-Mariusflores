@@ -111,7 +111,7 @@ export function LoginPage({ setUser }) {
       </div>
 
       <p>
-        Dont have an account? <Link to={'/register'}>Register</Link> or log in with Google
+        Dont have an account? <Link to={'/register'}>Register</Link> or log in with Google/GitHub
         (Recommended)
       </p>
     </>

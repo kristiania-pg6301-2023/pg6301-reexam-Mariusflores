@@ -6,6 +6,10 @@ import { db } from '../config/db.js';
 const router = express.Router();
 
 /**
+ * Post Routes
+ * */
+
+/**
  * Register User locally
  * */
 router.post('/register', async (req, res) => {
@@ -43,6 +47,28 @@ router.post('/register', async (req, res) => {
 router.post('/login', passport.authenticate('local'), (req, res) => {
   res.json({ message: 'Login Successful', user: req.user });
 });
+
+/**
+ * Logout
+ * */
+router.post('/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+
+    req.session.destroy((err) => {
+      // ✅ Ensure session is destroyed
+      if (err) console.error('Session destroy error:', err);
+      res.clearCookie('connect.sid', { path: '/' });
+      res.json({ message: 'Logged Out' });
+    });
+  });
+});
+
+
+
+/**
+ * Get Routes
+ * */
 
 /**
  * Google OAUTH Login Route
@@ -84,8 +110,8 @@ router.get(
 router.get(
   '/github/callback',
   passport.authenticate('github', {
-    failureRedirect: '/login',
-    successRedirect: '/profile',
+    failureRedirect: 'http://localhost:5173/login',
+    successRedirect: 'http://localhost:5173/profile',
   })
 );
 /**
@@ -99,20 +125,6 @@ router.get('/me', (req, res) => {
   }
 });
 
-/**
- * Logout
- * */
-router.post('/logout', (req, res, next) => {
-  req.logout((err) => {
-    if (err) return next(err);
 
-    req.session.destroy((err) => {
-      // ✅ Ensure session is destroyed
-      if (err) console.error('Session destroy error:', err);
-      res.clearCookie('connect.sid', { path: '/' });
-      res.json({ message: 'Logged Out' });
-    });
-  });
-});
 
 export default router;

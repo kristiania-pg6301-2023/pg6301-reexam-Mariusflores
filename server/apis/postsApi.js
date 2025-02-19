@@ -1,17 +1,5 @@
 import { ObjectId } from 'mongodb';
 
-export async function createPost(db, userid, content) {
-  const newPost = {
-    userid: userid,
-    content: content,
-    timestamp: new Date(),
-  };
-
-  await db.collection('posts').insertOne(newPost);
-
-  return newPost;
-}
-
 /**
  * Get Post by id
  * */
@@ -83,6 +71,23 @@ export async function getAllPostsFromUser(db, userid) {
       },
     ])
     .toArray();
+}
+
+/**
+ * Create a post
+ **/
+
+export async function createPost(db, userid, content) {
+  const newPost = {
+    userid: userid,
+    content: content,
+    timestamp: new Date(),
+    reactions: [],
+  };
+
+  await db.collection('posts').insertOne(newPost);
+
+  return newPost;
 }
 
 /**

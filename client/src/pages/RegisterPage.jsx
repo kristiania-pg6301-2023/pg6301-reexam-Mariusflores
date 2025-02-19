@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import '../styling/register.css'; // Import the new CSS file
+import '../styling/RegisterPage.css'; // Import the new CSS file
 
 export function RegisterPage() {
   const [username, setUsername] = useState('');

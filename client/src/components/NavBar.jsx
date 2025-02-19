@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import '../styling/NavBar.css';
-import '../styling/icon.css';
+import '../styling/Icon.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faPen, faRightToBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 

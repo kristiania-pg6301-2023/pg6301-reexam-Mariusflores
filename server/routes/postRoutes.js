@@ -2,7 +2,8 @@ import sanitizeHtml from 'sanitize-html';
 import {
   addReactionToPost,
   createPost,
-  deletePostById, editPostById,
+  deletePostById,
+  editPostById,
   getAllPosts,
   getAllPostsFromUser,
   getPostById,
@@ -10,15 +11,9 @@ import {
 import { db } from '../config/db.js';
 import express from 'express';
 import { ObjectId } from 'mongodb';
+import { getUserFromSession } from '../utils/sessionUtils.js';
 
 const router = express.Router();
-
-/**
- * Extracts logged in user from session
- * */
-function extractUser(req) {
-  return req.user ? req.user.id : null;
-}
 
 /**
  * POST Requests
@@ -29,7 +24,7 @@ function extractUser(req) {
  * */
 router.post('/publish', async (req, res) => {
   try {
-    const userId = extractUser(req);
+    const userId = getUserFromSession(req);
 
     if (!userId) {
       return res.status(401).json({ message: 'Unauthorized. Please log in.' });
@@ -71,7 +66,7 @@ router.post('/publish', async (req, res) => {
 router.post('/delete/:postId', async (req, res) => {
   try {
     const postId = req.params.postId;
-    const userid = extractUser(req);
+    const userid = getUserFromSession(req);
 
     if (!userid) {
       return res.status(401).json({ message: 'Unauthorized. Please log in' });
@@ -109,7 +104,7 @@ router.post('/edit/:postId', async (req, res) => {
   try {
     const postId = req.params.postId;
     const { newContent } = req.body;
-    const userid = extractUser(req);
+    const userid = getUserFromSession(req);
 
     if (!userid) {
       return res.status(401).json("Unauthorized. Please log in.")
@@ -155,10 +150,10 @@ router.post("/react/:postId", async (req, res) => {
 
     const postId = req.params.postId;
     const {reaction} = req.body;
-    const userid = extractUser(req);
+    const userid = getUserFromSession(req);
 
     if(!userid){
-      res.status(401).json({message: "Unauthorized. Please log in"});
+      return res.status(401).json({message: "Unauthorized. Please log in"});
     }
 
     if(!ObjectId.isValid(postId)){
@@ -169,6 +164,14 @@ router.post("/react/:postId", async (req, res) => {
     if(!post){
       return res.status(404).json({ message: 'Post not found' });
     }
+    console.log("checking if user has reacted..")
+    console.log(post.reactions);
+    if (post.reactions.some(reaction => reaction.userId === userid)) {
+      return res.status(409).json({ message: "You can only react to a post once" });
+    }
+
+
+    console.log("checked if user has reacted")
 
     await addReactionToPost(db, postId, userid, reaction);
     return res.status(200).json({message: "Successfully added reaction"});
@@ -202,7 +205,7 @@ router.get('/all', async (req, res) => {
 router.get('/user/posts/:userid?', async (req, res) => {
   try {
     //Dual use case, for fetching logged-in users posts, as well as other peoples posts
-    let userid = req.params.userid || extractUser(req);
+    let userid = req.params.userid || getUserFromSession(req);
 
     if (!userid) {
       return res.status(401).json({ message: 'Uauthorized. Please log in' });
