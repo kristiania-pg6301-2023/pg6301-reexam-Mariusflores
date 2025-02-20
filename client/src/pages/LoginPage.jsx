@@ -12,7 +12,7 @@ export function LoginPage({ setUser }) {
   const [password, setPassword] = useState('');
 
   const handleGoogleLogin = async () => {
-    window.location.href = `${api_url}/auth/google'`;
+    window.location.href = `${api_url}/auth/google`;
   };
   function handleGithubLogin() {
     window.location.href = `${api_url}/auth/github`;
