@@ -24,8 +24,7 @@
     "node": "20.x"
   },
   "dependencies": {
-    "concurrently": "^9.1.2",
-    "dotenv": "^16.4.7"
+    "concurrently": "^9.1.2"
   },
   "devDependencies": {
     "prettier": "^3.5.1"
