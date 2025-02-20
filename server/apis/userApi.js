@@ -61,6 +61,8 @@ export async function findOrCreateUser(db, profile, provider) {
   console.log('Oauth profile:', profile);
 
   const userId = `${provider}:${profile.id}`;
+  console.log('Checking user:', userId);  // 🔍 Log user ID being checked
+
   let user = await getUserById(db, userId);
 
   if (!user) {
