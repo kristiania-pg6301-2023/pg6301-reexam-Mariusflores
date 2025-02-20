@@ -45,7 +45,7 @@ export async function createUser(db, username, password, email) {
   const newUser = {
     id: generateUserId(),
     username: username,
-    email: email || '',
+    email: email || 'no-email@local.com',
     password: hashedPassword,
     role: 'registered',
     provider: 'local',
@@ -68,7 +68,7 @@ export async function findOrCreateUser(db, profile, provider) {
 
     user = {
       id: userId,
-      username: profile.displayName || `user-${provider}-${profile.id}`,
+      username: profile.displayName,
       email: profile.emails?.[0]?.value || `no-email@${provider}.com`,
       role: 'registered',
       provider,

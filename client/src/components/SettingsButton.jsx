@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import '../styling/SettingsButton.css';
+import { api_url } from '../util/getApiUrl.js';
 
 export default function SettingsButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -15,7 +16,7 @@ export default function SettingsButton({ user }) {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/user/change-username', {
+      const response = await fetch(`${api_url}/user/change-username`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
