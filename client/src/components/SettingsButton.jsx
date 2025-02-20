@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import '../styling/SettingsButton.css';
 import { api_url } from '../util/getApiUrl.js';
+import { toast } from 'react-toastify';
 
 export default function SettingsButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -25,12 +26,14 @@ export default function SettingsButton({ user }) {
 
       const data = await response.json();
       if (response.ok) {
-        alert('Username changed successfully! Refresh to see changes.');
         setIsEditingUsername(false);
+        window.location.reload();
       } else {
-        alert(data.message || 'Failed to change username.');
+        toast.error(data.message || 'Failed to change username.');
+
       }
     } catch (error) {
+      toast.error(error || "Internal Server error")
       console.error('Error changing username:', error);
     }
   }
