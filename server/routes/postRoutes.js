@@ -16,39 +16,55 @@ import { getUserFromSession } from '../utils/sessionUtils.js';
 const router = express.Router();
 
 /**
+ * Helper functions
+ */
+
+const sanitizeContent = (content) => {
+  return sanitizeHtml(content.trim(), { allowedTags: [], allowedAttributes: {} });
+};
+
+const validateUserSession = (req, res) => {
+  const userId = getUserFromSession(req);
+  if (!userId) {
+    res.status(401).json({ message: 'Unauthorized. Please log in.' });
+    return null;
+  }
+  return userId;
+};
+
+const validatePostId = (postId, res) => {
+  if (!ObjectId.isValid(postId)) {
+    res.status(400).json({ message: 'Invalid post ID' });
+    return false;
+  }
+  return true;
+};
+
+/**
  * POST Requests
  * */
 
 /**
  * Creates a post in database
- * */
+ */
 router.post('/publish', async (req, res) => {
   try {
-    const userId = getUserFromSession(req);
-
-    if (!userId) {
-      return res.status(401).json({ message: 'Unauthorized. Please log in.' });
-    }
+    const userId = validateUserSession(req, res);
+    if (!userId) return;
 
     const { content } = req.body;
-
     if (!content) {
       return res.status(400).json({ message: 'Content required' });
     }
 
     // Sanitize the content
-    const sanitizedContent = sanitizeHtml(content.trim(), {
-      allowedTags: [],
-      allowedAttributes: {},
-    });
-
+    const sanitizedContent = sanitizeContent(content);
     if (sanitizedContent.length > 1000) {
       return res.status(400).json({ message: 'Post exceeds maximum limit' });
     }
 
     // Create post
     const newPost = await createPost(db, userId, sanitizedContent);
-
     res.status(201).json({ message: 'Post published', post: newPost });
     console.log('Created post');
   } catch (error) {
@@ -61,31 +77,24 @@ router.post('/publish', async (req, res) => {
  * Delete post by postId
  * Validates that post is from authenticated user
  * Disallows deleting someone else's post
- * */
+ */
 router.post('/delete/:postId', async (req, res) => {
   try {
     const postId = req.params.postId;
-    const userid = getUserFromSession(req);
+    const userId = validateUserSession(req, res);
+    if (!userId) return;
 
-    if (!userid) {
-      return res.status(401).json({ message: 'Unauthorized. Please log in' });
-    }
+    if (!validatePostId(postId, res)) return;
 
-    // Validate postId
-    if (!ObjectId.isValid(postId)) {
-      return res.status(400).json({ message: 'Invalid post ID' });
-    }
-
-    // Check if post exists
     const post = await getPostById(db, postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    if (userid.toString() !== post.userid.toString()) {
+    if (userId.toString() !== post.userid.toString()) {
       return res.status(403).json({ message: "Cannot delete someone else's post" });
     }
-    //delete post
+
     await deletePostById(db, new ObjectId(postId));
     res.status(200).json({ message: 'Post deleted' });
   } catch (error) {
@@ -96,46 +105,36 @@ router.post('/delete/:postId', async (req, res) => {
 
 /**
  * Route to edit post content
- * */
-
+ */
 router.post('/edit/:postId', async (req, res) => {
   try {
     const postId = req.params.postId;
     const { newContent } = req.body;
-    const userid = getUserFromSession(req);
+    const userId = validateUserSession(req, res);
+    if (!userId) return;
 
-    if (!userid) {
-      return res.status(401).json('Unauthorized. Please log in.');
-    }
     if (!newContent) {
       return res.status(400).json({ message: 'Content required' });
     }
 
     // Sanitize the content
-    const sanitizedContent = sanitizeHtml(newContent.trim(), {
-      allowedTags: [],
-      allowedAttributes: {},
-    });
-
+    const sanitizedContent = sanitizeContent(newContent);
     if (sanitizedContent.length > 1000) {
       return res.status(400).json({ message: 'Post exceeds maximum limit' });
     }
 
-    // validate post id
-    if (!ObjectId.isValid(postId)) {
-      return res.status(400).json({ message: 'Invalid post ID' });
-    }
+    if (!validatePostId(postId, res)) return;
 
     const post = await getPostById(db, postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    if (userid.toString() !== post.userid.toString()) {
+    if (userId.toString() !== post.userid.toString()) {
       return res.status(403).json({ message: "Cannot edit someone else's post" });
     }
-    //edit post
-    await editPostById(db, postId, newContent);
+
+    await editPostById(db, postId, sanitizedContent);
     return res.status(200).json({ message: 'Post edited successfully' });
   } catch (error) {
     console.error('Error editing post', error);
@@ -143,33 +142,30 @@ router.post('/edit/:postId', async (req, res) => {
   }
 });
 
+/**
+ * Route to react to a post
+ */
 router.post('/react/:postId', async (req, res) => {
   try {
     const postId = req.params.postId;
     const { reaction } = req.body;
-    const userid = getUserFromSession(req);
+    const userId = validateUserSession(req, res);
+    if (!userId) return;
 
-    if (!userid) {
-      return res.status(401).json({ message: 'Unauthorized. Please log in' });
-    }
-
-    if (!ObjectId.isValid(postId)) {
-      return res.status(400).json({ message: 'Invalid post ID' });
-    }
+    if (!validatePostId(postId, res)) return;
 
     const post = await getPostById(db, postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
+
     console.log('checking if user has reacted..');
-    console.log(post.reactions);
-    if (post.reactions.some((reaction) => reaction.userId === userid)) {
+    if (post.reactions.some((r) => r.userId === userId)) {
       return res.status(409).json({ message: 'You can only react to a post once' });
     }
 
     console.log('checked if user has reacted');
-
-    await addReactionToPost(db, postId, userid, reaction);
+    await addReactionToPost(db, postId, userId, reaction);
     return res.status(200).json({ message: 'Successfully added reaction' });
   } catch (error) {
     return res.status(500).json({ message: 'Internal Server Error' });
@@ -178,11 +174,11 @@ router.post('/react/:postId', async (req, res) => {
 
 /**
  * Get Requests
- * */
+ */
 
 /**
  * Get all posts
- * */
+ */
 router.get('/all', async (req, res) => {
   try {
     const posts = await getAllPosts(db);
@@ -195,24 +191,21 @@ router.get('/all', async (req, res) => {
 
 /**
  * Get post by specific user
- * */
+ */
 router.get('/user/posts/:userid?', async (req, res) => {
   try {
-    //Dual use case, for fetching logged-in users posts, as well as other peoples posts
-    let userid = req.params.userid || getUserFromSession(req);
+    // Dual use case, for fetching logged-in users posts, as well as other peoples posts
+    let userId = req.params.userid || getUserFromSession(req);
 
-    if (!userid) {
-      return res.status(401).json({ message: 'Uauthorized. Please log in' });
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized. Please log in' });
     }
-    const userPosts = await getAllPostsFromUser(db, userid);
+
+    const userPosts = await getAllPostsFromUser(db, userId);
     res.json(userPosts);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch posts' });
   }
 });
-
-/**
- * Delete requests
- * */
 
 export default router;
