@@ -2,9 +2,6 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "engines": {
-    "node": "20.x"
-  },
   "type": "module",
   "main": "server.js",
   "scripts": {
