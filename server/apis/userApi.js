@@ -58,27 +58,32 @@ export async function createUser(db, username, password, email) {
  * Find or create a user based on OAuth profile
  * */
 export async function findOrCreateUser(db, profile, provider) {
-  console.log('Oauth profile:', profile);
-
   const userId = `${provider}:${profile.id}`;
-  console.log('Checking user:', userId);  // 🔍 Log user ID being checked
+  console.log('🔍 Checking user in DB:', userId); // Log user ID being checked
 
   let user = await getUserById(db, userId);
 
   if (!user) {
+    console.log('🆕 User does not exist. Creating new user...');
+
     user = {
       id: userId,
-      username: profile.displayName,
-      email: profile.emails?.[0]?.value || '',
+      username: profile.displayName || `user-${provider}-${profile.id}`,
+      email: profile.emails?.[0]?.value || `no-email@${provider}.com`,
       role: 'registered',
       provider,
       createdAt: new Date(),
     };
-    console.log('Creating new user:', user)
-    await db.collection('users').insertOne(user);
+
+    const result = await db.collection('users').insertOne(user);
+    console.log('✅ Insert result:', result); // Log insert result
+  } else {
+    console.log('✅ User found in DB:', user);
   }
+
   return user;
 }
+
 
 //Verify Password
 export async function verifyPassword(user, password) {
