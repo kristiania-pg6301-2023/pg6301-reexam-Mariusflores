@@ -58,6 +58,8 @@ export async function createUser(db, username, password, email) {
  * Find or create a user based on OAuth profile
  * */
 export async function findOrCreateUser(db, profile, provider) {
+  console.log('Oauth profile:', profile);
+
   const userId = `${provider}:${profile.id}`;
   let user = await getUserById(db, userId);
 
@@ -70,6 +72,7 @@ export async function findOrCreateUser(db, profile, provider) {
       provider,
       createdAt: new Date(),
     };
+    console.log('Creating new user:', user)
     await db.collection('users').insertOne(user);
   }
   return user;
