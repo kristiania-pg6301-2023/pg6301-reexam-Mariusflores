@@ -2,9 +2,13 @@ import express from 'express';
 import passport from '../config/passport.js';
 import { createUser, getUserByUsername } from '../apis/userApi.js';
 import { db } from '../config/db.js';
+import dotenv from 'dotenv';
 
 const router = express.Router();
 
+dotenv.config();
+
+const port = process.env.PORT || 5173;
 /**
  * Post Routes
  * */
@@ -87,7 +91,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('http://localhost:5173/home');
+    res.redirect(`http://localhost:${port}/home`);
   }
 );
 
@@ -108,8 +112,8 @@ router.get(
 router.get(
   '/github/callback',
   passport.authenticate('github', {
-    failureRedirect: 'http://localhost:5173/login',
-    successRedirect: 'http://localhost:5173/profile',
+    failureRedirect: `http://localhost:${port}/login`,
+    successRedirect: `http://localhost:${port}/profile`,
   })
 );
 /**
