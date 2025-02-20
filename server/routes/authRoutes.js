@@ -8,7 +8,7 @@ const router = express.Router();
 
 dotenv.config();
 
-const port = process.env.PORT || 5173;
+
 /**
  * Post Routes
  * */
@@ -80,7 +80,7 @@ router.get(
   '/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-  })
+  }),
 );
 
 /**
@@ -91,8 +91,8 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect(`http://localhost:${port}/home`);
-  }
+    res.redirect('/profile');
+  },
 );
 
 /**
@@ -103,7 +103,7 @@ router.get(
   '/github',
   passport.authenticate('github', {
     scope: ['user:email'],
-  })
+  }),
 );
 
 /**
@@ -112,9 +112,9 @@ router.get(
 router.get(
   '/github/callback',
   passport.authenticate('github', {
-    failureRedirect: `http://localhost:${port}/login`,
-    successRedirect: `http://localhost:${port}/profile`,
-  })
+    failureRedirect: '/login',
+    successRedirect: '/profile',
+  }),
 );
 /**
  * Checks If user logged in

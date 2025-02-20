@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { api_url } from '../util/getApiUrl.js';
 
 export function PublishPage() {
   const [content, setContent] = useState('');
@@ -8,7 +9,7 @@ export function PublishPage() {
     try {
       e.preventDefault();
 
-      const response = await fetch('http://localhost:8000/post/publish', {
+      const response = await fetch(`${api_url}/post/publish`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

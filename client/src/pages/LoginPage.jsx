@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faUser, faKey } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
+import { api_url } from '../util/getApiUrl.js';
 
 export function LoginPage({ setUser }) {
   const navigate = useNavigate();
@@ -11,17 +12,17 @@ export function LoginPage({ setUser }) {
   const [password, setPassword] = useState('');
 
   const handleGoogleLogin = async () => {
-    window.location.href = 'http://localhost:8000/auth/google';
+    window.location.href = `${api_url}/auth/google'`;
   };
   function handleGithubLogin() {
-    window.location.href = 'http://localhost:8000/auth/github';
+    window.location.href = `${api_url}/auth/github`;
   }
 
   async function handleLogin(e) {
     try {
       e.preventDefault();
 
-      const response = await fetch('http://localhost:8000/auth/login', {
+      const response = await fetch(`${api_url}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

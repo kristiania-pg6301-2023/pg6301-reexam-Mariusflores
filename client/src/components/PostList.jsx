@@ -1,11 +1,12 @@
 import PostItem from './PostItem';
 import { toast } from 'react-toastify';
 import '../styling/PostItem.css';
+import { api_url } from '../util/getApiUrl.js';
 
 export default function PostList({ posts, setPosts }) {
   async function handleDelete(_id) {
     try {
-      const response = await fetch(`http://localhost:8000/post/delete/${_id}`, {
+      const response = await fetch(`${api_url}/post/delete/${_id}`, {
         credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -26,7 +27,7 @@ export default function PostList({ posts, setPosts }) {
 
   async function handleEdit(_id, newContent) {
     try {
-      const response = await fetch(`http://localhost:8000/post/edit/${_id}`, {
+      const response = await fetch(`${api_url}/post/edit/${_id}`, {
         credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -47,7 +48,7 @@ export default function PostList({ posts, setPosts }) {
   }
   async function handleReaction(postId, reaction) {
     try {
-      const response = await fetch(`http://localhost:8000/post/react/${postId}`, {
+      const response = await fetch(`${api_url}/post/react/${postId}`, {
         credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

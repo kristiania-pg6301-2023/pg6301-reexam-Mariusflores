@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PostList from '../components/PostList.jsx';
 import SettingsButton from '../components/SettingsButton.jsx';
+import { api_url } from '../util/getApiUrl.js';
 
 export function ProfilePage({ user }) {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export function ProfilePage({ user }) {
       const controller = new AbortController();
       const signal = controller.signal;
 
-      fetch(`http://localhost:8000/post/user/posts/${user.id}`, {
+      fetch(`${api_url}/post/user/posts/${user.id}`, {
         credentials: 'include',
         signal: signal,
       })

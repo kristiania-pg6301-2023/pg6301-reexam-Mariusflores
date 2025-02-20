@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import '../styling/RegisterPage.css'; // Import the new CSS file
+import '../styling/RegisterPage.css';
+import { api_url } from '../util/getApiUrl.js'; // Import the new CSS file
 
 export function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -11,7 +12,7 @@ export function RegisterPage() {
     try {
       e.preventDefault();
 
-      const response = await fetch('http://localhost:8000/auth/register', {
+      const response = await fetch(`${api_url}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

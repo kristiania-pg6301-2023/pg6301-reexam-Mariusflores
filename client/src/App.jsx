@@ -8,13 +8,14 @@ import { useEffect, useState } from 'react';
 import { PublishPage } from './pages/PublishPage.jsx';
 import { HomePage } from './pages/HomePage.jsx';
 import { ToastContainer } from 'react-toastify';
+import {api_url} from './util/getApiUrl.js';
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // ✅ New loading state
 
   useEffect(() => {
-    fetch('http://localhost:8000/auth/me', { credentials: 'include' })
+    fetch(`${api_url}/auth/me`, { credentials: 'include' })
       .then((res) => (res.ok ? res.json() : null))
       .then(setUser)
       .catch(() => setUser(null))
@@ -22,7 +23,7 @@ function App() {
   }, []);
 
   const handleLogout = async () => {
-    await fetch('http://localhost:8000/auth/logout', {
+    await fetch(`${api_url}/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     });
