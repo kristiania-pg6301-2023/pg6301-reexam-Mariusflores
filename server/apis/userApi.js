@@ -47,6 +47,7 @@ export async function createUser(db, username, password, email) {
     username: username,
     email: email || '',
     password: hashedPassword,
+    role: 'registered',
     provider: 'local',
     createdAt: new Date(),
   };
@@ -65,6 +66,7 @@ export async function findOrCreateUser(db, profile, provider) {
       id: userId,
       username: profile.displayName,
       email: profile.emails?.[0]?.value || '',
+      role: 'registered',
       provider,
       createdAt: new Date(),
     };
