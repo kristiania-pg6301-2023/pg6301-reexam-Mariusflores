@@ -21,7 +21,7 @@ export function PublishPage() {
 
       if (response.ok) {
         toast.success('Successfully Posted👉');
-        window.location.href = 'http://localhost:5173/home';
+        window.location.href = `${api_url}/home`;
       } else {
         toast.error(data.message || 'Failed to post');
       }
