@@ -14,7 +14,8 @@
     "build:client": "cd client && npm run build",
     "start:client": "cd client && npm start",
     "start:server": "cd server && npm start",
-    "start": "concurrently npm:start:client npm:start:server"
+    "start": "concurrently npm:start:client npm:start:server",
+    "heroku-postbuild": "npm install --prefix client && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +23,6 @@
   "engines": {
     "node": "20.x"
   },
-  "heroku-postbuild": "npm install --prefix client && npm run build",
   "dependencies": {
     "concurrently": "^9.1.2"
   },
