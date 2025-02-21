@@ -73,7 +73,7 @@ export default function PostList({ posts, setPosts }) {
   }
 
   return (
-    <>
+    <div style={{paddingTop: '70px'}}>
       {posts.length === 0 ? <p>No posts available.</p> : null}
 
       {posts.map((post) => (
@@ -85,6 +85,6 @@ export default function PostList({ posts, setPosts }) {
           onReact={handleReaction}
         />
       ))}
-    </>
+    </div>
   );
 }

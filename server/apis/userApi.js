@@ -1,6 +1,6 @@
 // Fetch User by ID
 import bcrypt from 'bcrypt';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 // Generate a unique 18-digit number
 export function generateUserId() {
