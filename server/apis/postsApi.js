@@ -120,7 +120,7 @@ export async function addReactionToPost(db, postId, userId, reaction) {
  * Removes Reaction from post
  * */
 export async function removeReactionFromPost(db, postId, userId, reaction){
-  return await db.collection('posts').updateOne(
+  return await db.collection("posts").updateOne(
     {_id : new ObjectId(postId)},
     {$pull: {reactions: {userId, reaction}}}
   )
