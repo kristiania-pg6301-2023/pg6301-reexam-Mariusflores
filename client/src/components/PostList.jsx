@@ -4,6 +4,8 @@ import '../styling/PostItem.css';
 import { api_url } from '../util/getApiUrl.js';
 
 export default function PostList({ posts, setPosts }) {
+
+  // Delete post and update state
   async function handleDelete(_id) {
     try {
       const response = await fetch(`${api_url}/post/delete/${_id}`, {
@@ -15,7 +17,8 @@ export default function PostList({ posts, setPosts }) {
       const data = await response.json();
       if (response.ok) {
         toast.success('Post deleted successfully!');
-        window.location.reload();
+        // Update the state by removing the deleted post
+        setPosts(posts.filter((post) => post._id !== _id));
       } else {
         toast.error(data.message || 'Failed to delete post');
       }
@@ -25,6 +28,7 @@ export default function PostList({ posts, setPosts }) {
     }
   }
 
+  // Edit post and update state
   async function handleEdit(_id, newContent) {
     try {
       const response = await fetch(`${api_url}/post/edit/${_id}`, {
@@ -37,7 +41,8 @@ export default function PostList({ posts, setPosts }) {
       const data = await response.json();
       if (response.ok) {
         toast.success('Post updated successfully!');
-        window.location.reload();
+        // Update the post content in state
+        setPosts(posts.map((post) => post._id === _id ? { ...post, content: newContent } : post));
       } else {
         toast.error(data.message || 'Failed to edit post');
       }
@@ -46,6 +51,8 @@ export default function PostList({ posts, setPosts }) {
       console.error('Error editing post:', error);
     }
   }
+
+  // Handle reaction and update the state
   async function handleReaction(postId, reaction) {
     try {
       const response = await fetch(`${api_url}/post/react/${postId}`, {
@@ -56,13 +63,44 @@ export default function PostList({ posts, setPosts }) {
       });
 
       const data = await response.json();
+      console.log("Backend response data:", data);  // Log the response to check userId and reaction
+
+
       if (response.ok) {
-        toast.success('Reaction added!');
-        setPosts(
-          posts.map((post) =>
-            post._id === postId ? { ...post, reactions: [...post.reactions, { reaction }] } : post
-          )
-        );
+        toast.success('Reaction updated!');
+
+        /**
+         * If else statement for updating state of posts in different scenarios
+         * Checks if backend response returns 'reaction removed'
+         * */
+        if (data.message === 'Reaction removed') {
+          // If the reaction was removed, filter it out in the state
+          setPosts(
+            posts.map((post) =>
+              post._id === postId
+                ? {
+                  ...post,
+                  reactions: post.reactions.filter((r) => r.userId !== data.userId) // Remove the reaction
+                }
+                : post
+            )
+          );
+          console.log("Post reactions after removal:", posts);
+        } else {
+          // If the reaction was added/updated, replace the old reaction with the new one
+          setPosts(
+            posts.map((post) =>
+              post._id === postId
+                ? {
+                  ...post,
+                  reactions: post.reactions.filter((r) => r.userId !== data.userId) // Remove previous reaction (if exists)
+                    .concat({ userId: data.userId, reaction }) // Add the new or updated reaction
+                }
+                : post
+            )
+          );
+          console.log("Post reactions after update:", posts);
+        }
       } else {
         toast.error(data.message || 'Failed to add reaction');
       }
@@ -72,8 +110,14 @@ export default function PostList({ posts, setPosts }) {
     }
   }
 
+
+
+
+
+
+
   return (
-    <div style={{paddingTop: '70px'}}>
+    <div style={{ paddingTop: '70px' }}>
       {posts.length === 0 ? <p>No posts available.</p> : null}
 
       {posts.map((post) => (
