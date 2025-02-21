@@ -30,10 +30,9 @@ export default function SettingsButton({ user }) {
         window.location.reload();
       } else {
         toast.error(data.message || 'Failed to change username.');
-
       }
     } catch (error) {
-      toast.error(error || "Internal Server error")
+      toast.error(error || 'Internal Server error');
       console.error('Error changing username:', error);
     }
   }

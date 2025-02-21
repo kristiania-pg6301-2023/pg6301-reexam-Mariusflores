@@ -4,7 +4,6 @@ import '../styling/PostItem.css';
 import { api_url } from '../util/getApiUrl.js';
 
 export default function PostList({ posts, setPosts }) {
-
   // Delete post and update state
   async function handleDelete(_id) {
     try {
@@ -42,7 +41,7 @@ export default function PostList({ posts, setPosts }) {
       if (response.ok) {
         toast.success('Post updated successfully!');
         // Update the post content in state
-        setPosts(posts.map((post) => post._id === _id ? { ...post, content: newContent } : post));
+        setPosts(posts.map((post) => (post._id === _id ? { ...post, content: newContent } : post)));
       } else {
         toast.error(data.message || 'Failed to edit post');
       }
@@ -63,8 +62,7 @@ export default function PostList({ posts, setPosts }) {
       });
 
       const data = await response.json();
-      console.log("Backend response data:", data);  // Log the response to check userId and reaction
-
+      console.log('Backend response data:', data); // Log the response to check userId and reaction
 
       if (response.ok) {
         toast.success('Reaction updated!');
@@ -79,27 +77,28 @@ export default function PostList({ posts, setPosts }) {
             posts.map((post) =>
               post._id === postId
                 ? {
-                  ...post,
-                  reactions: post.reactions.filter((r) => r.userId !== data.userId) // Remove the reaction
-                }
+                    ...post,
+                    reactions: post.reactions.filter((r) => r.userId !== data.userId), // Remove the reaction
+                  }
                 : post
             )
           );
-          console.log("Post reactions after removal:", posts);
+          console.log('Post reactions after removal:', posts);
         } else {
           // If the reaction was added/updated, replace the old reaction with the new one
           setPosts(
             posts.map((post) =>
               post._id === postId
                 ? {
-                  ...post,
-                  reactions: post.reactions.filter((r) => r.userId !== data.userId) // Remove previous reaction (if exists)
-                    .concat({ userId: data.userId, reaction }) // Add the new or updated reaction
-                }
+                    ...post,
+                    reactions: post.reactions
+                      .filter((r) => r.userId !== data.userId) // Remove previous reaction (if exists)
+                      .concat({ userId: data.userId, reaction }), // Add the new or updated reaction
+                  }
                 : post
             )
           );
-          console.log("Post reactions after update:", posts);
+          console.log('Post reactions after update:', posts);
         }
       } else {
         toast.error(data.message || 'Failed to add reaction');
@@ -109,12 +108,6 @@ export default function PostList({ posts, setPosts }) {
       console.error('Error adding reaction:', error);
     }
   }
-
-
-
-
-
-
 
   return (
     <div style={{ paddingTop: '70px' }}>

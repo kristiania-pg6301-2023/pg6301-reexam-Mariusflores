@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { PublishPage } from './pages/PublishPage.jsx';
 import { HomePage } from './pages/HomePage.jsx';
 import { ToastContainer } from 'react-toastify';
-import {api_url} from './util/getApiUrl.js';
+import { api_url } from './util/getApiUrl.js';
 
 function App() {
   const [user, setUser] = useState(null);

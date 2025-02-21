@@ -20,7 +20,7 @@
     "heroku-postbuild": "npm install --prefix client && npm run build"
   },
   "lint-staged": {
-    "" : ""
+    "": ""
   },
   "keywords": [],
   "author": "",

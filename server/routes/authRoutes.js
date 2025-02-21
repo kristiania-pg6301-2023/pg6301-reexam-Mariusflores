@@ -8,7 +8,6 @@ const router = express.Router();
 
 dotenv.config();
 
-
 /**
  * Post Routes
  * */
@@ -80,7 +79,7 @@ router.get(
   '/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-  }),
+  })
 );
 
 /**
@@ -92,7 +91,7 @@ router.get(
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect('/profile');
-  },
+  }
 );
 
 /**
@@ -103,7 +102,7 @@ router.get(
   '/github',
   passport.authenticate('github', {
     scope: ['user:email'],
-  }),
+  })
 );
 
 /**
@@ -114,7 +113,7 @@ router.get(
   passport.authenticate('github', {
     failureRedirect: '/login',
     successRedirect: '/profile',
-  }),
+  })
 );
 /**
  * Checks If user logged in

@@ -39,7 +39,6 @@ export function NavBar({ user, onLogout }) {
           </div>
         </>
       ) : (
-
         <div className="link-container">
           <span className="icon">
             <FontAwesomeIcon icon={faRightToBracket} size={'0.5'} />
@@ -47,7 +46,6 @@ export function NavBar({ user, onLogout }) {
           <Link className={'link'} to="/login">
             Login
           </Link>
-
         </div>
       )}
     </header>

@@ -84,7 +84,6 @@ export async function findOrCreateUser(db, profile, provider) {
   return user;
 }
 
-
 //Verify Password
 export async function verifyPassword(user, password) {
   return await bcrypt.compare(password, user.password);

@@ -119,24 +119,22 @@ export async function addReactionToPost(db, postId, userId, reaction) {
 /**
  * Removes Reaction from post
  * */
-export async function removeReactionFromPost(db, postId, userId, reaction){
-  return await db.collection("posts").updateOne(
-    {_id : new ObjectId(postId)},
-    {$pull: {reactions: {userId, reaction}}}
-  )
+export async function removeReactionFromPost(db, postId, userId, reaction) {
+  return await db
+    .collection('posts')
+    .updateOne({ _id: new ObjectId(postId) }, { $pull: { reactions: { userId, reaction } } });
 }
 
 export async function updateReactionInPost(db, postId, userId, newReaction) {
-  return await db.collection("posts").updateOne(
+  return await db.collection('posts').updateOne(
     { _id: new ObjectId(postId) }, // Find post by ID
     {
       $set: {
-        'reactions.$[elem].reaction': newReaction // Update the reaction for the user
-      }
+        'reactions.$[elem].reaction': newReaction, // Update the reaction for the user
+      },
     },
     {
-      arrayFilters: [{ 'elem.userId': userId }] // Ensure we update the reaction of the correct user
+      arrayFilters: [{ 'elem.userId': userId }], // Ensure we update the reaction of the correct user
     }
   );
 }
-

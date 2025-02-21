@@ -20,7 +20,7 @@ const app = express();
 app.use(corsMiddelware());
 app.use(express.json());
 
-app.set('trust proxy', 1) // Set app to trust default heroku proxy
+app.set('trust proxy', 1); // Set app to trust default heroku proxy
 app.use(sessionMiddleware());
 app.use(express.static('../client/dist'));
 

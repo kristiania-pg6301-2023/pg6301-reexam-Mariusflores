@@ -94,10 +94,10 @@ passport.serializeUser((user, done) => {
  * Retrieves user from MongoDB
  * */
 passport.deserializeUser(async (id, done) => {
-  console.log('🔄 Deserializing user:', id);  // Log user ID
+  console.log('🔄 Deserializing user:', id); // Log user ID
   try {
     const user = await getUserById(db, id);
-    console.log('✅ User found:', user);  // Log retrieved user
+    console.log('✅ User found:', user); // Log retrieved user
 
     if (!user) {
       console.error('❌ User not found in DB:', id);
@@ -110,6 +110,5 @@ passport.deserializeUser(async (id, done) => {
     done(error);
   }
 });
-
 
 export default passport;

@@ -7,7 +7,8 @@ import {
   getAllPosts,
   getAllPostsFromUser,
   getPostById,
-  removeReactionFromPost, updateReactionInPost,
+  removeReactionFromPost,
+  updateReactionInPost,
 } from '../apis/postsApi.js';
 import { db } from '../config/db.js';
 import express from 'express';
@@ -93,7 +94,7 @@ router.post('/delete/:postId', async (req, res) => {
     }
 
     if (userId.toString() !== post.userid.toString()) {
-      return res.status(403).json({ message: 'Cannot delete someone else\'s post' });
+      return res.status(403).json({ message: "Cannot delete someone else's post" });
     }
 
     await deletePostById(db, new ObjectId(postId));
@@ -132,7 +133,7 @@ router.post('/edit/:postId', async (req, res) => {
     }
 
     if (userId.toString() !== post.userid.toString()) {
-      return res.status(403).json({ message: 'Cannot edit someone else\'s post' });
+      return res.status(403).json({ message: "Cannot edit someone else's post" });
     }
 
     await editPostById(db, postId, sanitizedContent);
@@ -161,10 +162,10 @@ router.post('/react/:postId', async (req, res) => {
     }
 
     // Find if the user has already reacted
-    const existingReaction = post.reactions.find(r => r.userId === userId);
+    const existingReaction = post.reactions.find((r) => r.userId === userId);
 
-    console.log("Current post reactions:", post.reactions);
-    console.log("Checking existing reaction", existingReaction);
+    console.log('Current post reactions:', post.reactions);
+    console.log('Checking existing reaction', existingReaction);
 
     if (existingReaction) {
       // If the user clicked on the same reaction, remove it
@@ -184,14 +185,11 @@ router.post('/react/:postId', async (req, res) => {
       await addReactionToPost(db, postId, userId, reaction);
       return res.status(200).json({ message: 'Successfully added reaction', userId });
     }
-
   } catch (error) {
     console.error('Error reacting to post:', error);
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
-
 
 /**
  * Get Requests
