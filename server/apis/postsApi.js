@@ -127,7 +127,7 @@ export async function removeReactionFromPost(db, postId, userId, reaction){
 }
 
 export async function updateReactionInPost(db, postId, userId, newReaction) {
-  return await db.collection('posts').updateOne(
+  return await db.collection("posts").updateOne(
     { _id: new ObjectId(postId) }, // Find post by ID
     {
       $set: {
