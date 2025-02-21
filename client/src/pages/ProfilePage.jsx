@@ -4,8 +4,10 @@ import PostList from '../components/PostList.jsx';
 import SettingsButton from '../components/SettingsButton.jsx';
 import { api_url } from '../util/getApiUrl.js';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 
-export function ProfilePage({ user }) {
+export function ProfilePage({ user, setUser }) {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
 
@@ -40,8 +42,9 @@ export function ProfilePage({ user }) {
   return (
     <>
       <div className="profile-header">
-        <h2>Welcome, {user.username}!</h2>
-        <SettingsButton user={user} />
+        <h2>{user.username}</h2>
+        {user.verified && <FontAwesomeIcon icon={faCertificate} />}
+        <SettingsButton user={user} setUser={setUser} />
       </div>
       <PostList posts={posts} setPosts={setPosts} />
     </>
@@ -52,5 +55,7 @@ ProfilePage.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.string.isRequired, // Assuming user.id is a string
     username: PropTypes.string.isRequired, // Assuming user.username is a string
+    verified: PropTypes.bool.isRequired,
   }).isRequired, // user prop is required
+  setUser: PropTypes.func.isRequired,
 };

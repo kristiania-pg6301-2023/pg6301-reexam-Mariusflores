@@ -47,7 +47,7 @@ export async function createUser(db, username, password, email) {
     username: username,
     email: email || 'no-email@local.com',
     password: hashedPassword,
-    role: 'registered',
+    verified: false,
     provider: 'local',
     createdAt: new Date(),
   };
@@ -70,7 +70,7 @@ export async function findOrCreateUser(db, profile, provider) {
       id: userId,
       username: profile.displayName,
       email: profile.emails?.[0]?.value || `no-email@${provider}.com`,
-      role: 'registered',
+      verified: false,
       provider,
       createdAt: new Date(),
     };
@@ -82,6 +82,10 @@ export async function findOrCreateUser(db, profile, provider) {
   }
 
   return user;
+}
+
+export async function setVerified(db, userId) {
+  return await db.collection('users').updateOne({ id: userId }, { $set: { verified: true } });
 }
 
 //Verify Password

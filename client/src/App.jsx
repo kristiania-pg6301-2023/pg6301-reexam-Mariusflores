@@ -44,7 +44,9 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/profile"
-          element={user ? <ProfilePage user={user} /> : <LoginPage setUser={setUser} />}
+          element={
+            user ? <ProfilePage user={user} setUser={setUser} /> : <LoginPage setUser={setUser} />
+          }
         />
         <Route path="/publish" element={user ? <PublishPage /> : <LoginPage setUser={setUser} />} />
         <Route

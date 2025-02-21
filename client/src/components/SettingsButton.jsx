@@ -6,14 +6,16 @@ import { api_url } from '../util/getApiUrl.js';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
-export default function SettingsButton({ user }) {
+export default function SettingsButton({ user, setUser }) {
+  // Added setUser to update the user state
   const [showMenu, setShowMenu] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [becomeVerified, setBecomeVerified] = useState(false);
   const [newUsername, setNewUsername] = useState(user?.username || '');
 
   async function handleSaveUsername() {
     if (!newUsername.trim()) {
-      alert("Username can't be empty.");
+      toast.error("Username can't be empty.");
       return;
     }
 
@@ -38,6 +40,34 @@ export default function SettingsButton({ user }) {
     }
   }
 
+  async function handleVerify() {
+    try {
+      const response = await fetch(`${api_url}/user/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Update user state to reflect verification
+        setUser((prevUser) => ({
+          ...prevUser,
+          verified: true, // Assuming verified is a boolean now
+        }));
+        toast.success('You are now verified');
+        setBecomeVerified(false);
+      } else {
+        toast.error(data.message || 'Could not verify');
+      }
+    } catch (error) {
+      toast.error(error.message || 'Internal Server Error');
+    }
+  }
+
   return (
     <div className="settings-container">
       <button onClick={() => setShowMenu(!showMenu)} className="settings-button">
@@ -48,8 +78,8 @@ export default function SettingsButton({ user }) {
           <button className="dropdown-item" onClick={() => setIsEditingUsername(true)}>
             Change Username
           </button>
-          <button className="dropdown-item disabled" disabled>
-            Change Account Role (WIP)
+          <button className="dropdown-item" onClick={() => setBecomeVerified(true)}>
+            Become Verified
           </button>
         </div>
       )}
@@ -57,7 +87,7 @@ export default function SettingsButton({ user }) {
       {isEditingUsername && (
         <div className="popup-overlay">
           <div className="popup">
-            <h3>Edit Username</h3>
+            <h3 style={{ color: 'black' }}>Enter new username</h3>
             <input
               type="text"
               value={newUsername}
@@ -75,12 +105,31 @@ export default function SettingsButton({ user }) {
           </div>
         </div>
       )}
+      {becomeVerified && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <h3 style={{ color: 'black' }}>
+              Sure you want to be Verified? (there is no going back from this)
+            </h3>
+            <div className="popup-buttons">
+              <button onClick={handleVerify} className="save-button">
+                <FontAwesomeIcon icon={faSave} /> Become verified
+              </button>
+              <button onClick={() => setBecomeVerified(false)} className="cancel-button">
+                <FontAwesomeIcon icon={faTimes} /> Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 SettingsButton.propTypes = {
   user: PropTypes.shape({
-    username: PropTypes.string.isRequired, // The username is required and should be a string
+    username: PropTypes.string.isRequired,
+    verified: PropTypes.bool.isRequired, // Change to boolean
   }).isRequired, // user object is required for this component
+  setUser: PropTypes.func.isRequired, // Function to update user state
 };
