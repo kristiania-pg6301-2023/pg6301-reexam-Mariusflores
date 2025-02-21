@@ -55,7 +55,7 @@ router.post('/publish', async (req, res) => {
     const userId = validateUserSession(req, res);
     if (!userId) return;
 
-    const user = await getUserById(userId);
+    const user = await getUserById(db, userId);
     if (!user.verified) {
       return res.status(401).json('You have to be verified to post');
     }
