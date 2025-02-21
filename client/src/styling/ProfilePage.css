@@ -1,3 +1,16 @@
 .profile-header {
   padding-top: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.username-container {
+  display: flex;
+  align-items: center;
+}
+
+.verified-icon {
+  color: #007bff; /* Optional: Change the color of the icon (e.g., gold for verified) */
 }

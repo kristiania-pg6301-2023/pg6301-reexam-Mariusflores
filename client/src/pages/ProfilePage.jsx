@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 import '../styling/ProfilePage.css';
+import '../styling/Icon.css';
 
 export function ProfilePage({ user, setUser }) {
   const navigate = useNavigate();
@@ -43,8 +44,10 @@ export function ProfilePage({ user, setUser }) {
   return (
     <>
       <div className="profile-header">
-        <h2>{user.username}</h2>
-        {user.verified && <FontAwesomeIcon icon={faCertificate} />}
+        <div className="username-container">
+          {user.verified && <FontAwesomeIcon className="verified-icon icon" icon={faCertificate} />}
+          <h2>{user.username}</h2>
+        </div>
         <SettingsButton user={user} setUser={setUser} />
       </div>
       <PostList posts={posts} setPosts={setPosts} />
