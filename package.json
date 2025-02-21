@@ -15,7 +15,12 @@
     "start:client": "cd client && npm start",
     "start:server": "cd server && npm start",
     "start": "concurrently npm:start:client npm:start:server",
+    "lint": "concurrently \"eslint ./client\" \"eslint ./server\"",
+    "prepare": "husky",
     "heroku-postbuild": "npm install --prefix client && npm run build"
+  },
+  "lint-staged": {
+    "" : ""
   },
   "keywords": [],
   "author": "",
@@ -27,6 +32,9 @@
     "concurrently": "^9.1.2"
   },
   "devDependencies": {
+    "eslint": "^9.20.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
     "prettier": "^3.5.1"
   }
 }
