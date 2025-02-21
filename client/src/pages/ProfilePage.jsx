@@ -6,6 +6,7 @@ import { api_url } from '../util/getApiUrl.js';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';
+import '../styling/ProfilePage.css';
 
 export function ProfilePage({ user, setUser }) {
   const navigate = useNavigate();
