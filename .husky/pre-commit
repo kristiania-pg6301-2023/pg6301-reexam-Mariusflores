@@ -1,1 +1,1 @@
-npm prettier --write .
+npx prettier --write .
