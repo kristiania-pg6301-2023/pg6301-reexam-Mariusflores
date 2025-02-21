@@ -5,6 +5,7 @@ import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faUser, faKey } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { api_url } from '../util/getApiUrl.js';
+import PropTypes from 'prop-types';
 
 export function LoginPage({ setUser }) {
   const navigate = useNavigate();
@@ -118,3 +119,7 @@ export function LoginPage({ setUser }) {
     </>
   );
 }
+
+LoginPage.propTypes = {
+  setUser: PropTypes.func.isRequired, // setUser must be a function and is required
+};

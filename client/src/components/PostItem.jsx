@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { faEllipsisV, faTrash, faEdit, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -90,3 +91,21 @@ export default function PostItem({ post, onDelete, onEdit, onReact }) {
     </div>
   );
 }
+
+PostItem.propTypes = {
+  post: PropTypes.shape({
+    _id: PropTypes.string.isRequired, // ID is required and should be a string
+    username: PropTypes.string.isRequired, // Username is required
+    content: PropTypes.string.isRequired, // Content is required
+    timestamp: PropTypes.string.isRequired, // Timestamp is required
+    reactions: PropTypes.arrayOf(
+      PropTypes.shape({
+        userId: PropTypes.string.isRequired, // User ID of the person who reacted
+        reaction: PropTypes.string.isRequired, // Reaction emoji
+      })
+    ).isRequired, // Reactions array is required
+  }).isRequired,
+  onDelete: PropTypes.func.isRequired, // onDelete is a required function
+  onEdit: PropTypes.func.isRequired, // onEdit is a required function
+  onReact: PropTypes.func.isRequired, // onReact is a required function
+};

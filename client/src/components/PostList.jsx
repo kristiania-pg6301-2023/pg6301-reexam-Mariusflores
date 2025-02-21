@@ -2,6 +2,7 @@ import PostItem from './PostItem';
 import { toast } from 'react-toastify';
 import '../styling/PostItem.css';
 import { api_url } from '../util/getApiUrl.js';
+import PropTypes from 'prop-types';
 
 export default function PostList({ posts, setPosts }) {
   // Delete post and update state
@@ -125,3 +126,20 @@ export default function PostList({ posts, setPosts }) {
     </div>
   );
 }
+PostList.propTypes = {
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      timestamp: PropTypes.string.isRequired,
+      reactions: PropTypes.arrayOf(
+        PropTypes.shape({
+          userId: PropTypes.string.isRequired,
+          reaction: PropTypes.string.isRequired,
+        })
+      ),
+    })
+  ).isRequired,
+  setPosts: PropTypes.func.isRequired,
+};

@@ -3,6 +3,7 @@ import '../styling/NavBar.css';
 import '../styling/Icon.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faPen, faRightToBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
 
 export function NavBar({ user, onLogout }) {
   return (
@@ -51,3 +52,15 @@ export function NavBar({ user, onLogout }) {
     </header>
   );
 }
+
+//PropTypes validation
+
+NavBar.propTypes = {
+  user: PropTypes.shape({
+    id: PropTypes.string,
+    username: PropTypes.string,
+  }),
+  onLogout: PropTypes.func.isRequired,
+};
+
+export default NavBar;

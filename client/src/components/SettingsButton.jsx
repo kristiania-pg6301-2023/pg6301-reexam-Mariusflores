@@ -4,6 +4,7 @@ import { faCog, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import '../styling/SettingsButton.css';
 import { api_url } from '../util/getApiUrl.js';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 export default function SettingsButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -77,3 +78,9 @@ export default function SettingsButton({ user }) {
     </div>
   );
 }
+
+SettingsButton.propTypes = {
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired, // The username is required and should be a string
+  }).isRequired, // user object is required for this component
+};

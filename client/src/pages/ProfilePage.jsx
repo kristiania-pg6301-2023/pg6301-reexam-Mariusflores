@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PostList from '../components/PostList.jsx';
 import SettingsButton from '../components/SettingsButton.jsx';
 import { api_url } from '../util/getApiUrl.js';
+import PropTypes from 'prop-types';
 
 export function ProfilePage({ user }) {
   const navigate = useNavigate();
@@ -46,3 +47,10 @@ export function ProfilePage({ user }) {
     </>
   );
 }
+
+ProfilePage.propTypes = {
+  user: PropTypes.shape({
+    id: PropTypes.string.isRequired, // Assuming user.id is a string
+    username: PropTypes.string.isRequired, // Assuming user.username is a string
+  }).isRequired, // user prop is required
+};
