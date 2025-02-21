@@ -43,6 +43,12 @@ const validatePostId = (postId, res) => {
   return true;
 };
 
+const validatePostExists = (post, res) => {
+  if (!post) {
+    return res.status(404).json('Post not found');
+  }
+};
+
 /**
  * POST Requests
  * */
@@ -95,9 +101,7 @@ router.post('/delete/:postId', async (req, res) => {
     if (!validatePostId(postId, res)) return;
 
     const post = await getPostById(db, postId);
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
-    }
+    validatePostExists(post, res);
 
     if (userId.toString() !== post.userid.toString()) {
       return res.status(403).json({ message: "Cannot delete someone else's post" });
@@ -134,9 +138,7 @@ router.post('/edit/:postId', async (req, res) => {
     if (!validatePostId(postId, res)) return;
 
     const post = await getPostById(db, postId);
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
-    }
+    validatePostExists(post, res);
 
     if (userId.toString() !== post.userid.toString()) {
       return res.status(403).json({ message: "Cannot edit someone else's post" });
@@ -163,9 +165,7 @@ router.post('/react/:postId', async (req, res) => {
     if (!validatePostId(postId, res)) return;
 
     const post = await getPostById(db, postId);
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
-    }
+    validatePostExists(post, res);
 
     // Find if the user has already reacted
     const existingReaction = post.reactions.find((r) => r.userId === userId);

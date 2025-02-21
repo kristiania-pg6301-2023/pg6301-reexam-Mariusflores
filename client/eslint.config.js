@@ -5,12 +5,19 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
-  { ignores: ['dist'] },
   {
+    ignores: [
+      '**/server/__tests__/**', // Ignore __tests__ folder in the server directory
+      '**/dist/**', // Ignore dist folder
+    ],
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser, // Recognize browser globals for the client-side
+        node: true, // Recognize Node.js globals like `process`, `__dirname`, etc.
+        process: true, // Explicitly add `process` global
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },

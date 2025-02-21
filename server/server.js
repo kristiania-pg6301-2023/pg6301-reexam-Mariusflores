@@ -40,10 +40,17 @@ app.use('/user', userRoutes);
  * Serve Frontend
  * */
 app.use((req, res, next) => {
-  if (req.method === 'GET' && !req.path.startsWith('/api')) {
-    return res.sendFile(path.resolve('../client/dist/index.html'));
+  // Only serve the frontend for GET requests that do not match API routes
+  if (
+    req.method === 'GET' &&
+    !req.path.startsWith('/api') &&
+    !req.path.startsWith('/auth') &&
+    !req.path.startsWith('/post') &&
+    !req.path.startsWith('/user')
+  ) {
+    return res.sendFile(path.resolve('../client/dist/index.html')); // Serve frontend for all non-API routes
   } else {
-    next();
+    next(); // Let other routes (like /auth, /post, /user) be handled by their specific handlers
   }
 });
 
