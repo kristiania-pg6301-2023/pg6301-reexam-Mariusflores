@@ -114,15 +114,17 @@ export default function PostList({ posts, setPosts }) {
     <div style={{ paddingTop: '70px' }}>
       {posts.length === 0 ? <p>No posts available.</p> : null}
 
-      {posts.map((post) => (
-        <PostItem
-          key={post._id}
-          post={post}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-          onReact={handleReaction}
-        />
-      ))}
+      {posts
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) // Sort by timestamp, newest first
+        .map((post) => (
+          <PostItem
+            key={post._id}
+            post={post}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            onReact={handleReaction}
+          />
+        ))}
     </div>
   );
 }
