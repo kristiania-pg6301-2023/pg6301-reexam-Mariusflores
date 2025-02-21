@@ -14,6 +14,7 @@ import { db } from '../config/db.js';
 import express from 'express';
 import { ObjectId } from 'mongodb';
 import { getUserFromSession } from '../utils/sessionUtils.js';
+import { getUserById } from '../apis/userApi.js';
 
 const router = express.Router();
 
@@ -53,6 +54,11 @@ router.post('/publish', async (req, res) => {
   try {
     const userId = validateUserSession(req, res);
     if (!userId) return;
+
+    const user = await getUserById(userId);
+    if (!user.verified) {
+      return res.status(401).json('You have to be verified to post');
+    }
 
     const { content } = req.body;
     if (!content) {
@@ -223,6 +229,7 @@ router.get('/user/posts/:userid?', async (req, res) => {
     const userPosts = await getAllPostsFromUser(db, userId);
     res.json(userPosts);
   } catch (error) {
+    console.log('An error occurred:', error);
     res.status(500).json({ message: 'Failed to fetch posts' });
   }
 });
