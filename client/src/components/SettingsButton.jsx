@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import '../styling/SettingsButton.css';
-import { api_url } from '../util/getApiUrl.js';
+import { api_url } from '../utils/getApiUrl.js';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 

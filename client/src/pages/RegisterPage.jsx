@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import '../styling/RegisterPage.css';
-import { api_url } from '../util/getApiUrl.js'; // Import the new CSS file
+import { api_url } from '../utils/getApiUrl.js'; // Import the new CSS file
 
 export function RegisterPage() {
   const [username, setUsername] = useState('');

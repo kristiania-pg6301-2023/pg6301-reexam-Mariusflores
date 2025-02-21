@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PostList from '../components/PostList.jsx';
-import { api_url } from '../util/getApiUrl.js';
+import { api_url } from '../utils/getApiUrl.js';
 
 export function HomePage() {
   const [posts, setPosts] = useState([]);

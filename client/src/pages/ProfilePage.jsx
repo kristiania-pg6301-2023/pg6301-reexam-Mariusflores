@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PostList from '../components/PostList.jsx';
 import SettingsButton from '../components/SettingsButton.jsx';
-import { api_url } from '../util/getApiUrl.js';
+import { api_url } from '../utils/getApiUrl.js';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';

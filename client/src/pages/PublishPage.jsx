@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { api_url } from '../util/getApiUrl.js';
+import { api_url } from '../utils/getApiUrl.js';
 
 export function PublishPage() {
   const [content, setContent] = useState('');

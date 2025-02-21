@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faUser, faKey } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-import { api_url } from '../util/getApiUrl.js';
+import { api_url } from '../utils/getApiUrl.js';
 import PropTypes from 'prop-types';
 
 export function LoginPage({ setUser }) {

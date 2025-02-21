@@ -1,7 +1,7 @@
 import PostItem from './PostItem';
 import { toast } from 'react-toastify';
 import '../styling/PostItem.css';
-import { api_url } from '../util/getApiUrl.js';
+import { api_url } from '../utils/getApiUrl.js';
 import PropTypes from 'prop-types';
 
 export default function PostList({ posts, setPosts }) {
