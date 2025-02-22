@@ -13,3 +13,10 @@ export function generateUserId() {
   console.log('random num:', randomNum);
   return `local:${randomNum}`;
 }
+export function generateOAuthDefaultNameValue() {
+  const min = 10000000; // Smallest 8-digit number
+  const max = 99999999; // Largest 8-digit number
+  const randomNum = crypto.randomInt(min, max);
+  console.log('random num:', randomNum);
+  return `user:${randomNum}`;
+}
