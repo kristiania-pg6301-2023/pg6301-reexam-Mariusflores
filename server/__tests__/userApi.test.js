@@ -8,7 +8,6 @@ import {
   setVerified,
   updateUsername,
 } from '../apis/userApi.js';
-import { set } from 'express/lib/application.js';
 
 let mongod;
 let connection;
