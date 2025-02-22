@@ -1,27 +1,87 @@
 #navbar {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around; /* Spaces out the links evenly */
-  align-items: center; /* Centers the links vertically */
-  position: fixed; /* Makes the navbar stick to the top */
-  top: 0; /* Aligns it to the top of the viewport */
-  left: 0; /* Ensures it spans from the left edge */
-  width: 100%; /* Makes it full width */
-  background-color: #242424; /* Keeps the background */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a slight shadow for depth */
-  z-index: 1000; /* Ensures the navbar stays above other elements */
+  justify-content: space-around; /* Pushes items apart */
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #242424;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 0.8rem 2rem; /* Adds some padding for breathing space */
+  z-index: 1000;
+}
+
+.link-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Adds spacing between icon and text */
+  padding: 0.6rem 1.2rem; /* Makes clickable area more comfortable */
+  margin: 0 0.5em;
+  color: white;
+  border-radius: 6px;
+  transition:
+    background 0.3s ease,
+    transform 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.link-container:hover {
+  background-color: #333;
+  transform: scale(1.05); /* Slight pop effect */
 }
 
 .link {
   color: #ffffff;
+  font-weight: 500;
+  font-size: 1rem;
 }
 
-.link-container {
-  padding: 2em;
-  margin: 0 0.5em 0 0.5em;
-  color: black;
+.icon {
+  color: #f0f0f0;
+  font-size: 1.2rem;
 }
 
-.link-container:hover {
-  background-color: #1a1a1a;
+/* Logout Button – Standout Style */
+.link button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition:
+    background 0.3s ease,
+    transform 0.1s ease-in-out;
+}
+
+.link button:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  #navbar {
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 0.6rem 1rem;
+  }
+
+  .link-container {
+    padding: 0.5rem 1rem;
+  }
+
+  .link {
+    font-size: 0.9rem;
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
+
+  .link button {
+    padding: 0.5rem 1rem;
+  }
 }

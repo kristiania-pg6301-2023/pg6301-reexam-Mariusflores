@@ -12,6 +12,6 @@ export default defineConfig({
       provider: 'istanbul', // Coverage provider
       reporter: ['text', 'html'], // Report coverage in both text and HTML formats
     },
-    include: ['__tests__/**/*.test.{js,ts}'], // Only include .test.js/.test.ts files in the client folder
+    include: ['src/__tests__/**/*.test.{js,jsx}'], // Only include .test.js/.test.jsx files in the client folder
   },
 });

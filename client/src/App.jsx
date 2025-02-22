@@ -1,25 +1,35 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import './styling/App.css';
 import { LoginPage } from './pages/LoginPage.jsx';
 import { NavBar } from './components/NavBar.jsx';
 import { RegisterPage } from './pages/RegisterPage.jsx';
 import { ProfilePage } from './pages/ProfilePage.jsx';
-import { useEffect, useState } from 'react';
 import { PublishPage } from './pages/PublishPage.jsx';
 import { HomePage } from './pages/HomePage.jsx';
 import { ToastContainer } from 'react-toastify';
 import { api_url } from './utils/getApiUrl.js';
 
+// Component to handle navigation redirects properly
+const RedirectToLogin = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate('/login', { replace: true });
+  }, [navigate]);
+  return null; // Don't render anything, just navigate
+};
+
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ New loading state
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${api_url}/auth/me`, { credentials: 'include' })
       .then((res) => (res.ok ? res.json() : null))
       .then(setUser)
       .catch(() => setUser(null))
-      .finally(() => setLoading(false)); // ✅ Stop loading after fetch completes
+      .finally(() => setLoading(false));
   }, []);
 
   const handleLogout = async () => {
@@ -28,33 +38,29 @@ function App() {
       credentials: 'include',
     });
     setUser(null);
-    window.location.reload();
+    navigate('/login');
   };
 
-  if (loading) return <p>Loading...</p>; // ✅ Prevents flashing login screen
+  if (loading) return <p>Loading...</p>;
 
   return (
-    <BrowserRouter>
-      <ToastContainer position={'top-center'} autoClose={3000} />
+    <>
+      <ToastContainer position={'top-center'} />
       <NavBar user={user} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<HomePage user={user} />} />
         <Route path="/login" element={<LoginPage setUser={setUser} />} />
-        <Route path="/home" element={<HomePage user={user} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/profile"
-          element={
-            user ? <ProfilePage user={user} setUser={setUser} /> : <LoginPage setUser={setUser} />
-          }
+          element={user ? <ProfilePage user={user} setUser={setUser} /> : <RedirectToLogin />}
         />
-        <Route path="/publish" element={user ? <PublishPage /> : <LoginPage setUser={setUser} />} />
-        <Route
-          path="*"
-          element={user ? <HomePage user={user} /> : <LoginPage setUser={setUser} />}
-        />
+        <Route path="/publish" element={user ? <PublishPage /> : <RedirectToLogin />} />
+
+        {/* Redirects to login if unknown route */}
+        <Route path="*" element={user ? <HomePage user={user} /> : <RedirectToLogin />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

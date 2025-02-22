@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import '../styling/RegisterPage.css';
-import { api_url } from '../utils/getApiUrl.js'; // Import the new CSS file
+import { api_url } from '../utils/getApiUrl.js';
+import { useNavigate } from 'react-router-dom'; // Import the new CSS file
 
 export function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   async function handleRegister(e) {
     try {
@@ -24,6 +26,7 @@ export function RegisterPage() {
       if (response.ok) {
         console.log('registration successful');
         toast.success('Registration successful, you can now log in');
+        navigate('/login');
       } else {
         toast.error(data.message || 'Registration failed, please try again');
       }

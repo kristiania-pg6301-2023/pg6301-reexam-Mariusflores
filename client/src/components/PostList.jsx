@@ -5,6 +5,9 @@ import { api_url } from '../utils/getApiUrl.js';
 import PropTypes from 'prop-types';
 
 export default function PostList({ posts, setPosts }) {
+  if (!Array.isArray(posts)) {
+    posts = []; //Ensure posts is always an array
+  }
   // Delete post and update state
   async function handleDelete(_id) {
     try {
