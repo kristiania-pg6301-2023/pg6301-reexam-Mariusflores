@@ -8,6 +8,7 @@ export default defineConfig({
   test: {
     globals: true, // Makes describe, it, expect available globally
     environment: 'jsdom', // Use jsdom for frontend testing (simulate browser)
+    setupFiles: './src/__tests__/setupTests.js',
     coverage: {
       provider: 'istanbul', // Coverage provider
       reporter: ['text', 'html'], // Report coverage in both text and HTML formats

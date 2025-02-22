@@ -29,8 +29,11 @@ export default function SettingsButton({ user, setUser }) {
 
       const data = await response.json();
       if (response.ok) {
+        setUser((prevUser) => ({
+          ...prevUser,
+          username: newUsername,
+        }));
         setIsEditingUsername(false);
-        window.location.reload();
       } else {
         toast.error(data.message || 'Failed to change username.');
       }
@@ -108,9 +111,7 @@ export default function SettingsButton({ user, setUser }) {
       {becomeVerified && (
         <div className="popup-overlay">
           <div className="popup">
-            <h3 style={{ color: 'black' }}>
-              Sure you want to be Verified? (there is no going back from this)
-            </h3>
+            <h3 style={{ color: 'black' }}>Sure you want to be Verified?</h3>
             <div className="popup-buttons">
               <button onClick={handleVerify} className="save-button">
                 <FontAwesomeIcon icon={faSave} /> Become verified
