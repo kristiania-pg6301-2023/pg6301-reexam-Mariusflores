@@ -3,12 +3,9 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as GithubStrategy } from 'passport-github2';
 import { db } from './db.js';
-import {
-  findOrCreateUser,
-  getUserById,
-  getUserByUsername,
-  verifyPassword,
-} from '../apis/userApi.js';
+import { findOrCreateUser, getUserById, getUserByUsername } from '../apis/userApi.js';
+
+import { verifyPassword } from '../utils/authHelpers.js';
 
 /**
  * Local Strategy

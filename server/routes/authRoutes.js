@@ -3,6 +3,7 @@ import passport from '../config/passport.js';
 import { createUser, getUserByUsername } from '../apis/userApi.js';
 import { db } from '../config/db.js';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 
 const router = express.Router();
 
@@ -24,6 +25,8 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Check if user already exists
     const existingUser = await getUserByUsername(db, username);
     if (existingUser) {
@@ -31,7 +34,7 @@ router.post('/register', async (req, res) => {
     }
 
     // Create new user
-    const newUser = await createUser(db, username, password, email);
+    const newUser = await createUser(db, username, hashedPassword, email);
 
     console.log('✅ User registered:', newUser); // Debugging log
 
