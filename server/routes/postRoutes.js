@@ -22,7 +22,6 @@ const router = express.Router();
 /**
  * Helper functions
  */
-
 const sanitizeContent = (content) => {
   return sanitizeHtml(content.trim(), { allowedTags: [], allowedAttributes: {} });
 };
@@ -46,16 +45,18 @@ const validatePostId = (postId, res) => {
 
 const validatePostExists = (post, res) => {
   if (!post) {
-    return res.status(404).json('Post not found');
+    res.status(404).json({ message: 'Post not found' });
+    return false;
   }
+  return true;
 };
 
 /**
  * POST Requests
- * */
+ */
 
 /**
- * Creates a post in database
+ * Creates a post in the database
  */
 router.post('/publish', async (req, res) => {
   try {
@@ -63,8 +64,8 @@ router.post('/publish', async (req, res) => {
     if (!userId) return;
 
     const user = await getUserById(db, userId);
-    if (!user.verified) {
-      return res.status(401).json('You have to be verified to post');
+    if (!user || !user.verified) {
+      return res.status(401).json({ message: 'You have to be verified to post' });
     }
 
     const { content } = req.body;
@@ -72,7 +73,7 @@ router.post('/publish', async (req, res) => {
       return res.status(400).json({ message: 'Content required' });
     }
 
-    // Sanitize the content
+    // Sanitize content
     const sanitizedContent = sanitizeContent(content);
     if (sanitizedContent.length > 1000) {
       return res.status(400).json({ message: 'Post exceeds maximum limit' });
@@ -81,7 +82,6 @@ router.post('/publish', async (req, res) => {
     // Create post
     const newPost = await createPost(db, userId, sanitizedContent);
     res.status(201).json({ message: 'Post published', post: newPost });
-    console.log('Created post');
   } catch (error) {
     console.error('Error publishing post:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -90,8 +90,7 @@ router.post('/publish', async (req, res) => {
 
 /**
  * Delete post by postId
- * Validates that post is from authenticated user
- * Disallows deleting someone else's post
+ * Validates that the post belongs to the authenticated user
  */
 router.post('/delete/:postId', async (req, res) => {
   try {
@@ -102,7 +101,7 @@ router.post('/delete/:postId', async (req, res) => {
     if (!validatePostId(postId, res)) return;
 
     const post = await getPostById(db, postId);
-    validatePostExists(post, res);
+    if (!validatePostExists(post, res)) return;
 
     if (userId.toString() !== post.userid.toString()) {
       return res.status(403).json({ message: "Cannot delete someone else's post" });
@@ -112,7 +111,7 @@ router.post('/delete/:postId', async (req, res) => {
     res.status(200).json({ message: 'Post deleted' });
   } catch (error) {
     console.error('Error deleting post', error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
@@ -126,30 +125,29 @@ router.post('/edit/:postId', async (req, res) => {
     const userId = validateUserSession(req, res);
     if (!userId) return;
 
+    if (!validatePostId(postId, res)) return;
+
+    const post = await getPostById(db, postId);
+    if (!validatePostExists(post, res)) return;
+
+    if (userId.toString() !== post.userid.toString()) {
+      return res.status(403).json({ message: "Cannot edit someone else's post" });
+    }
     if (!newContent) {
       return res.status(400).json({ message: 'Content required' });
     }
 
-    // Sanitize the content
+    // Sanitize content
     const sanitizedContent = sanitizeContent(newContent);
     if (sanitizedContent.length > 1000) {
       return res.status(400).json({ message: 'Post exceeds maximum limit' });
     }
 
-    if (!validatePostId(postId, res)) return;
-
-    const post = await getPostById(db, postId);
-    validatePostExists(post, res);
-
-    if (userId.toString() !== post.userid.toString()) {
-      return res.status(403).json({ message: "Cannot edit someone else's post" });
-    }
-
     await editPostById(db, postId, sanitizedContent);
-    return res.status(200).json({ message: 'Post edited successfully' });
+    res.status(200).json({ message: 'Post edited successfully' });
   } catch (error) {
     console.error('Error editing post', error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
@@ -166,40 +164,31 @@ router.post('/react/:postId', async (req, res) => {
     if (!validatePostId(postId, res)) return;
 
     const post = await getPostById(db, postId);
-    validatePostExists(post, res);
+    if (!validatePostExists(post, res)) return;
 
-    // Find if the user has already reacted
+    // Check existing reaction
     const existingReaction = post.reactions.find((r) => r.userId === userId);
 
-    console.log('Current post reactions:', post.reactions);
-    console.log('Checking existing reaction', existingReaction);
-
     if (existingReaction) {
-      // If the user clicked on the same reaction, remove it
       if (existingReaction.reaction === reaction) {
-        console.log('Removing existing reaction', existingReaction);
         await removeReactionFromPost(db, postId, userId, reaction);
         return res.status(200).json({ message: 'Reaction removed', userId });
       } else {
-        // If the user clicked a different reaction, update it
-        console.log('Updating reaction', existingReaction);
         await updateReactionInPost(db, postId, userId, reaction);
         return res.status(200).json({ message: 'Reaction updated', userId });
       }
     } else {
-      // If the user hasn't reacted yet, add the new reaction
-      console.log('Adding new reaction', reaction);
       await addReactionToPost(db, postId, userId, reaction);
-      return res.status(200).json({ message: 'Successfully added reaction', userId });
+      return res.status(201).json({ message: 'Successfully added reaction', userId });
     }
   } catch (error) {
     console.error('Error reacting to post:', error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
 /**
- * Get Requests
+ * GET Requests
  */
 
 /**
@@ -216,13 +205,11 @@ router.get('/all', async (req, res) => {
 });
 
 /**
- * Get post by specific user
+ * Get posts by a specific user
  */
 router.get('/user/posts/:userid?', async (req, res) => {
   try {
-    // Dual use case, for fetching logged-in users posts, as well as other peoples posts
     let userId = req.params.userid || getUserFromSession(req);
-
     if (!userId) {
       return res.status(401).json({ message: 'Unauthorized. Please log in' });
     }
@@ -230,25 +217,28 @@ router.get('/user/posts/:userid?', async (req, res) => {
     const userPosts = await getAllPostsFromUser(db, userId);
     res.json(userPosts);
   } catch (error) {
-    console.log('An error occurred:', error);
+    console.error('Error fetching user posts:', error);
     res.status(500).json({ message: 'Failed to fetch posts' });
   }
 });
 
 router.get('/reactions/:postId', async (req, res) => {
   try {
-    validateUserSession(req, res);
+    const userId = validateUserSession(req, res);
+    if (!userId) return;
 
     const postId = req.params.postId;
 
-    validatePostId(postId, res);
+    if (!validatePostId(postId, res)) return;
 
-    validatePostExists(postId, res);
+    const post = await getPostById(db, postId);
+    if (!validatePostExists(post, res)) return;
 
     const postReactions = await getALlReactionsFromPost(db, postId);
-    res.json(postReactions);
+
+    res.status(200).json({ reactions: postReactions });
   } catch (error) {
-    console.log('An error occured', error);
+    console.log('An error occurred:', error);
     res.status(500).json({ message: 'Failed to fetch reactions' });
   }
 });
