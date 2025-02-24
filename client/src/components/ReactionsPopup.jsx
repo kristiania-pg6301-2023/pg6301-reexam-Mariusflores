@@ -7,13 +7,24 @@ import '../styling/ReactionsPopup.css';
 
 export default function ReactionsPopup({ postId, onClose }) {
   const [reactions, setReactions] = useState([]);
+  const [loading, setLoading] = useState(true); // <-- Add loading state
 
   useEffect(() => {
+    setLoading(true); // Set loading to true before fetching
     fetch(`${api_url}/post/reactions/${postId}`, { credentials: 'include' })
-      .then((res) => (res.ok ? res.json() : null))
-      .then(setReactions)
-      .catch(() => setReactions(null));
-  }, []);
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('Reactions API Response:', data);
+        if (data && data.reactions) {
+          setReactions(data.reactions);
+        } else {
+          setReactions([]);
+        }
+      })
+      .catch(() => setReactions([]))
+      .finally(() => setLoading(false)); // <-- Set loading to false after fetching
+  }, [postId]);
+
   return (
     <div className="popup-overlay">
       <div className="popup-content">
@@ -21,17 +32,23 @@ export default function ReactionsPopup({ postId, onClose }) {
           <FontAwesomeIcon icon={faTimes} />
         </button>
         <h3>Reactions</h3>
-        <ul className="reaction-list">
-          {reactions.length > 0 ? (
-            reactions.map((reaction, index) => (
-              <li key={index} className="reaction-item">
-                {reaction.username} ({reaction.reaction})
-              </li>
-            ))
-          ) : (
-            <p>No reactions yet.</p>
-          )}
-        </ul>
+
+        {/* Show loading indicator while fetching */}
+        {loading ? (
+          <p>Loading reactions...</p> // <-- Add a loading message
+        ) : (
+          <ul className="reaction-list">
+            {reactions.length > 0 ? (
+              reactions.map((reaction, index) => (
+                <li key={index} className="reaction-item">
+                  {reaction.username} ({reaction.reaction})
+                </li>
+              ))
+            ) : (
+              <p>No reactions yet.</p>
+            )}
+          </ul>
+        )}
       </div>
     </div>
   );

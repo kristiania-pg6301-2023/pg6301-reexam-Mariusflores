@@ -235,7 +235,7 @@ router.get('/reactions/:postId', async (req, res) => {
     if (!validatePostExists(post, res)) return;
 
     const postReactions = await getALlReactionsFromPost(db, postId);
-
+    console.log('Post reactions', postReactions);
     res.status(200).json({ reactions: postReactions });
   } catch (error) {
     console.log('An error occurred:', error);
