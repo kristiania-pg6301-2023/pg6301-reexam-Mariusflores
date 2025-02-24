@@ -59,8 +59,12 @@ app.use((req, res, next) => {
  * */
 
 const server = app.listen(process.env.PORT || 8000, async () => {
-  await connectDB();
-  console.log('Server started on http://localhost:' + server.address().port);
+  try {
+    await connectDB();
+    console.log('Server started on http://localhost:' + server.address().port);
+  } catch (error) {
+    console.error('Error starting server:', error);
+  }
 });
 
 export { app, server };

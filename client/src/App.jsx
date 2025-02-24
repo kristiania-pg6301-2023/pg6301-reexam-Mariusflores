@@ -58,7 +58,7 @@ function App() {
         <Route path="/publish" element={user ? <PublishPage /> : <RedirectToLogin />} />
 
         {/* Redirects to login if unknown route */}
-        <Route path="*" element={user ? <HomePage user={user} /> : <RedirectToLogin />} />
+        <Route path="*" element={<HomePage user={user} />} />
       </Routes>
     </>
   );

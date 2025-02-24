@@ -165,7 +165,7 @@
 }
 
 .reaction-button {
-  background: #f0f0f0;
+  background: #e0e0e0;
   border: none;
   cursor: pointer;
   padding: 5px 10px;
@@ -175,5 +175,16 @@
 }
 
 .reaction-button:hover {
-  background: #ddd;
+  background-color: #888888;
+}
+
+.reaction-popup-button {
+  background: #e0e0e0;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 5px;
+  padding: 2px;
+}
+.reaction-popup-button:hover {
+  background-color: #888888;
 }

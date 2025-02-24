@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { faEllipsisV, faTrash, faEdit, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactionsPopup from './ReactionsPopup.jsx';
 
 // Define available reactions
 const REACTIONS = ['👍', '❤️', '😂', '🔥', '😢'];
 
-export default function PostItem({ post, onDelete, onEdit, onReact }) {
+export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact }) {
   const [activeMenu, setActiveMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
+  const [showReactionsPopup, setShowReactionsPopup] = useState(false);
 
   function toggleMenu() {
     setActiveMenu(!activeMenu);
@@ -88,6 +90,15 @@ export default function PostItem({ post, onDelete, onEdit, onReact }) {
           </button>
         ))}
       </div>
+      {showReactionsPopup && (
+        <ReactionsPopup postId={post._id} onClose={() => setShowReactionsPopup(false)} />
+      )}
+      {/*Anonymous(non-logged-in) users cannot see reactions on posts */}
+      {userLoggedIn && (
+        <button className="reaction-popup-button" onClick={() => setShowReactionsPopup(true)}>
+          Show Reactions
+        </button>
+      )}
     </div>
   );
 }
@@ -108,4 +119,5 @@ PostItem.propTypes = {
   onDelete: PropTypes.func.isRequired, // onDelete is a required function
   onEdit: PropTypes.func.isRequired, // onEdit is a required function
   onReact: PropTypes.func.isRequired, // onReact is a required function
+  userLoggedIn: PropTypes.bool.isRequired,
 };

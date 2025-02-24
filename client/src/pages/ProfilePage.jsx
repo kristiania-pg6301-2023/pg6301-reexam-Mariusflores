@@ -50,7 +50,7 @@ export function ProfilePage({ user, setUser }) {
         </div>
         <SettingsButton user={user} setUser={setUser} />
       </div>
-      <PostList posts={posts} setPosts={setPosts} />
+      <PostList userLoggedIn={!!user} posts={posts} setPosts={setPosts} />
     </>
   );
 }

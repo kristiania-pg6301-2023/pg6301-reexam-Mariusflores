@@ -74,6 +74,42 @@ export async function getAllPostsFromUser(db, userid) {
 }
 
 /**
+ * Get All Reactions for post
+ * */
+
+export async function getALlReactionsFromPost(db, postId) {
+  return db
+    .collection('posts')
+    .aggregate([
+      {
+        $match: { _id: new ObjectId(postId) },
+      },
+      {
+        $unwind: '$reactions',
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'reactions.userId',
+          foreignField: 'id',
+          as: 'reactionUser',
+        },
+      },
+      {
+        $unwind: '$reactionUser',
+      },
+      {
+        $project: {
+          userId: '$reactions.userId',
+          reaction: '$reactions.reaction',
+          username: '$reactionUser.username',
+        },
+      },
+    ])
+    .toArray();
+}
+
+/**
  * Create a post
  **/
 

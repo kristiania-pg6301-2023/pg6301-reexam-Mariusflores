@@ -2,7 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import '../styling/NavBar.css';
 import '../styling/Icon.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faPen, faRightToBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHouse,
+  faPen,
+  faRightToBracket,
+  faUser,
+  faRightFromBracket,
+} from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
 export function NavBar({ user, onLogout }) {
@@ -42,7 +48,12 @@ export function NavBar({ user, onLogout }) {
             <span className="link">Profile</span>
           </div>
           <div className="link">
-            <button onClick={onLogout}>Logout</button>
+            <button onClick={onLogout}>
+              <span className="icon">
+                <FontAwesomeIcon icon={faRightFromBracket} />
+              </span>
+              Logout
+            </button>
           </div>
         </>
       ) : (

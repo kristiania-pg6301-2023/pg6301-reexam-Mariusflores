@@ -8,9 +8,9 @@
 - [x] En bruker som er logget inn kan se på sin profilside
   - [x] Bruker kan se sine egne innlegg på profilsiden
 - [x] Brukere skal forbli pålogget når de refresher websiden (cookies)
-- [ ] En bruker som er logget inn kan klikke på et innlegg for hvem som har reagert på innlegget og kommentarer.
+- [x] En bruker som er logget inn kan klikke på et innlegg for hvem som har reagert på innlegget og kommentarer.
       Detaljene skal inkludere en overskrift, tekst, navn, bilde(om tilgjengelig) på den som publiserte det
-- [ ] Brukere kan publisere nye inlegg. innlegg kan være mellom 10 ord og 1000 tegn
+- [x] Brukere kan publisere nye inlegg. innlegg kan være mellom 10 ord og 1000 tegn
 - [ ] Systemet hindrer en bruker fra å publisere mer enn 5 innlegg innenfor en time
 - [x] Brukeren skal forhindres fra å sende inn en nyhetsartikkel som mangler tekst
 - [x] En bruker skal kunne redigere et innlegg de selv har publisert
@@ -18,7 +18,7 @@
 - [x] Brukere skal reagere på andres innlegg med en av flere emojis
 - [ ] **Valgfritt**: Brukere kan legge til kommentarer til andres innlegg
 - [ ] **Valgfritt**: Brukere kan legge til andre brukere som venner
-- [ ] Alle feil fra server skal presenteres til en bruker på en pen måte, med mulighet for brukeren til å prøve igjen
+- [x] Alle feil fra server skal presenteres til en bruker på en pen måte, med mulighet for brukeren til å prøve igjen
 
 ## Må-Krav til teknisk løsning
 

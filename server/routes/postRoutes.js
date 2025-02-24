@@ -6,6 +6,7 @@ import {
   editPostById,
   getAllPosts,
   getAllPostsFromUser,
+  getALlReactionsFromPost,
   getPostById,
   removeReactionFromPost,
   updateReactionInPost,
@@ -231,6 +232,24 @@ router.get('/user/posts/:userid?', async (req, res) => {
   } catch (error) {
     console.log('An error occurred:', error);
     res.status(500).json({ message: 'Failed to fetch posts' });
+  }
+});
+
+router.get('/reactions/:postId', async (req, res) => {
+  try {
+    validateUserSession(req, res);
+
+    const postId = req.params.postId;
+
+    validatePostId(postId, res);
+
+    validatePostExists(postId, res);
+
+    const postReactions = await getALlReactionsFromPost(db, postId);
+    res.json(postReactions);
+  } catch (error) {
+    console.log('An error occured', error);
+    res.status(500).json({ message: 'Failed to fetch reactions' });
   }
 });
 

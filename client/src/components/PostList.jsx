@@ -4,7 +4,7 @@ import '../styling/PostItem.css';
 import { api_url } from '../utils/getApiUrl.js';
 import PropTypes from 'prop-types';
 
-export default function PostList({ posts, setPosts }) {
+export default function PostList({ userLoggedIn, posts, setPosts }) {
   if (!Array.isArray(posts)) {
     posts = []; //Ensure posts is always an array
   }
@@ -122,6 +122,7 @@ export default function PostList({ posts, setPosts }) {
         .map((post) => (
           <PostItem
             key={post._id}
+            userLoggedIn={userLoggedIn}
             post={post}
             onDelete={handleDelete}
             onEdit={handleEdit}
@@ -147,4 +148,5 @@ PostList.propTypes = {
     })
   ).isRequired,
   setPosts: PropTypes.func.isRequired,
+  userLoggedIn: PropTypes.bool.isRequired,
 };
