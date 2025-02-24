@@ -38,25 +38,32 @@ jobs:
           GITHUB_CLIENT_SECRET: ${{secrets.GITHUBAUTH_CLIENT_SECRET}}
           GITHUB_CALLBACK_URL: ${{secrets.GITHUBAUTH_CALLBACK_URL}}
         run: npm run test
-  deploy:
-    name: Deploy to Heroku
-    needs: test # Ensures deployment happens only if tests pass
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+deploy:
+  name: Deploy to Heroku
+  needs: test
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Install Heroku CLI
-        run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
+    - name: Install Heroku CLI
+      run: |
+        curl https://cli-assets.heroku.com/install.sh | sh
 
-      - name: Login to Heroku
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          echo $HEROKU_API_KEY | heroku auth:token
-          heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
+    - name: Authenticate with Heroku
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+        echo "machine api.heroku.com login=api_key password=$HEROKU_API_KEY" > ~/.netrc
+        echo "machine git.heroku.com login=api_key password=$HEROKU_API_KEY" >> ~/.netrc
+        chmod 600 ~/.netrc
 
-      - name: Deploy to Heroku
-        run: |
-          git push heroku main
+    - name: Add Heroku Git Remote
+      env:
+        HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+      run: |
+        heroku git:remote -a $HEROKU_APP_NAME
+
+    - name: Push Code to Heroku
+      run: |
+        git push heroku main
