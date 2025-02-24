@@ -1,0 +1,37 @@
+name: Deploy to Heroku
+on:
+  workflow_run:
+    workflows: ["Run Tests"]
+    types:
+        - completed
+
+jobs:
+  deploy:
+    name: Deploy to Heroku
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+
+      - name: Authenticate with Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          echo "machine api.heroku.com login=api_key password=$HEROKU_API_KEY" > ~/.netrc
+          echo "machine git.heroku.com login=api_key password=$HEROKU_API_KEY" >> ~/.netrc
+          chmod 600 ~/.netrc
+
+      - name: Add Heroku Git Remote
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          heroku git:remote -a $HEROKU_APP_NAME
+
+      - name: Push Code to Heroku
+        run: |
+          git push heroku main
