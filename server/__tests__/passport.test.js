@@ -1,8 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import passport from '../config/passport.js';
 import { db } from '../config/db.js';
-import { getUserByUsername, findOrCreateUser, getUserById } from '../apis/userApi.js';
+import { getUserById, getUserByUsername } from '../apis/userApi.js';
 import { verifyPassword } from '../utils/authHelpers.js';
+import { Strategy as LocalStrategy } from 'passport-local';
 
 // Mock dependencies
 vi.mock('../apis/userApi.js', () => ({
@@ -15,7 +16,7 @@ vi.mock('../utils/authHelpers.js', () => ({
   verifyPassword: vi.fn(),
 }));
 
-describe('Passport Authentication', () => {
+describe('Serialize and Deserialize user', () => {
   let done, req, res, next;
 
   beforeEach(() => {
@@ -26,26 +27,6 @@ describe('Passport Authentication', () => {
   });
 
   afterEach(() => vi.restoreAllMocks());
-
-  /*** 🟢 LOCAL STRATEGY TEST ***/
-  /*
-  it('authenticates user with correct credentials', async () => {
-    const mockUser = { id: '123', username: 'testuser', password: 'hashedpassword' };
-
-    getUserByUsername.mockResolvedValue(mockUser);
-    verifyPassword.mockResolvedValue(true);
-
-    await new Promise((resolve) => passport.authenticate('local', (err, user) => {
-      done(err, user);
-      resolve();
-    })(req, res, next));
-
-    expect(getUserByUsername).toHaveBeenCalledWith(db, 'testuser');
-    expect(verifyPassword).toHaveBeenCalledWith(mockUser, 'password');
-    expect(done).toHaveBeenCalledWith(null, mockUser);
-  });
-
-   */
 
   /*** 🟡 SERIALIZE & DESERIALIZE TESTS ***/
   it('serializes user ID', () => {
@@ -69,5 +50,50 @@ describe('Passport Authentication', () => {
     await passport.deserializeUser('nonexistentID', done);
 
     expect(done.mock.calls[0][0]).toEqual(new Error('User not found')); // ✅ Now correctly matches
+  });
+});
+describe('Passport Authentication - LocalStrategy', () => {
+  let strategy;
+
+  beforeEach(() => {
+    strategy = new LocalStrategy(
+      { usernameField: 'username', passwordField: 'password' },
+      async (username, password, done) => {
+        try {
+          const user = await getUserByUsername(db, username);
+          if (!user) return done(null, false, { message: 'User not found' });
+
+          const isValid = await verifyPassword(user, password);
+          if (!isValid) return done(null, false, { message: 'Invalid password' });
+
+          return done(null, user);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    );
+  });
+
+  test('should authenticate a valid user', async () => {
+    const mockUser = { id: 1, username: 'testuser', password: 'hashedpassword' };
+    getUserByUsername.mockResolvedValue(mockUser);
+    verifyPassword.mockResolvedValue(true);
+
+    await new Promise((resolve) => {
+      strategy.success = (user) => {
+        expect(user).toEqual(mockUser);
+        resolve();
+      };
+
+      strategy.fail = (info) => {
+        throw new Error(`Unexpected fail: ${info.message}`);
+      };
+
+      strategy.error = (err) => {
+        throw err;
+      };
+
+      strategy.authenticate({ body: { username: 'testuser', password: 'password' } });
+    });
   });
 });
