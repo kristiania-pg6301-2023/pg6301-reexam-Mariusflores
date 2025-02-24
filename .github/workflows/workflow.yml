@@ -29,4 +29,11 @@ jobs:
       - name: Run tests
         env:
           MONGODB_URL: ${{secrets.MONGODB_URL}}
+          SESSION_SECRET: ${{secrets.SESSION_SECRET}}
+          GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+          GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
+          GOOGLE_CALLBACK_URL: ${{secrets.GOOGLE_CALLBACK_URL}}
+          GITHUB_CLIENT_ID: ${{secrets.GITHUBAUTH_CLIENT_ID}}
+          GITHUB_CLIENT_SECRET: ${{secrets.GITHUBAUTH_CLIENT_SECRET}}
+          GITHUB_CALLBACK_URL: ${{secrets.GITHUBAUTH_CALLBACK_URL}}
         run: npm run test
