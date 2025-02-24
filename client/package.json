@@ -6,7 +6,7 @@
   "scripts": {
     "test": "vitest run --coverage",
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm install && vite build",
     "lint": "eslint .",
     "start": "vite preview"
   },
