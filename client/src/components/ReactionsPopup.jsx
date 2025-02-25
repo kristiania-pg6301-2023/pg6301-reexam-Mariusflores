@@ -28,7 +28,7 @@ export default function ReactionsPopup({ postId, onClose }) {
   return (
     <div className="popup-overlay">
       <div className="popup-content">
-        <button className="close-button" onClick={onClose}>
+        <button className="close-button" onClick={onClose} aria-label="close">
           <FontAwesomeIcon icon={faTimes} />
         </button>
         <h3>Reactions</h3>

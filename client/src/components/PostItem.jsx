@@ -25,7 +25,7 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
 
   async function handleSave() {
     if (!editedContent.trim()) {
-      toast.error('Post content cannot be empty.');
+      toast.error('Content required.');
       return;
     }
 
