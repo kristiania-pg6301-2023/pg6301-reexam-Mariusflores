@@ -14,7 +14,7 @@ export default function SettingsButton({ user, setUser }) {
   const [newUsername, setNewUsername] = useState(user?.username || '');
 
   async function handleSaveUsername() {
-    if (!newUsername.trim()) {
+    if (newUsername.trim() === '') {
       toast.error("Username can't be empty.");
       return;
     }
@@ -73,15 +73,27 @@ export default function SettingsButton({ user, setUser }) {
 
   return (
     <div className="settings-container">
-      <button onClick={() => setShowMenu(!showMenu)} className="settings-button">
+      <button
+        onClick={() => setShowMenu(!showMenu)}
+        className="settings-button"
+        aria-label="settings-button"
+      >
         <FontAwesomeIcon icon={faCog} size="lg" />
       </button>
       {showMenu && (
         <div className="dropdown-menu">
-          <button className="dropdown-item" onClick={() => setIsEditingUsername(true)}>
+          <button
+            className="dropdown-item"
+            aria-label="change-username"
+            onClick={() => setIsEditingUsername(true)}
+          >
             Change Username
           </button>
-          <button className="dropdown-item" onClick={() => setBecomeVerified(true)}>
+          <button
+            className="dropdown-item"
+            aria-label="verify"
+            onClick={() => setBecomeVerified(true)}
+          >
             Become Verified
           </button>
         </div>
@@ -98,10 +110,18 @@ export default function SettingsButton({ user, setUser }) {
               className="popup-input"
             />
             <div className="popup-buttons">
-              <button onClick={handleSaveUsername} className="save-button">
+              <button
+                onClick={handleSaveUsername}
+                className="save-button"
+                aria-label="save-username"
+              >
                 <FontAwesomeIcon icon={faSave} /> Save
               </button>
-              <button onClick={() => setIsEditingUsername(false)} className="cancel-button">
+              <button
+                onClick={() => setIsEditingUsername(false)}
+                className="cancel-button"
+                aria-label="cancel-change-username"
+              >
                 <FontAwesomeIcon icon={faTimes} /> Cancel
               </button>
             </div>
@@ -111,12 +131,16 @@ export default function SettingsButton({ user, setUser }) {
       {becomeVerified && (
         <div className="popup-overlay">
           <div className="popup">
-            <h3 style={{ color: 'black' }}>Sure you want to be Verified?</h3>
+            <h3 style={{ color: 'black' }}>Are you sure you want to become verified?</h3>
             <div className="popup-buttons">
-              <button onClick={handleVerify} className="save-button">
-                <FontAwesomeIcon icon={faSave} /> Become verified
+              <button onClick={handleVerify} className="save-button" aria-label="confirm-verify">
+                <FontAwesomeIcon icon={faSave} /> Become Verified
               </button>
-              <button onClick={() => setBecomeVerified(false)} className="cancel-button">
+              <button
+                onClick={() => setBecomeVerified(false)}
+                className="cancel-button"
+                aria-label={'cancel-verify'}
+              >
                 <FontAwesomeIcon icon={faTimes} /> Cancel
               </button>
             </div>
