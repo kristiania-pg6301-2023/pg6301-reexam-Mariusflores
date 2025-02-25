@@ -83,8 +83,6 @@ describe('NavBar Component', () => {
   test('calls onLogout when Logout button is clicked', async () => {
     const mockUser = { id: '123', username: 'testuser' };
     const mockLogout = vi.fn();
-    const mockNavigate = vi.fn();
-    useNavigate.mockReturnValue(mockNavigate);
 
     render(
       <MemoryRouter>
@@ -93,7 +91,7 @@ describe('NavBar Component', () => {
     );
 
     // Click the Logout button
-    fireEvent.click(screen.getByText('Logout'));
+    fireEvent.click(screen.getByLabelText('logout'));
 
     // Check if onLogout function was called
     expect(mockLogout).toHaveBeenCalledTimes(1);

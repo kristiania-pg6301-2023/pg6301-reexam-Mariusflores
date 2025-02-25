@@ -45,10 +45,14 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
 
       {activeMenu && (
         <div className="dropdown-menu">
-          <button className="dropdown-item" onClick={handleEdit}>
+          <button className="dropdown-item" aria-label="edit-post-button" onClick={handleEdit}>
             <FontAwesomeIcon icon={faEdit} /> Edit
           </button>
-          <button className="dropdown-item delete" onClick={() => onDelete(post._id)}>
+          <button
+            className="dropdown-item delete"
+            aria-label="delete-post-button"
+            onClick={() => onDelete(post._id)}
+          >
             <FontAwesomeIcon icon={faTrash} /> Delete
           </button>
         </div>
@@ -60,11 +64,12 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
         <div className="edit-container">
           <textarea
             className="edit-textarea"
+            aria-label="edit textarea"
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
           />
           <div className="edit-buttons">
-            <button className="save-button" onClick={handleSave}>
+            <button className="save-button" aria-label="save edit button" onClick={handleSave}>
               <FontAwesomeIcon icon={faSave} /> Save
             </button>
             <button className="cancel-button" onClick={() => setIsEditing(false)}>

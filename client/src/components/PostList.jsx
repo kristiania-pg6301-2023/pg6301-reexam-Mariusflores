@@ -33,6 +33,10 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
 
   // Edit post and update state
   async function handleEdit(_id, newContent) {
+    if (newContent.trim() === '') {
+      toast.error('Content required.');
+      return;
+    }
     try {
       const response = await fetch(`${api_url}/post/edit/${_id}`, {
         credentials: 'include',
