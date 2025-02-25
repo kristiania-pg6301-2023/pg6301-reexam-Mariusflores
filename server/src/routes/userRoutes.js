@@ -27,6 +27,10 @@ router.post('/change-username', async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized. Please log in' });
     }
 
+    if (!newUsername) {
+      res.status(400).json({ message: 'Username cannot be empty.' });
+    }
+
     const checkUser = await getUserByUsername(db, newUsername);
     if (checkUser) {
       return res.status(409).json({ message: 'Username already taken' });

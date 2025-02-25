@@ -36,6 +36,15 @@ describe('User Routes', () => {
       expect(response.body.message).toBe('Unauthorized. Please log in');
     });
 
+    it('should return 400 if username is empty', async () => {
+      sessionUtils.getUserFromSession.mockReturnValue('user123');
+
+      const response = await request(app).post('/change-username').send({ newUsername: '' });
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe('Username cannot be empty.');
+    });
+
     it('should return 409 if username is already taken', async () => {
       sessionUtils.getUserFromSession.mockReturnValue('user123');
       userApi.getUserByUsername.mockResolvedValue({ id: 'existing_user' });
