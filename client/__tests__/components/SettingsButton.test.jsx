@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import SettingsButton from '../components/SettingsButton';
+import SettingsButton from '../../src/components/SettingsButton';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 import { toast } from 'react-toastify'; // Use vi from Vitest

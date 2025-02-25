@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "vitest run --coverage",
     "dev": "nodemon server",
     "build": "npm install",
-    "start": "node server.js"
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",

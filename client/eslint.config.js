@@ -8,7 +8,7 @@ export default [
   {
     ignores: [
       '**/server/__tests__/**', // Ignore __tests__ folder in the server directory
-      '**/client/src/__tests__/**',
+      '**/client/__tests__/**',
       '**/dist/**', // Ignore dist folder
     ],
     files: ['**/*.{js,jsx}'],

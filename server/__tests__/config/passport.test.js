@@ -1,18 +1,18 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import passport from '../config/passport.js';
-import { db } from '../config/db.js';
-import { getUserById, getUserByUsername } from '../apis/userApi.js';
-import { verifyPassword } from '../utils/authHelpers.js';
+import passport from '../../src/config/passport.js';
+import { db } from '../../src/config/db.js';
+import { getUserById, getUserByUsername } from '../../src/apis/userApi.js';
+import { verifyPassword } from '../../src/utils/authHelpers.js';
 import { Strategy as LocalStrategy } from 'passport-local';
 
 // Mock dependencies
-vi.mock('../apis/userApi.js', () => ({
+vi.mock('../../src/apis/userApi.js', () => ({
   getUserByUsername: vi.fn(),
   findOrCreateUser: vi.fn(),
   getUserById: vi.fn(),
 }));
 
-vi.mock('../utils/authHelpers.js', () => ({
+vi.mock('../../src/utils/authHelpers.js', () => ({
   verifyPassword: vi.fn(),
 }));
 

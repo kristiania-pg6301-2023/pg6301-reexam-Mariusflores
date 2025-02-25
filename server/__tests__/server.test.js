@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app, server } from '../server.js'; // Make sure your 'server.js' exports 'app' and 'server'
+import { app, server } from '../src/server.js'; // Make sure your 'server.js' exports 'app' and 'server'
 
 describe('Server Tests', () => {
   afterAll(() => {

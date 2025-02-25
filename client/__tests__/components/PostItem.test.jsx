@@ -1,4 +1,4 @@
-import PostItem from '../components/PostItem.jsx';
+import PostItem from '../../src/components/PostItem.jsx';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { toast } from 'react-toastify';
 

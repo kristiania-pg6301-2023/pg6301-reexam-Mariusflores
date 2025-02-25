@@ -8,22 +8,40 @@ import PropTypes from 'prop-types';
 export function NavBar({ user, onLogout }) {
   const navigate = useNavigate();
 
+  const isUserValid = user && typeof user === 'object' && user.id;
+
+  const handleKeyDown = (event, path) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault(); // Prevent default space scrolling
+      navigate(path);
+    }
+  };
+
   return (
     <header id="navbar" role={'navigation'}>
-      <div className="link-container" onClick={() => navigate('/home')} role="button" tabIndex={0}>
+      <div
+        className="link-container"
+        aria-label="navigate-home"
+        onClick={() => navigate('/home')}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => handleKeyDown(e, '/home')}
+      >
         <span className="icon">
           <FontAwesomeIcon icon={faHouse} size="0.5" />
         </span>
         <span className="link">Home</span>
       </div>
 
-      {user ? (
+      {isUserValid ? (
         <>
           <div
             className="link-container"
             onClick={() => navigate('/publish')}
             role="button"
+            aria-label="navigate-publish"
             tabIndex={0}
+            onKeyDown={(e) => handleKeyDown(e, '/publish')}
           >
             <span className="icon">
               <FontAwesomeIcon icon={faPen} size="0.5" />
@@ -34,7 +52,9 @@ export function NavBar({ user, onLogout }) {
             className="link-container"
             onClick={() => navigate('/profile')}
             role="button"
+            aria-label="navigate-profile"
             tabIndex={0}
+            onKeyDown={(e) => handleKeyDown(e, '/profile')}
           >
             <span className="icon">
               <FontAwesomeIcon icon={faUser} size="0.5" />
@@ -42,7 +62,9 @@ export function NavBar({ user, onLogout }) {
             <span className="link">Profile</span>
           </div>
           <div className="link">
-            <button onClick={onLogout}>Logout</button>
+            <button aria-label="logout" onClick={() => onLogout?.()}>
+              Logout
+            </button>
           </div>
         </>
       ) : (
@@ -50,7 +72,9 @@ export function NavBar({ user, onLogout }) {
           className="link-container"
           onClick={() => navigate('/login')}
           role="button"
+          aria-label="navigate-login"
           tabIndex={0}
+          onKeyDown={(e) => handleKeyDown(e, '/login')}
         >
           <span className="icon">
             <FontAwesomeIcon icon={faRightToBracket} size="0.5" />

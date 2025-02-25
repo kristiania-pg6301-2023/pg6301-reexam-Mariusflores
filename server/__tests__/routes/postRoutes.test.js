@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import request from 'supertest';
 import express from 'express';
-import postRouter from '../routes/postRoutes.js'; // Adjust path if needed
-import * as sessionUtils from '../utils/sessionUtils.js';
-import * as postsApi from '../apis/postsApi.js';
-import * as userApi from '../apis/userApi.js';
+import postRouter from '../../src/routes/postRoutes.js'; // Adjust path if needed
+import * as sessionUtils from '../../src/utils/sessionUtils.js';
+import * as postsApi from '../../src/apis/postsApi.js';
+import * as userApi from '../../src/apis/userApi.js';
 
 // Mock Express app
 const app = express();

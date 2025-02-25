@@ -4,8 +4,8 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import session from 'express-session';
 import passport from 'passport';
-import authRouter from '../routes/authRoutes.js'; // Adjust path if needed
-import * as userApi from '../apis/userApi.js';
+import authRouter from '../../src/routes/authRoutes.js'; // Adjust path if needed
+import * as userApi from '../../src/apis/userApi.js';
 
 // Mock Express app with session & passport
 const app = express();

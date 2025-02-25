@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import ReactionsPopup from '../components/ReactionsPopup'; // Adjust the import path if necessary
+import ReactionsPopup from '../../src/components/ReactionsPopup'; // Adjust the import path if necessary
 
 // Mock the fetch API
 global.fetch = vi.fn();

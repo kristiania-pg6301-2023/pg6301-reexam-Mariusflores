@@ -1,4 +1,4 @@
-import { connectDB, db } from '../config/db.js';
+import { connectDB, db } from '../../src/config/db.js';
 
 describe('MongoDB connection', () => {
   beforeAll(async () => {
