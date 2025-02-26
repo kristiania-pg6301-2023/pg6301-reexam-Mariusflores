@@ -11,9 +11,9 @@ import { ToastContainer } from 'react-toastify';
 import { api_url } from './utils/getApiUrl.js';
 
 // Component to handle navigation redirects properly
-const RedirectToLogin = () => {
-  const navigate = useNavigate();
+export const RedirectToLogin = ({ navigate }) => {
   useEffect(() => {
+    console.log('redirecting to /login');
     navigate('/login', { replace: true });
   }, [navigate]);
   return null; // Don't render anything, just navigate
@@ -53,9 +53,18 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/profile"
-          element={user ? <ProfilePage user={user} setUser={setUser} /> : <RedirectToLogin />}
+          element={
+            user ? (
+              <ProfilePage user={user} setUser={setUser} />
+            ) : (
+              <RedirectToLogin navigate={navigate} />
+            )
+          }
         />
-        <Route path="/publish" element={user ? <PublishPage /> : <RedirectToLogin />} />
+        <Route
+          path="/publish"
+          element={user ? <PublishPage /> : <RedirectToLogin navigate={navigate} />}
+        />
 
         {/* Redirects to login if unknown route */}
         <Route path="*" element={<HomePage user={user} />} />

@@ -8,9 +8,14 @@ export function PublishPage() {
   const navigate = useNavigate();
 
   async function handlePublish(e) {
-    try {
-      e.preventDefault();
+    e.preventDefault();
 
+    if (!content) {
+      toast.error('Content required');
+      return;
+    }
+
+    try {
       const response = await fetch(`${api_url}/post/publish`, {
         method: 'POST',
         headers: {
@@ -35,7 +40,7 @@ export function PublishPage() {
 
   return (
     <>
-      <form onSubmit={handlePublish}>
+      <form aria-label="publish post form" onSubmit={handlePublish}>
         <div>
           <label>Whats on your mind?</label>
           <textarea

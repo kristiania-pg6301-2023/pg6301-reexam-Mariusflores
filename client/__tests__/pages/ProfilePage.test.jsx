@@ -2,6 +2,7 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { ProfilePage } from '../../src/pages/ProfilePage.jsx';
+import { act } from 'react';
 
 afterEach(cleanup);
 
@@ -68,11 +69,13 @@ describe('Profile Page', () => {
   });
 
   it('should render page if user logged in and show verified icon if verified', async () => {
-    render(
-      <MemoryRouter>
-        <ProfilePage user={mockUser} setUser={mockSetUser} />
-      </MemoryRouter>
-    );
+    await act(() => {
+      render(
+        <MemoryRouter>
+          <ProfilePage user={mockUser} setUser={mockSetUser} />
+        </MemoryRouter>
+      );
+    });
 
     expect(screen.getByLabelText('profile header')).toBeInTheDocument();
 
@@ -88,14 +91,16 @@ describe('Profile Page', () => {
     expect(postContainer).toBeInTheDocument();
   });
 
-  it('should not show verified icon if user not verified', () => {
+  it('should not show verified icon if user not verified', async () => {
     mockUser.verified = false;
 
-    render(
-      <MemoryRouter>
-        <ProfilePage user={mockUser} setUser={mockSetUser} />
-      </MemoryRouter>
-    );
+    await act(() => {
+      render(
+        <MemoryRouter>
+          <ProfilePage user={mockUser} setUser={mockSetUser} />
+        </MemoryRouter>
+      );
+    });
 
     expect(screen.queryByLabelText('verified icon')).not.toBeInTheDocument();
   });
