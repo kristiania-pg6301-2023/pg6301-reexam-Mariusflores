@@ -20,9 +20,15 @@ export function LoginPage({ setUser }) {
   }
 
   async function handleLogin(e) {
-    try {
-      e.preventDefault();
+    e.preventDefault();
 
+    if (!username || !password) {
+      console.log('Blocking api call due to empty credentials');
+      toast.error('Please enter username and password');
+      return;
+    }
+
+    try {
       const response = await fetch(`${api_url}/auth/login`, {
         method: 'POST',
         headers: {
@@ -49,7 +55,7 @@ export function LoginPage({ setUser }) {
 
   return (
     <>
-      <form onSubmit={handleLogin}>
+      <form aria-label="login form" onSubmit={handleLogin}>
         <h2>Login</h2>
         <div
           style={{
@@ -89,7 +95,9 @@ export function LoginPage({ setUser }) {
             required
           />
         </div>
-        <button onClick={handleLogin}>Log in</button>
+        <button aria-label="login button" type="submit">
+          Log in
+        </button>
       </form>
 
       <div

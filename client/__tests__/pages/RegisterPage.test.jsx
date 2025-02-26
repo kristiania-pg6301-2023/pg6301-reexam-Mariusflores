@@ -27,6 +27,9 @@ vi.mock('react-router-dom', async () => {
 });
 
 describe('RegisterPage', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
   it('should render form', () => {
     render(
       <MemoryRouter>
@@ -73,7 +76,7 @@ describe('RegisterPage', () => {
     await userEvent.type(passwordInput, 'Test Password');
     await userEvent.type(emailInput, 'Test@email.com');
 
-    fireEvent.click(screen.getByRole('button', { name: 'Register' }));
+    fireEvent.submit(screen.getByLabelText('register form'));
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith('http://localhost:8000/auth/register', {
@@ -119,7 +122,7 @@ describe('RegisterPage', () => {
     await userEvent.type(passwordInput, 'Test Password');
     await userEvent.type(emailInput, 'Test@email.com');
 
-    fireEvent.click(screen.getByRole('button', { name: 'Register' }));
+    fireEvent.submit(screen.getByLabelText('register form'));
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledTimes(1);
@@ -138,16 +141,17 @@ describe('RegisterPage', () => {
     const passwordInput = screen.getByLabelText('password-input');
     const emailInput = screen.getByLabelText('email-input');
 
-    await userEvent.clear(usernameInput); // empty username
+    expect(usernameInput.value).toBe('');
     await userEvent.clear(passwordInput);
     await userEvent.clear(emailInput);
 
     await userEvent.type(passwordInput, 'Test Password');
     await userEvent.type(emailInput, 'Test@email.com');
 
-    fireEvent.click(screen.getByRole('button', { name: 'Register' }));
+    fireEvent.submit(screen.getByLabelText('register form'));
 
-    expect(fetch).not.toHaveBeenCalled;
+    expect(fetch).not.toHaveBeenCalled();
+    expect(toast.error).toHaveBeenCalledWith('Username and password must be filled out');
   });
 
   it('should not call API when password empty', async () => {
@@ -158,18 +162,16 @@ describe('RegisterPage', () => {
     );
 
     const usernameInput = screen.getByLabelText('username-input');
-    const passwordInput = screen.getByLabelText('password-input');
     const emailInput = screen.getByLabelText('email-input');
 
-    await userEvent.clear(usernameInput);
-    await userEvent.clear(passwordInput); // empty password
-    await userEvent.clear(emailInput);
+    expect(screen.getByLabelText('password-input').value).toBe('');
 
     await userEvent.type(usernameInput, 'Test Username');
     await userEvent.type(emailInput, 'Test@email.com');
 
-    fireEvent.click(screen.getByRole('button', { name: 'Register' }));
+    fireEvent.submit(screen.getByLabelText('register form'));
 
-    expect(fetch).not.toHaveBeenCalled;
+    expect(fetch).not.toHaveBeenCalled();
+    expect(toast.error).toHaveBeenCalledWith('Username and password must be filled out');
   });
 });

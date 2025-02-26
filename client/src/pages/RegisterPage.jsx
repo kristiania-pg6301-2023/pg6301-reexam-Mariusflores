@@ -11,9 +11,13 @@ export function RegisterPage() {
   const navigate = useNavigate();
 
   async function handleRegister(e) {
+    e.preventDefault();
+    if (!username || !password) {
+      console.log('Blocking api call');
+      toast.error('Username and password must be filled out');
+      return;
+    }
     try {
-      e.preventDefault();
-
       const response = await fetch(`${api_url}/auth/register`, {
         method: 'POST',
         headers: {
