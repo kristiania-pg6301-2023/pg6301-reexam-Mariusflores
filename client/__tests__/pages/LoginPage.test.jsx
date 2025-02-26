@@ -32,6 +32,8 @@ describe('LoginPage', () => {
   beforeEach(() => {
     mockSetUser = vi.fn();
     global.fetch = vi.fn(); // Resets fetch
+    delete window.location;
+    window.location = { href: vi.fn() };
   });
 
   afterEach(() => {
@@ -54,7 +56,7 @@ describe('LoginPage', () => {
     expect(screen.getByLabelText('login button')).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: /Log in with Google/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Log in with Github/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Log in with GitHub/i })).toBeInTheDocument();
 
     expect(screen.getByText(/Register/i)).toBeInTheDocument();
   });
@@ -142,5 +144,29 @@ describe('LoginPage', () => {
 
     expect(fetch).not.toHaveBeenCalled();
     expect(toast.error).toHaveBeenCalledWith('Please enter username and password');
+  });
+
+  it('should redirect to Google OAuth when Google login button is clicked', () => {
+    render(
+      <MemoryRouter>
+        <LoginPage setUser={mockSetUser} />
+      </MemoryRouter>
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /Log in with Google/i }));
+
+    expect(window.location.href).toBe('http://localhost:8000/auth/google');
+  });
+
+  it('should redirect to GitHub OAuth when GitHub login button is clicked', () => {
+    render(
+      <MemoryRouter>
+        <LoginPage setUser={mockSetUser} />
+      </MemoryRouter>
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /Log in with GitHub/i }));
+
+    expect(window.location.href).toBe('http://localhost:8000/auth/github');
   });
 });
