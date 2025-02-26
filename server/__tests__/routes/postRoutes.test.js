@@ -95,6 +95,13 @@ describe('Post routes', () => {
       sessionUtils.getUserFromSession.mockReturnValue('user1');
       userApi.getUserById.mockResolvedValue({ verified: true });
 
+      postsApi.createPost.mockResolvedValue({
+        _id: 'mockPostId',
+        title: 'valid title',
+        content: 'valid content',
+        userid: 'user1',
+      });
+
       let title = 'valid title';
       let content = 'valid content';
       const response = await request(app).post('/publish').send({ title: title, content: content });
