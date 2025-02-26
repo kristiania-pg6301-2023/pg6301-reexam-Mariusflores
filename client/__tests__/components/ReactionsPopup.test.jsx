@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, it, vi } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import ReactionsPopup from '../../src/components/ReactionsPopup'; // Adjust the import path if necessary
 
 // Mock the fetch API
@@ -54,14 +54,5 @@ describe('ReactionsPopup Component', () => {
     await waitFor(() => {
       expect(screen.getByText('No reactions yet.')).toBeInTheDocument();
     });
-  });
-
-  it('calls onClose when the close button is clicked', () => {
-    fetch.mockResolvedValueOnce(new Response(JSON.stringify({ reactions: [] })));
-
-    render(<ReactionsPopup postId={mockPostId} onClose={mockOnClose} />);
-    fireEvent.click(screen.getByRole('button'));
-
-    expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 });

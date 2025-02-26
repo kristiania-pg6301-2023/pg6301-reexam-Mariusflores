@@ -203,7 +203,7 @@ describe('PostItem Component', () => {
     );
 
     // Click the button to show reactions
-    const reactionsPopupButton = screen.getByText('Show Reactions');
+    const reactionsPopupButton = screen.getByRole('button', { name: /Show Reactions/i });
     fireEvent.click(reactionsPopupButton);
 
     // Wait for the reactions popup to appear
@@ -212,7 +212,7 @@ describe('PostItem Component', () => {
     });
 
     // Close the popup
-    const closeButton = screen.getByLabelText('close');
+    const closeButton = screen.getByRole('button', { name: /Hide Reactions/i });
     fireEvent.click(closeButton);
 
     // Wait for the popup to disappear

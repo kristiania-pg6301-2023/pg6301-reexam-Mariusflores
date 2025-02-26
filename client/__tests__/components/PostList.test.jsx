@@ -308,7 +308,7 @@ describe('PostList Component', () => {
     fireEvent.click(laughButtonFirstPost);
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('http://localhost:8000/post/react/2', {
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8000/post/react/1', {
         credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
