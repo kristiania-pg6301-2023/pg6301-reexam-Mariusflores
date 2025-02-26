@@ -48,3 +48,11 @@ export async function getAllCommentsByPostId(db, postId) {
     ])
     .toArray();
 }
+
+export async function getCommentById(db, commentId) {
+  return await db.collection('comments').findOne({ _id: new ObjectId(commentId) });
+}
+
+export async function deleteCommentById(db, commentId) {
+  return await db.collection('comments').deleteOne({ _id: new ObjectId(commentId) });
+}

@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../styling/CommentSection.css';
 import { api_url } from '../utils/getApiUrl.js';
 import { CommentItem } from './CommentItem.jsx';
@@ -42,22 +40,36 @@ export default function CommentsSection({ postId, userLoggedIn }) {
         credentials: 'include',
       });
 
-      if (!response.ok) throw new Error('Failed to add comment');
-
-      const responseData = await response.json();
-      setComments((prevComments) => [...prevComments, responseData.comment]);
-      setNewComment('');
+      const data = await response.json();
+      if (response.ok) {
+        setComments((prevComments) => [...prevComments, data.comment]);
+        toast.success('Successfully added comment');
+        setNewComment('');
+      } else {
+        toast.error(data.message || 'Failed to comment');
+      }
     } catch (error) {
       console.error('Error adding comment:', error);
+      toast.error(data.message);
     }
   }
 
   async function handleDeleteComment(commentId) {
     try {
-      await fetch(`${api_url}/comment/${commentId}`, { method: 'DELETE' });
+      const response = await fetch(`${api_url}/comment/delete/${commentId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
       setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
+      const data = await response.json();
+      if (response.ok) {
+        toast.success('Deleted post');
+      } else {
+        toast.error(data.message || 'Failed to delete post');
+      }
     } catch (error) {
       console.error('Error deleting comment:', error);
+      toast.error(data.message);
     }
   }
 

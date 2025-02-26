@@ -1,6 +1,4 @@
 import express from 'express';
-import { getUserFromSession } from '../utils/sessionUtils.js';
-import sanitizeHtml from 'sanitize-html';
 import { ObjectId } from 'mongodb';
 import {
   sanitizeContent,
@@ -10,7 +8,12 @@ import {
 } from './postRoutes.js';
 import { getPostById } from '../apis/postsApi.js';
 import { db } from '../config/db.js';
-import { createComment, getAllCommentsByPostId } from '../apis/commentApi.js';
+import {
+  createComment,
+  deleteCommentById,
+  getAllCommentsByPostId,
+  getCommentById,
+} from '../apis/commentApi.js';
 
 const router = express.Router();
 
@@ -71,6 +74,38 @@ router.get('/:postId', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });
     console.log('Error fetching comments:', error);
+  }
+});
+
+router.delete('/delete/:commentId', async (req, res) => {
+  try {
+    const userId = validateUserSession(req, res);
+
+    if (!userId) return;
+
+    const commentId = req.params.commentId;
+    if (!ObjectId.isValid(commentId)) {
+      res.status(400).json({ message: 'Invalid comment ID' });
+      return;
+    }
+
+    const comment = await getCommentById(db, commentId);
+
+    if (!comment) {
+      res.status(404).json({ message: 'Comment not found' });
+      return;
+    }
+
+    if (comment.userId !== userId) {
+      res.status(403).json({ message: 'You cannot delete someone others comments' });
+      return;
+    }
+
+    await deleteCommentById(db, commentId);
+    res.status(200).json({ message: 'Deleted comment' });
+  } catch (error) {
+    console.log('Error deleting comment:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
