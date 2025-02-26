@@ -100,7 +100,8 @@ en bruker i home seksjonen av siden vil bli vist alle innlegg og hvor mange reak
 - Brukere kan logge seg inn. brukere skal kunne registrere med brukernavn og passord (anbefales ikke) eller logge inn
   med google eller Entra ID
   - [x] Logge seg inn med bruker navn og passord
-  - [x] Logge seg inn med google
+  - [x] Logge seg inn med Google
+  - [ ] Logge seg inn med GitHub
 - [x] En bruker som er logget inn kan se på sin profilside
   - [x] Bruker kan se sine egne innlegg på profilsiden
 - [x] Brukere skal forbli pålogget når de refresher websiden (cookies)
