@@ -69,6 +69,22 @@ function App() {
         {/* Redirects to login if unknown route */}
         <Route path="*" element={<HomePage user={user} />} />
       </Routes>
+      <footer className="footer">
+        <p className="icon-attribute">
+          Icons created by{' '}
+          <a
+            href="https://www.flaticon.com/authors/freepik"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Freepik
+          </a>{' '}
+          -{' '}
+          <a href="https://www.flaticon.com/" target="_blank" rel="noopener noreferrer">
+            Flaticon
+          </a>
+        </p>
+      </footer>
     </>
   );
 }

@@ -19,6 +19,9 @@ export function NavBar({ user, onLogout }) {
 
   return (
     <header id="navbar" role={'navigation'}>
+      <div className="logo-container">
+        <img src="../../assets/navbarlogo.png" alt="logo" className="logo" />
+      </div>
       <div
         className="link-container"
         aria-label="navigate-home"
