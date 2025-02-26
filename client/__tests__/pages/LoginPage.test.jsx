@@ -137,14 +137,6 @@ describe('LoginPage', () => {
         <LoginPage setUser={mockSetUser} />
       </MemoryRouter>
     );
-    /*
-    const usernameInput = screen.getByPlaceholderText('Username')
-    const passwordInput = screen.getByPlaceholderText('Password')
-
-    await userEvent.clear(usernameInput);
-    await userEvent.clear(passwordInput);
-
-     */
 
     fireEvent.submit(screen.getByLabelText('login form'));
 
