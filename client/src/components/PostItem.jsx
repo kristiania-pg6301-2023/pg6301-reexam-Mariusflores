@@ -1,9 +1,19 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { faEllipsisV, faTrash, faEdit, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEllipsisV,
+  faTrash,
+  faEdit,
+  faSave,
+  faTimes,
+  faCommentDots,
+  faThumbsUp,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactionsPopup from './ReactionsPopup.jsx';
+import '../styling/PostItem.css';
+import CommentsSection from './CommentSection.jsx';
 
 // Define available reactions
 const REACTIONS = ['👍', '❤️', '😂', '🔥', '😢'];
@@ -12,7 +22,8 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
   const [activeMenu, setActiveMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
-  const [showReactionsPopup, setShowReactionsPopup] = useState(false);
+  const [showReactionsPopup, setShowReactionsPopup] = useState(false); // 🔹 Toggle reactions
+  const [showComments, setShowComments] = useState(false); // 🔹 Toggle comments
 
   function toggleMenu() {
     setActiveMenu(!activeMenu);
@@ -28,7 +39,6 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
       toast.error('Content required.');
       return;
     }
-
     await onEdit(post._id, editedContent);
     setIsEditing(false);
   }
@@ -58,7 +68,8 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
         </div>
       )}
 
-      <h3 className="post-username">{post.username || 'Unknown User'}</h3>
+      <h3 className="post-username text">{post.username || 'Unknown User'}</h3>
+      <h2 className="post-title text">{post.title}</h2>
 
       {isEditing ? (
         <div className="edit-container">
@@ -78,10 +89,10 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
           </div>
         </div>
       ) : (
-        <p className="post-content">{post.content}</p>
+        <p className="post-content text">{post.content}</p>
       )}
 
-      <p className="post-timestamp">{new Date(post.timestamp).toLocaleString()}</p>
+      <p className="post-timestamp text">{new Date(post.timestamp).toLocaleString()}</p>
 
       {/* Reactions Section */}
       <div className="reaction-bar">
@@ -95,14 +106,42 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
           </button>
         ))}
       </div>
-      {showReactionsPopup && (
-        <ReactionsPopup postId={post._id} onClose={() => setShowReactionsPopup(false)} />
-      )}
-      {/*Anonymous(non-logged-in) users cannot see reactions on posts */}
+
       {userLoggedIn && (
-        <button className="reaction-popup-button" onClick={() => setShowReactionsPopup(true)}>
-          Show Reactions
-        </button>
+        <div className="post-actions">
+          {/* 🔹 Toggle Button for Reactions */}
+          <button
+            className="action-button"
+            onClick={() => setShowReactionsPopup(!showReactionsPopup)}
+          >
+            <FontAwesomeIcon icon={faThumbsUp} />
+            {showReactionsPopup ? 'Hide Reactions' : 'Show Reactions'}
+          </button>
+
+          {/* 🔹 Toggle Button for Comments */}
+          <button
+            className="action-button"
+            onClick={() => setShowComments(!showComments)}
+            aria-label="Toggle comments"
+          >
+            <FontAwesomeIcon icon={faCommentDots} />{' '}
+            {showComments ? 'Hide Comments' : 'Show Comments'}
+          </button>
+        </div>
+      )}
+
+      {/* 🔹 Conditional Rendering for Reactions */}
+      {showReactionsPopup && (
+        <div className="reactions-dropdown">
+          <ReactionsPopup postId={post._id} onClose={() => setShowReactionsPopup(false)} />
+        </div>
+      )}
+
+      {/* 🔹 Conditional Rendering for Comments */}
+      {showComments && (
+        <div className="comments-dropdown">
+          <CommentsSection postId={post._id} userLoggedIn={userLoggedIn} />
+        </div>
       )}
     </div>
   );
@@ -110,19 +149,20 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
 
 PostItem.propTypes = {
   post: PropTypes.shape({
-    _id: PropTypes.string.isRequired, // ID is required and should be a string
-    username: PropTypes.string.isRequired, // Username is required
-    content: PropTypes.string.isRequired, // Content is required
-    timestamp: PropTypes.string.isRequired, // Timestamp is required
+    _id: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    timestamp: PropTypes.string.isRequired,
     reactions: PropTypes.arrayOf(
       PropTypes.shape({
-        userId: PropTypes.string.isRequired, // User ID of the person who reacted
-        reaction: PropTypes.string.isRequired, // Reaction emoji
+        userId: PropTypes.string.isRequired,
+        reaction: PropTypes.string.isRequired,
       })
-    ).isRequired, // Reactions array is required
+    ).isRequired,
   }).isRequired,
-  onDelete: PropTypes.func.isRequired, // onDelete is a required function
-  onEdit: PropTypes.func.isRequired, // onEdit is a required function
-  onReact: PropTypes.func.isRequired, // onReact is a required function
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onReact: PropTypes.func.isRequired,
   userLoggedIn: PropTypes.bool.isRequired,
 };

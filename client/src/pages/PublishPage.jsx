@@ -42,19 +42,22 @@ export function PublishPage() {
   return (
     <>
       <form aria-label="publish post form" onSubmit={handlePublish}>
-        <div>
-          <label>Whats on your mind?</label>
+        <div className={'publish-inputs'}>
+          <h3>Whats on your mind?</h3>
           <input
             type="text"
             aria-label="post title"
             value={title}
+            placeholder={'Title'}
             onChange={(e) => setTitle(e.target.value)}
+            style={{ width: '70%', height: '25px', marginBottom: '10px' }}
             required
           />
           <textarea
             maxLength={1000}
             value={content}
             aria-label="post content"
+            placeholder={'Post'}
             onChange={(e) => setContent(e.target.value)}
             rows="5" // Controls height
             cols="50" // Controls width

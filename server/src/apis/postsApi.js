@@ -36,6 +36,7 @@ export async function getAllPosts(db) {
           _id: 1, // Include post ID if needed
         },
       },
+      { $sort: { timestamp: -1 } },
     ])
     .toArray();
 }
@@ -71,6 +72,7 @@ export async function getAllPostsFromUser(db, userid) {
           _id: 1,
         },
       },
+      { $sort: { timestamp: -1 } },
     ])
     .toArray();
 }

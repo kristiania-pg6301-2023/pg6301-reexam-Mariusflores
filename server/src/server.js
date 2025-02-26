@@ -5,6 +5,7 @@ import path from 'path';
 import authRoutes from './routes/authRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import commentRoutes from './routes/commentRoutes.js';
 import { connectDB } from './config/db.js';
 import { corsMiddelware } from './middlewares/corsMiddelware.js';
 import { sessionMiddleware } from './middlewares/sessionMiddleware.js';
@@ -35,6 +36,7 @@ app.use(passport.session());
 app.use('/auth', authRoutes);
 app.use('/post', postRoutes);
 app.use('/user', userRoutes);
+app.use('/comment', commentRoutes);
 
 /**
  * Serve Frontend
@@ -43,7 +45,7 @@ app.use((req, res, next) => {
   // Only serve the frontend for GET requests that do not match API routes
   if (
     req.method === 'GET' &&
-    !req.path.startsWith('/api') &&
+    !req.path.startsWith('/comment') &&
     !req.path.startsWith('/auth') &&
     !req.path.startsWith('/post') &&
     !req.path.startsWith('/user')

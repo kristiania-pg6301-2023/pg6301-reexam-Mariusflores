@@ -1,6 +1,5 @@
 import PostItem from './PostItem';
 import { toast } from 'react-toastify';
-import '../styling/PostItem.css';
 import { api_url } from '../utils/getApiUrl.js';
 import PropTypes from 'prop-types';
 
@@ -121,18 +120,16 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
     <div aria-label="post-container" style={{ paddingTop: '70px' }}>
       {posts.length === 0 ? <p>No posts available.</p> : null}
 
-      {posts
-        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) // Sort by timestamp, newest first
-        .map((post) => (
-          <PostItem
-            key={post._id}
-            userLoggedIn={userLoggedIn}
-            post={post}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-            onReact={handleReaction}
-          />
-        ))}
+      {posts.map((post) => (
+        <PostItem
+          key={post._id}
+          userLoggedIn={userLoggedIn}
+          post={post}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+          onReact={handleReaction}
+        />
+      ))}
     </div>
   );
 }

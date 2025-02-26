@@ -21,12 +21,14 @@ const router = express.Router();
 
 /**
  * Helper functions
+ * exported for use in commentsRoutes.js
  */
-const sanitizeContent = (content) => {
+
+export const sanitizeContent = (content) => {
   return sanitizeHtml(content.trim(), { allowedTags: [], allowedAttributes: {} });
 };
 
-const validateUserSession = (req, res) => {
+export const validateUserSession = (req, res) => {
   const userId = getUserFromSession(req);
   if (!userId) {
     res.status(401).json({ message: 'Unauthorized. Please log in.' });
@@ -35,7 +37,7 @@ const validateUserSession = (req, res) => {
   return userId;
 };
 
-const validatePostId = (postId, res) => {
+export const validatePostId = (postId, res) => {
   if (!ObjectId.isValid(postId)) {
     res.status(400).json({ message: 'Invalid post ID' });
     return false;
@@ -43,7 +45,7 @@ const validatePostId = (postId, res) => {
   return true;
 };
 
-const validatePostExists = (post, res) => {
+export const validatePostExists = (post, res) => {
   if (!post) {
     res.status(404).json({ message: 'Post not found' });
     return false;
