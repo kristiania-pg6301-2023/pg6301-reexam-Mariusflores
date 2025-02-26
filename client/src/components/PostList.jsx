@@ -118,7 +118,7 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
   }
 
   return (
-    <div style={{ paddingTop: '70px' }}>
+    <div aria-label="post-container" style={{ paddingTop: '70px' }}>
       {posts.length === 0 ? <p>No posts available.</p> : null}
 
       {posts

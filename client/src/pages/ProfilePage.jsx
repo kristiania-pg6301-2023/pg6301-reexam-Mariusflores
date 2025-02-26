@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 import '../styling/ProfilePage.css';
 import '../styling/Icon.css';
+import { toast } from 'react-toastify';
 
 export function ProfilePage({ user, setUser }) {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ export function ProfilePage({ user, setUser }) {
         .catch((error) => {
           if (error.name !== 'AbortError') {
             console.error('Error fetching posts:', error);
+            toast.error('Error fetching posts' || error);
           }
         });
 
@@ -43,14 +45,24 @@ export function ProfilePage({ user, setUser }) {
 
   return (
     <>
-      <div className="profile-header">
+      <div aria-label="profile header" className="profile-header">
         <div className="username-container">
-          {user.verified && <FontAwesomeIcon className="verified-icon icon" icon={faCertificate} />}
+          {user.verified && (
+            <FontAwesomeIcon
+              aria-label="verified icon"
+              className="verified-icon icon"
+              icon={faCertificate}
+            />
+          )}
           <h2>{user.username}</h2>
         </div>
-        <SettingsButton user={user} setUser={setUser} />
+        <div data-testid="settings-button">
+          <SettingsButton user={user} setUser={setUser} />
+        </div>
       </div>
-      <PostList userLoggedIn={!!user} posts={posts} setPosts={setPosts} />
+      <div data-testid="post-list">
+        <PostList userLoggedIn={!!user} posts={posts} setPosts={setPosts} />
+      </div>
     </>
   );
 }

@@ -11,7 +11,7 @@ export default [
       '**/client/__tests__/**',
       '**/dist/**', // Ignore dist folder
     ],
-    files: ['**/*.{js,jsx}'],
+    files: ['**/*.test.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: {

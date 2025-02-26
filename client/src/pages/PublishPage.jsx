@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { api_url } from '../utils/getApiUrl.js';
+import { useNavigate } from 'react-router-dom';
 
 export function PublishPage() {
   const [content, setContent] = useState('');
+  const navigate = useNavigate();
 
   async function handlePublish(e) {
     try {
@@ -21,7 +23,7 @@ export function PublishPage() {
 
       if (response.ok) {
         toast.success('Successfully Posted👉');
-        window.location.href = `${api_url}/home`;
+        navigate(`/home`);
       } else {
         toast.error(data.message || 'Failed to post');
       }

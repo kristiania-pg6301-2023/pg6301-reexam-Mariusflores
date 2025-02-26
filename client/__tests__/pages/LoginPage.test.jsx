@@ -61,7 +61,7 @@ describe('LoginPage', () => {
     expect(screen.getByText(/Register/i)).toBeInTheDocument();
   });
 
-  it('should call API on login and update state', async () => {
+  it('should call API on login, update state and redirect to /profile', async () => {
     const mockNavigate = vi.fn();
     useNavigate.mockReturnValue(mockNavigate);
 
@@ -98,7 +98,7 @@ describe('LoginPage', () => {
       });
     });
     expect(mockSetUser).toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalledWith('/home');
+    expect(mockNavigate).toHaveBeenCalledWith('/profile');
   });
 
   it('should call a toast error when failing to log in', async () => {
