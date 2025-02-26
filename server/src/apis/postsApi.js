@@ -28,6 +28,7 @@ export async function getAllPosts(db) {
       {
         $project: {
           // Select only the fields you need
+          title: 1,
           content: 1,
           timestamp: 1,
           reactions: 1,
@@ -62,6 +63,7 @@ export async function getAllPostsFromUser(db, userid) {
       },
       {
         $project: {
+          title: 1,
           content: 1,
           timestamp: 1,
           reactions: 1,
@@ -113,9 +115,10 @@ export async function getALlReactionsFromPost(db, postId) {
  * Create a post
  **/
 
-export async function createPost(db, userid, content) {
+export async function createPost(db, userid, content, title) {
   const newPost = {
     userid: userid,
+    title: title,
     content: content,
     timestamp: new Date(),
     reactions: [],

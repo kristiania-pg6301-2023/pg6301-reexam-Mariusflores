@@ -5,13 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 export function PublishPage() {
   const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
   const navigate = useNavigate();
 
   async function handlePublish(e) {
     e.preventDefault();
 
-    if (!content) {
-      toast.error('Content required');
+    if (!content || !title) {
+      toast.error('Content and title required');
       return;
     }
 
@@ -21,7 +22,7 @@ export function PublishPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({ title, content }),
         credentials: 'include',
       });
       const data = await response.json();
@@ -43,9 +44,17 @@ export function PublishPage() {
       <form aria-label="publish post form" onSubmit={handlePublish}>
         <div>
           <label>Whats on your mind?</label>
+          <input
+            type="text"
+            aria-label="post title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
           <textarea
             maxLength={1000}
             value={content}
+            aria-label="post content"
             onChange={(e) => setContent(e.target.value)}
             rows="5" // Controls height
             cols="50" // Controls width

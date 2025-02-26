@@ -68,19 +68,24 @@ router.post('/publish', async (req, res) => {
       return res.status(401).json({ message: 'You have to be verified to post' });
     }
 
-    const { content } = req.body;
-    if (!content) {
-      return res.status(400).json({ message: 'Content required' });
+    const { title, content } = req.body;
+    if (!content || !title) {
+      return res.status(400).json({ message: 'Content and title required' });
     }
 
     // Sanitize content
     const sanitizedContent = sanitizeContent(content);
     if (sanitizedContent.length > 1000) {
-      return res.status(400).json({ message: 'Post exceeds maximum limit' });
+      return res.status(400).json({ message: 'Content exceeds maximum limit' });
+    }
+
+    const sanitizedTitle = sanitizeContent(title);
+    if (sanitizedTitle.length > 200) {
+      return res.status(400).json({ message: 'Title exceeds maximum limit' });
     }
 
     // Create post
-    const newPost = await createPost(db, userId, sanitizedContent);
+    const newPost = await createPost(db, userId, sanitizedContent, sanitizedTitle);
     res.status(201).json({ message: 'Post published', post: newPost });
   } catch (error) {
     console.error('Error publishing post:', error);

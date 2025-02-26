@@ -25,8 +25,10 @@ vi.mock('react-router-dom', async () => {
 });
 describe('Publish Page', () => {
   let postContent;
+  let postTitle;
   beforeEach(() => {
     postContent = 'This is some kind of content';
+    postTitle = 'This is a post';
   });
 
   afterEach(() => {
@@ -44,7 +46,8 @@ describe('Publish Page', () => {
 
     expect(screen.getByText('Whats on your mind?')).toBeInTheDocument();
 
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    expect(screen.getByLabelText('post title')).toBeInTheDocument();
+    expect(screen.getByLabelText('post content')).toBeInTheDocument();
 
     expect(screen.getByRole('button', /Post/i)).toBeInTheDocument();
   });
@@ -66,10 +69,14 @@ describe('Publish Page', () => {
       </MemoryRouter>
     );
 
-    const input = screen.getByRole('textbox');
+    const titleInput = screen.getByLabelText('post title');
+    const contentInput = screen.getByLabelText('post content');
 
-    await userEvent.clear(input);
-    await userEvent.type(input, postContent);
+    await userEvent.clear(contentInput);
+    await userEvent.type(contentInput, postContent);
+
+    await userEvent.clear(titleInput);
+    await userEvent.type(titleInput, postTitle);
 
     fireEvent.submit(screen.getByLabelText('publish post form'));
 
@@ -77,7 +84,7 @@ describe('Publish Page', () => {
       expect(fetch).toHaveBeenCalledWith('http://localhost:8000/post/publish', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: input.value }),
+        body: JSON.stringify({ title: postTitle, content: contentInput.value }),
         credentials: 'include',
       });
     });
@@ -99,10 +106,13 @@ describe('Publish Page', () => {
       </MemoryRouter>
     );
 
-    const input = screen.getByRole('textbox');
+    const titleInput = screen.getByLabelText('post title');
+    const contentInput = screen.getByLabelText('post content');
 
-    await userEvent.clear(input);
-    await userEvent.type(input, postContent);
+    await userEvent.clear(contentInput);
+    await userEvent.type(contentInput, postContent);
+    await userEvent.clear(titleInput);
+    await userEvent.type(titleInput, postTitle);
 
     fireEvent.submit(screen.getByLabelText('publish post form'));
 
@@ -122,6 +132,6 @@ describe('Publish Page', () => {
     fireEvent.submit(screen.getByLabelText('publish post form'));
 
     expect(fetch).not.toHaveBeenCalled();
-    expect(toast.error).toHaveBeenCalledWith('Content required');
+    expect(toast.error).toHaveBeenCalledWith('Content and title required');
   });
 });
