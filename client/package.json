@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "vitest --config vite.config.js",
-    "test:coverage": "nyc --reporter=lcov --reporter=text vitest --config vite.config.js",
+    "test": "vitest --config vite.config.js --coverage",
+    "test:coverage": "nyc --all --reporter=lcov --reporter=text vitest --config vite.config.js --run --testTimeout=60000",
     "dev": "vite",
     "build": "npm install && vite build",
     "lint": "eslint .",

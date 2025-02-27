@@ -6,5 +6,6 @@
   "functions": 80,
   "branches": 80,
   "reporter": ["text", "lcov"],
-  "exclude": ["node_modules", "test"]
+  "include": ["src/**/*.js", "src/**/*.ts"],
+  "exclude": ["node_modules", "test", ".nyc_output", "coverage"]
 }

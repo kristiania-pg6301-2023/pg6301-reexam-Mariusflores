@@ -27,7 +27,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run tests
+      - name: Run tests with coverage
         env:
           MONGODB_URL: ${{secrets.MONGODB_URL}}
           SESSION_SECRET: ${{secrets.SESSION_SECRET}}
@@ -37,4 +37,20 @@ jobs:
           GITHUB_CLIENT_ID: ${{secrets.GITHUBAUTH_CLIENT_ID}}
           GITHUB_CLIENT_SECRET: ${{secrets.GITHUBAUTH_CLIENT_SECRET}}
           GITHUB_CALLBACK_URL: ${{secrets.GITHUBAUTH_CALLBACK_URL}}
-        run: npm run test
+        run: npm run test:coverage
+
+      - name: Upload Client Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./client/coverage/lcov.info
+          flags: client
+          fail_ci_if_error: true
+
+      - name: Upload Server Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+            token: ${{ secrets.CODECOV_TOKEN }}
+            file: ./server/coverage/lcov.info
+            flags: server
+            fail_ci_if_error: true

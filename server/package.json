@@ -6,7 +6,7 @@
   "main": "src/server.js",
   "scripts": {
     "test": "vitest --config vite.config.js",
-    "test:coverage": "nyc --reporter=lcov --reporter=text vitest --config vite.config.js",
+    "test:coverage": "nyc --all --reporter=lcov --reporter=text vitest --config vite.config.js --run --testTimeout=60000",
     "dev": "nodemon server",
     "build": "npm install",
     "start": "node src/server.js"
@@ -39,6 +39,6 @@
     "nyc": "^17.1.0",
     "supertest": "^7.0.0",
     "vite": "^6.1.1",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.6"
   }
 }

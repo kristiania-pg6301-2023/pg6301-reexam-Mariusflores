@@ -7,7 +7,7 @@ import {
   getUserByUsername,
   setVerified,
   updateUsername,
-} from '../../src/apis/userApi.js';
+} from '@/apis/userApi.js';
 
 let mongod;
 let connection;

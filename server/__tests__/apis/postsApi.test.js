@@ -10,7 +10,7 @@ import {
   getPostById,
   removeReactionFromPost,
   updateReactionInPost,
-} from '../../src/apis/postsApi.js';
+} from '@/apis/postsApi.js';
 
 let mongod;
 let connection;
