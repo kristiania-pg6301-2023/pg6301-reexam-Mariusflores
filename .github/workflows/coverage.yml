@@ -1,0 +1,26 @@
+name: Upload Coverage to Codecov
+on:
+  workflow_run:
+    workflows: ["Run Tests"]
+    types:
+      - completed
+
+jobs:
+  coverage:
+    name: Upload Coverage
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Upload Client Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./client/coverage/lcov.info
+          flags: client
+          fail_ci_if_error: true
+
+      - name: Upload Server Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./server/coverage/lcov.info
+          flags: server
+          fail_ci_if_error: true
