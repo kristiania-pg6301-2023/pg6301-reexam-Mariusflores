@@ -39,16 +39,3 @@ jobs:
           GITHUB_CALLBACK_URL: ${{secrets.GITHUBAUTH_CALLBACK_URL}}
         run: npm run test:coverage
 
-      - name: Upload Client Coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./client/coverage/lcov.info
-          flags: client
-          fail_ci_if_error: true
-
-      - name: Upload Server Coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-            file: ./server/coverage/lcov.info
-            flags: server
-            fail_ci_if_error: true
