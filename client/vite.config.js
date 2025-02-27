@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-console.log('loaded CLIENT vite.config.js');
+console.log('loaded CLIENT vitest.config.js');
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],

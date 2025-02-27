@@ -18,16 +18,17 @@ let db;
 
 beforeAll(async () => {
   // in-memory MongoDB instance
+  await new Promise((resolve) => setTimeout(resolve, 55000));
   mongod = await MongoMemoryServer.create();
   const uri = mongod.getUri();
   connection = new MongoClient(uri);
   await connection.connect();
   db = connection.db('testdb');
-});
+}, 60000);
 
 afterAll(async () => {
-  await connection.close();
-  await mongod.stop();
+  if (connection) await connection.close();
+  if (mongod) await mongod.stop();
 });
 
 beforeEach(async () => {

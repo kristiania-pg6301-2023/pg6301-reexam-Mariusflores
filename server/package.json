@@ -5,8 +5,8 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "test": "vitest --config vite.config.js --coverage",
-    "test:coverage": "vitest --config vite.config.js --coverage --run",
+    "test": "vitest --config vitest.config.js --coverage",
+    "test:coverage": "vitest --config vitest.config.js --coverage --run",
     "dev": "nodemon server",
     "build": "npm install",
     "start": "node src/server.js"
