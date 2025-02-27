@@ -109,18 +109,18 @@ en bruker i home seksjonen av siden vil bli vist alle innlegg og hvor mange reak
 - [x] En bruker som er logget inn kan klikke på et innlegg for hvem som har reagert på innlegget og kommentarer.
       Detaljene skal inkludere en overskrift, tekst, navn, bilde(om tilgjengelig) på den som publiserte det
 - [x] Brukere kan publisere nye inlegg. innlegg kan være mellom 10 ord og 1000 tegn
-- [x] Systemet hindrer en bruker fra å publisere mer enn 5 innlegg innenfor en time
+- [ ] Systemet hindrer en bruker fra å publisere mer enn 5 innlegg innenfor en time
 - [x] Brukeren skal forhindres fra å sende inn en nyhetsartikkel som mangler tekst
 - [x] En bruker skal kunne redigere et innlegg de selv har publisert
 - [x] en bruker skal kunne slette et innlegg de selv har publisert
 - [x] Brukere skal reagere på andres innlegg med en av flere emojis
-- [x] **Valgfritt**: Brukere kan legge til kommentarer til andres innlegg
+- [ ] **Valgfritt**: Brukere kan legge til kommentarer til andres innlegg
 - [ ] **Valgfritt**: Brukere kan legge til andre brukere som venner
 - [x] Alle feil fra server skal presenteres til en bruker på en pen måte, med mulighet for brukeren til å prøve igjen
 
 ## Må-Krav til teknisk løsning
 
-- [ ] Besvarelsen skal inneholde en Readme-fil med link til heroku og test coverage
+- [x] Besvarelsen skal inneholde en Readme-fil med link til heroku og test coverage
 - [x] _npm start_ skal starte server og klient (concurrently og vite)
 - [x] _npm test_ skal kjøre tester. testene skal ikke feile. Vitest anbefales
 - [x] koden skal ha konsistent formattering. Prettier og husky anbefales
