@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "vitest run --coverage",
+    "test": "vitest --config vite.config.js --coverage",
     "dev": "vite",
     "build": "npm install && vite build",
     "lint": "eslint .",

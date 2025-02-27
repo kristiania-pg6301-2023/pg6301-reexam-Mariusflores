@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 
+console.log('loaded SERVER vite.config.js');
 export default defineConfig({
   test: {
     globals: true,

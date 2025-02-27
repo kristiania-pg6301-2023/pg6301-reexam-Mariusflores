@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "test": "vitest run --coverage",
+    "test": "vitest --config vite.config.js --coverage",
     "dev": "nodemon server",
     "build": "npm install",
     "start": "node src/server.js"

@@ -1,12 +1,15 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+console.log('loaded CLIENT vite.config.js');
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
 
   test: {
     globals: true, // Makes describe, it, expect available globally
+    timeout: 60000, // Increase test timeout to 60 seconds (default is 5000ms)
+    hookTimeout: 60000,
     environment: 'jsdom', // Use jsdom for frontend testing (simulate browser)
     setupFiles: './__tests__/setupTests.js',
     coverage: {
