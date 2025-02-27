@@ -19,7 +19,7 @@ export async function createComment(db, postId, userId, content) {
 export async function getAllCommentsByPostId(db, postId) {
   console.log('filtering comments by postId:', postId);
 
-  return await db
+  let comments = await db
     .collection('comments')
     .aggregate([
       {
@@ -47,6 +47,8 @@ export async function getAllCommentsByPostId(db, postId) {
       { $sort: { timestamp: -1 } }, // Optional: Sort by newest first
     ])
     .toArray();
+  console.log('Comments retireved:', comments);
+  return comments;
 }
 
 export async function getCommentById(db, commentId) {
