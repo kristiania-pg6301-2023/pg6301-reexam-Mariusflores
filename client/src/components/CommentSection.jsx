@@ -16,9 +16,14 @@ export default function CommentsSection({ postId, userLoggedIn }) {
         credentials: 'include',
       });
       const data = await response.json();
-      setComments(data.comments || []);
+      if (response.ok) {
+        setComments(data.comments || []);
+      } else {
+        toast.error(data.message || 'Failed to fetch comments');
+      }
     } catch (error) {
       console.error('Error fetching comments:', error);
+      toast.error(error.message);
     }
   }
 
@@ -26,9 +31,12 @@ export default function CommentsSection({ postId, userLoggedIn }) {
     fetchComments();
   }, []);
 
-  async function handleAddComment() {
+  async function handleAddComment(e) {
+    e.preventDefault();
     if (!newComment.trim()) {
+      console.log('blocking api call');
       toast.error('Comment cannot be empty.');
+      console.log('sent toast error');
       return;
     }
 
@@ -50,7 +58,7 @@ export default function CommentsSection({ postId, userLoggedIn }) {
       }
     } catch (error) {
       console.error('Error adding comment:', error);
-      toast.error(data.message);
+      toast.error(error.message);
     }
   }
 
@@ -63,13 +71,13 @@ export default function CommentsSection({ postId, userLoggedIn }) {
       setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
       const data = await response.json();
       if (response.ok) {
-        toast.success('Deleted post');
+        toast.success('Comment deleted');
       } else {
-        toast.error(data.message || 'Failed to delete post');
+        toast.error(data.message || 'Failed to delete comment');
       }
     } catch (error) {
       console.error('Error deleting comment:', error);
-      toast.error(data.message);
+      toast.error(error.message);
     }
   }
 
@@ -78,7 +86,7 @@ export default function CommentsSection({ postId, userLoggedIn }) {
       <h4 className="text">Comments ({comments.length})</h4>
 
       {userLoggedIn && (
-        <div className="add-comment">
+        <form aria-label="comment form" className="add-comment" onSubmit={handleAddComment}>
           <input
             type="text"
             placeholder="Write a comment..."
@@ -86,14 +94,14 @@ export default function CommentsSection({ postId, userLoggedIn }) {
             onChange={(e) => setNewComment(e.target.value)}
             className="text"
           />
-          <button className="add-comment-button" onClick={handleAddComment}>
+          <button type="submit" className="add-comment-button">
             Post
           </button>
-        </div>
+        </form>
       )}
 
       {comments.length > 0 ? (
-        <ul className="comments-list">
+        <ul aria-label="comments list" className="comments-list">
           {comments.map((comment) => (
             <CommentItem
               key={comment._id}

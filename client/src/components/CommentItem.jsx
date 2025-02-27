@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 
 export function CommentItem({ comment, userLoggedIn, onDelete }) {
   return (
-    <li className="comment-item">
+    <li aria-label="list item" className="comment-item">
       <strong className="text">{comment.username}:</strong>
       <span className="text">{comment.content}</span>
       <span className="comment-time text">{new Date(comment.timestamp).toLocaleString()}</span>
       {userLoggedIn && (
-        <button className="delete-comment" onClick={() => onDelete(comment._id)}>
+        <button
+          aria-label="delete comment button"
+          className="delete-comment"
+          onClick={() => onDelete(comment._id)}
+        >
           <FontAwesomeIcon icon={faTrash} />
         </button>
       )}

@@ -13,7 +13,6 @@ export function RegisterPage() {
   async function handleRegister(e) {
     e.preventDefault();
     if (!username || !password) {
-      console.log('Blocking api call');
       toast.error('Username and password must be filled out');
       return;
     }
