@@ -1,23 +1,16 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
 
-console.log('Loaded SERVER vite.config.js');
-
+console.log('loaded SERVER vite.config.js');
 export default defineConfig({
   test: {
     globals: true,
-    environment: 'node', // Use Node.js for backend testing
+    environment: 'node',
     include: ['__tests__/**/*.test.{js,ts}'], // Match test files in __tests__ folder
-    timeout: 60000, // Increase test timeout to 60 seconds
+    timeout: 60000, // Increase test timeout to 60 seconds (default is 5000ms)
     hookTimeout: 60000,
     coverage: {
-      provider: 'istanbul', // Use NYC-compatible provider
-      reporter: ['text', 'lcov'], // Ensure lcov for CI integration
-    },
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src'),
+      provider: 'istanbul',
+      reporter: ['text', 'html'],
     },
   },
 });
