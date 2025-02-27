@@ -8,6 +8,9 @@
     "test:client": "cd client && npm test",
     "test:server": "cd server && npm test",
     "test": "concurrently npm:test:client npm:test:server",
+    "test:client:coverage": "cd client && npm run test:coverage",
+    "test:server:coverage": "cd server && npm run test:coverage",
+    "test:coverage": "concurrently npm:test:client:coverage npm:test:server:coverage",
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
     "dev": "concurrently npm:dev:server npm:dev:client",
@@ -37,13 +40,10 @@
     "concurrently": "^9.1.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
     "eslint": "^9.20.1",
     "husky": "^9.1.7",
     "jsdom": "^26.0.0",
     "lint-staged": "^15.4.3",
-    "prettier": "^3.5.1",
-    "vitest": "^3.0.6"
+    "prettier": "^3.5.1"
   }
 }
