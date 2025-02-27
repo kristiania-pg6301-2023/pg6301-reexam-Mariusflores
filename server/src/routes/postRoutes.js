@@ -80,6 +80,9 @@ router.post('/publish', async (req, res) => {
     if (sanitizedContent.length > 1000) {
       return res.status(400).json({ message: 'Content exceeds maximum limit' });
     }
+    if (sanitizedContent.length < 10) {
+      return res.status(400).json({ message: 'Content must be 10 or more characters' });
+    }
 
     const sanitizedTitle = sanitizeContent(title);
     if (sanitizedTitle.length > 200) {
@@ -148,6 +151,9 @@ router.post('/edit/:postId', async (req, res) => {
     const sanitizedContent = sanitizeContent(newContent);
     if (sanitizedContent.length > 1000) {
       return res.status(400).json({ message: 'Post exceeds maximum limit' });
+    }
+    if (sanitizedContent.length < 10) {
+      return res.status(400).json({ message: 'Content must be 10 or more characters' });
     }
 
     await editPostById(db, postId, sanitizedContent);
