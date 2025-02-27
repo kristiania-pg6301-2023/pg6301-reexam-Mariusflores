@@ -8,6 +8,7 @@ import {
   getAllPostsFromUser,
   getALlReactionsFromPost,
   getPostById,
+  getPostCount,
   removeReactionFromPost,
   updateReactionInPost,
 } from '../apis/postsApi.js';
@@ -68,6 +69,20 @@ router.post('/publish', async (req, res) => {
     const user = await getUserById(db, userId);
     if (!user || !user.verified) {
       return res.status(401).json({ message: 'You have to be verified to post' });
+    }
+
+    //Validate user has not posted 5 times in an hour
+
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+
+    const postCount = await getPostCount(userId, oneHourAgo);
+    console.log('Post Count', postCount);
+
+    if (postCount >= 5) {
+      return res
+        .status(429)
+        .json({ message: 'Post limit reached. You can only post 5 times per hour.' });
     }
 
     const { title, content } = req.body;

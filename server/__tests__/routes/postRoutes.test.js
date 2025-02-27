@@ -23,7 +23,8 @@ vi.spyOn(postsApi, 'createPost');
 vi.spyOn(postsApi, 'deletePostById');
 vi.spyOn(postsApi, 'addReactionToPost');
 vi.spyOn(postsApi, 'removeReactionFromPost');
-vi.spyOn(postsApi, 'updateReactionInPost'); // Removed duplicate
+vi.spyOn(postsApi, 'updateReactionInPost');
+vi.spyOn(postsApi, 'getPostCount');
 vi.spyOn(userApi, 'getUserById');
 
 describe('Post routes', () => {
@@ -51,9 +52,21 @@ describe('Post routes', () => {
       expect(response.body.message).toBe('You have to be verified to post');
     });
 
+    it('should return 429 if user posted 5 times within an hour', async () => {
+      sessionUtils.getUserFromSession.mockReturnValue('user1');
+      userApi.getUserById.mockResolvedValue({ verified: true });
+      postsApi.getPostCount.mockResolvedValue(5);
+
+      const response = await request(app).post('/publish').send({ content: 'too many posts' });
+
+      expect(response.status).toBe(429);
+      expect(response.body.message).toBe('Post limit reached. You can only post 5 times per hour.');
+    });
+
     it('should return 400 if content is empty', async () => {
       sessionUtils.getUserFromSession.mockReturnValue('user1');
       userApi.getUserById.mockResolvedValue({ verified: true });
+      postsApi.getPostCount.mockResolvedValue(0);
 
       const response = await request(app).post('/publish').send(null);
 
@@ -64,6 +77,7 @@ describe('Post routes', () => {
     it('should return 400 if content exceeds limit', async () => {
       sessionUtils.getUserFromSession.mockReturnValue('user1');
       userApi.getUserById.mockResolvedValue({ verified: true });
+      postsApi.getPostCount.mockResolvedValue(0);
 
       let overLimitString = 'a'.repeat(1001);
       let title = 'some title';
@@ -79,6 +93,7 @@ describe('Post routes', () => {
     it('should return 400 if title exceeds limit', async () => {
       sessionUtils.getUserFromSession.mockReturnValue('user1');
       userApi.getUserById.mockResolvedValue({ verified: true });
+      postsApi.getPostCount.mockResolvedValue(0);
 
       let overLimitString = 'a'.repeat(201);
       let content = 'some content';
@@ -94,6 +109,7 @@ describe('Post routes', () => {
     it('should return 201 if post created successfully', async () => {
       sessionUtils.getUserFromSession.mockReturnValue('user1');
       userApi.getUserById.mockResolvedValue({ verified: true });
+      postsApi.getPostCount.mockResolvedValue(0);
 
       postsApi.createPost.mockResolvedValue({
         _id: 'mockPostId',

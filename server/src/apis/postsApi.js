@@ -1,10 +1,20 @@
 import { ObjectId } from 'mongodb';
+import { db } from '../config/db.js';
 
 /**
  * Get Post by id
  * */
 export async function getPostById(db, postId) {
   return await db.collection('posts').findOne({ _id: new ObjectId(postId) });
+}
+
+/**
+ * Retrieves post count
+ * */
+export async function getPostCount(userId, oneHourAgo) {
+  return await db
+    .collection('posts')
+    .countDocuments({ userid: userId, timestamp: { $gte: oneHourAgo } });
 }
 
 /**
