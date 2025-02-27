@@ -21,7 +21,7 @@ export default function SettingsButton({ user, setUser }) {
 
     try {
       const response = await fetch(`${api_url}/user/change-username`, {
-        method: 'POST',
+        method: 'PATCH',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newUsername }),
@@ -46,7 +46,7 @@ export default function SettingsButton({ user, setUser }) {
   async function handleVerify() {
     try {
       const response = await fetch(`${api_url}/user/verify`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },

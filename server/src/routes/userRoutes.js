@@ -15,10 +15,11 @@ async function checkVerified(userid) {
 }
 
 /**
- * Post Routes
+ * Update Requests
+ * Patch because it modifies a single field in user data
  * */
 
-router.post('/change-username', async (req, res) => {
+router.patch('/change-username', async (req, res) => {
   try {
     const userid = getUserFromSession(req);
     const { newUsername } = req.body;
@@ -46,9 +47,10 @@ router.post('/change-username', async (req, res) => {
 });
 
 /**
- * Get Verified
+ * Update to Verified
+ * Patch because it modifies only verified data in user
  * */
-router.post('/verify', async (req, res) => {
+router.patch('/verify', async (req, res) => {
   try {
     const userid = getUserFromSession(req);
 

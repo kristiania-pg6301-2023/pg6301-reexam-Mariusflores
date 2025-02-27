@@ -115,7 +115,7 @@ describe('SettingsButton Component', () => {
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/user/change-username'),
       expect.objectContaining({
-        method: 'POST',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newUsername: 'newUsername' }),
       })
@@ -138,7 +138,7 @@ describe('SettingsButton Component', () => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining('/user/verify'),
         expect.objectContaining({
-          method: 'POST',
+          method: 'PATCH',
           credentials: 'include',
         })
       )

@@ -24,12 +24,12 @@ describe('User Routes', () => {
     vi.clearAllMocks(); // Reset all mocks before each test
   });
 
-  describe('POST /change-username', () => {
+  describe('PATCH /change-username', () => {
     it('should return 401 if user is not logged in', async () => {
       sessionUtils.getUserFromSession.mockReturnValue(null);
 
       const response = await request(app)
-        .post('/change-username')
+        .patch('/change-username')
         .send({ newUsername: 'new_user' });
 
       expect(response.status).toBe(401);
@@ -39,7 +39,7 @@ describe('User Routes', () => {
     it('should return 400 if username is empty', async () => {
       sessionUtils.getUserFromSession.mockReturnValue('user123');
 
-      const response = await request(app).post('/change-username').send({ newUsername: '' });
+      const response = await request(app).patch('/change-username').send({ newUsername: '' });
 
       expect(response.status).toBe(400);
       expect(response.body.message).toBe('Username cannot be empty.');
@@ -50,7 +50,7 @@ describe('User Routes', () => {
       userApi.getUserByUsername.mockResolvedValue({ id: 'existing_user' });
 
       const response = await request(app)
-        .post('/change-username')
+        .patch('/change-username')
         .send({ newUsername: 'existing_user' });
 
       expect(response.status).toBe(409);
@@ -63,7 +63,7 @@ describe('User Routes', () => {
       userApi.updateUsername.mockResolvedValue(true);
 
       const response = await request(app)
-        .post('/change-username')
+        .patch('/change-username')
         .send({ newUsername: 'valid_new_username' });
 
       expect(response.status).toBe(200);
@@ -75,7 +75,7 @@ describe('User Routes', () => {
     it('should return 401 if user is not logged in', async () => {
       sessionUtils.getUserFromSession.mockReturnValue(null);
 
-      const response = await request(app).post('/verify');
+      const response = await request(app).patch('/verify');
 
       expect(response.status).toBe(401);
       expect(response.body.message).toBe('Unauthorized. Please log in');
@@ -85,7 +85,7 @@ describe('User Routes', () => {
       sessionUtils.getUserFromSession.mockReturnValue('user123');
       userApi.getUserById.mockResolvedValue({ verified: true });
 
-      const response = await request(app).post('/verify');
+      const response = await request(app).patch('/verify');
 
       expect(response.status).toBe(409);
       expect(response.body.message).toBe('You are already verified');
@@ -96,7 +96,7 @@ describe('User Routes', () => {
       userApi.getUserById.mockResolvedValue({ verified: false });
       userApi.setVerified.mockResolvedValue(true);
 
-      const response = await request(app).post('/verify');
+      const response = await request(app).patch('/verify');
 
       expect(response.status).toBe(200);
       expect(response.body.message).toBe('You are now verified');

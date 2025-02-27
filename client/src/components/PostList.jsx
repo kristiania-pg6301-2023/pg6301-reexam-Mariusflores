@@ -39,7 +39,7 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
     try {
       const response = await fetch(`${api_url}/post/edit/${_id}`, {
         credentials: 'include',
-        method: 'POST',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newContent }),
       });
@@ -63,7 +63,7 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
     try {
       const response = await fetch(`${api_url}/post/react/${postId}`, {
         credentials: 'include',
-        method: 'POST',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reaction }),
       });

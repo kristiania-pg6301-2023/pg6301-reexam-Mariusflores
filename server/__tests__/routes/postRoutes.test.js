@@ -168,11 +168,11 @@ describe('Post routes', () => {
     });
   });
 
-  describe('POST /edit/:postId', () => {
+  describe('PATCH /edit/:postId', () => {
     it('should return 401 if user not logged in', async () => {
       sessionUtils.getUserFromSession.mockReturnValue(null);
 
-      const response = await request(app).post('/edit/12345').send({ newContent: 'edited post' });
+      const response = await request(app).patch('/edit/12345').send({ newContent: 'edited post' });
 
       expect(response.status).toBe(401);
       expect(response.body.message).toBe('Unauthorized. Please log in.');
@@ -181,7 +181,7 @@ describe('Post routes', () => {
     it('should return 400 if not valid post id', async () => {
       sessionUtils.getUserFromSession.mockReturnValue('user1');
 
-      const response = await request(app).post('/edit/12345').send({ newContent: 'edited post' });
+      const response = await request(app).patch('/edit/12345').send({ newContent: 'edited post' });
 
       expect(response.status).toBe(400);
       expect(response.body.message).toBe('Invalid post ID');
@@ -196,7 +196,7 @@ describe('Post routes', () => {
       postsApi.getPostById.mockResolvedValue(null); // Mock: Post not found
 
       const response = await request(app)
-        .post(`/edit/${nonExistentPostId}`)
+        .patch(`/edit/${nonExistentPostId}`)
         .send({ newContent: 'edited post' });
 
       expect(response.status).toBe(404);
@@ -209,7 +209,7 @@ describe('Post routes', () => {
 
       const nonExistentPostId = '65c2b1f4a5b3c2d6e9f4a5b3';
       const response = await request(app)
-        .post(`/edit/${nonExistentPostId}`)
+        .patch(`/edit/${nonExistentPostId}`)
         .send({ newContent: 'edited post' });
 
       expect(response.status).toBe(403);
@@ -221,7 +221,7 @@ describe('Post routes', () => {
       const existentPostId = '65c2b1f4a5b3c2d6e9f4a5b3';
       postsApi.getPostById.mockResolvedValue({ userid: 'user1', postId: existentPostId });
 
-      const response = await request(app).post(`/edit/${existentPostId}`).send(null);
+      const response = await request(app).patch(`/edit/${existentPostId}`).send(null);
 
       expect(response.status).toBe(400);
       expect(response.body.message).toBe('Content required');
@@ -235,7 +235,7 @@ describe('Post routes', () => {
       let overLimitString = 'a'.repeat(1001);
 
       const response = await request(app)
-        .post(`/edit/${existentPostId}`)
+        .patch(`/edit/${existentPostId}`)
         .send({ newContent: overLimitString });
 
       expect(response.status).toBe(400);
@@ -248,7 +248,7 @@ describe('Post routes', () => {
       postsApi.getPostById.mockResolvedValue({ userid: 'user1', postId: existentPostId });
 
       const response = await request(app)
-        .post(`/edit/${existentPostId}`)
+        .patch(`/edit/${existentPostId}`)
         .send({ newContent: 'Successful post edit' });
 
       expect(response.status).toBe(200);
@@ -260,7 +260,7 @@ describe('Post routes', () => {
     it('should return 401 if user not logged in', async () => {
       sessionUtils.getUserFromSession.mockReturnValue(null);
 
-      const response = await request(app).post('/react/12345');
+      const response = await request(app).put('/react/12345');
 
       expect(response.status).toBe(401);
       expect(response.body.message).toBe('Unauthorized. Please log in.');
@@ -269,7 +269,7 @@ describe('Post routes', () => {
     it('should return 400 if not valid post id', async () => {
       sessionUtils.getUserFromSession.mockReturnValue('user1');
 
-      const response = await request(app).post('/react/12345');
+      const response = await request(app).put('/react/12345');
 
       expect(response.status).toBe(400);
       expect(response.body.message).toBe('Invalid post ID');
@@ -283,7 +283,7 @@ describe('Post routes', () => {
 
       postsApi.getPostById.mockResolvedValue(null); // Mock: Post not found
 
-      const response = await request(app).post(`/react/${nonExistentPostId}`);
+      const response = await request(app).put(`/react/${nonExistentPostId}`);
 
       expect(response.status).toBe(404);
       expect(response.body.message).toBe('Post not found');
@@ -299,7 +299,7 @@ describe('Post routes', () => {
       });
 
       const response = await request(app)
-        .post(`/react/${existentPostId}`)
+        .put(`/react/${existentPostId}`)
         .send({ reaction: 'like' });
 
       expect(response.status).toBe(200);
@@ -315,9 +315,7 @@ describe('Post routes', () => {
         reactions: [{ userId: 'user1', reaction: 'like' }],
       });
 
-      const response = await request(app)
-        .post(`/react/${existentPostId}`)
-        .send({ reaction: 'sad' });
+      const response = await request(app).put(`/react/${existentPostId}`).send({ reaction: 'sad' });
 
       expect(response.status).toBe(200);
       expect(response.body.message).toBe('Reaction updated');
@@ -330,7 +328,7 @@ describe('Post routes', () => {
       postsApi.getPostById.mockResolvedValue({ postId: existentPostId, reactions: [] });
 
       const response = await request(app)
-        .post(`/react/${existentPostId}`)
+        .put(`/react/${existentPostId}`)
         .send({ reaction: 'like' });
 
       expect(response.status).toBe(201);

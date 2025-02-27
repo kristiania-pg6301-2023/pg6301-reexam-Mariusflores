@@ -189,7 +189,7 @@ describe('PostList Component', () => {
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(`http://localhost:8000/post/edit/123`, {
         credentials: 'include',
-        method: 'POST',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newContent: input.value }),
       });
@@ -310,7 +310,7 @@ describe('PostList Component', () => {
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith('http://localhost:8000/post/react/1', {
         credentials: 'include',
-        method: 'POST',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reaction: '😂' }),
       });

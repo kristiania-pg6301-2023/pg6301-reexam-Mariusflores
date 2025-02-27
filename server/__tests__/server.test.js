@@ -22,7 +22,7 @@ describe('Server Tests', () => {
   });
 
   test('User route should exist', async () => {
-    const res = await request(app).post('/user/verify');
+    const res = await request(app).patch('/user/verify');
     expect(res.status).not.toBe(404); // Ensure that the '/user' route exists
   });
 });

@@ -1,4 +1,4 @@
-import { render, waitFor, screen, getByLabelText, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { vi } from 'vitest';
 import { act } from 'react';
@@ -104,7 +104,7 @@ describe('App.jsx', () => {
       })
     );
 
-    const logOutButton = await screen.getByLabelText('logout');
+    const logOutButton = await screen.findByLabelText('logout');
     fireEvent.click(logOutButton);
 
     await waitFor(() => {

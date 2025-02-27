@@ -99,9 +99,14 @@ router.post('/publish', async (req, res) => {
 });
 
 /**
+ * UPDATE requests
+ * */
+
+/**
  * Route to edit post content
+ * Patch because it modifies part of the post
  */
-router.post('/edit/:postId', async (req, res) => {
+router.patch('/edit/:postId', async (req, res) => {
   try {
     const postId = req.params.postId;
     const { newContent } = req.body;
@@ -139,8 +144,9 @@ router.post('/edit/:postId', async (req, res) => {
 
 /**
  * Route to react to a post
+ * Put because it adds or replaces a reaction in its entirety
  */
-router.post('/react/:postId', async (req, res) => {
+router.put('/react/:postId', async (req, res) => {
   try {
     const postId = req.params.postId;
     const { reaction } = req.body;
