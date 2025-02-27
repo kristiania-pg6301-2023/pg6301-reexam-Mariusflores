@@ -48,7 +48,9 @@ export function LoginPage({ setUser }) {
         );
       }
     } catch (error) {
-      toast.error('An error occurred. Please make sure Username and Password is correct');
+      toast.error(
+        error.message || 'An error occurred. Please make sure Username and Password is correct'
+      );
       console.error('Error logging in:', error);
     }
   }

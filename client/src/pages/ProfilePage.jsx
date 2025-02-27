@@ -32,8 +32,8 @@ export function ProfilePage({ user, setUser }) {
         .then((data) => setPosts(data))
         .catch((error) => {
           if (error.name !== 'AbortError') {
-            console.error('Error fetching posts:', error);
-            toast.error('Error fetching posts' || error);
+            console.error('Error fetching posts:', error.message);
+            toast.error(error.message || 'Error fetching posts');
           }
         });
 

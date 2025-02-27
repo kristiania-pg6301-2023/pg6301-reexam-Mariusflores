@@ -144,6 +144,35 @@ describe('PostList Component', () => {
     expect(toast.error).toHaveBeenCalledWith('Failed to delete post');
   });
 
+  it('should catch error and toast error on rejected fetch deleting post', async () => {
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+
+    const mockPosts = [
+      {
+        _id: '123',
+        username: 'Test User',
+        content: 'Post to be deleted',
+        timestamp: '2024-02-25T12:00:00Z',
+        reactions: [],
+      },
+    ];
+
+    render(<PostList userLoggedIn={true} posts={mockPosts} setPosts={mockSetPosts} />);
+
+    const optionsButton = await screen.findByLabelText('More options');
+
+    fireEvent.click(optionsButton);
+    // Ensure the delete button exists
+    const deleteButton = await screen.findByLabelText('delete-post-button');
+
+    // Click the delete button
+    fireEvent.click(deleteButton);
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Network error');
+    });
+  });
+
   it('should call API and update state when editing a post', async () => {
     // Mock fetch API
     global.fetch = vi.fn(() =>
@@ -289,6 +318,43 @@ describe('PostList Component', () => {
 
     expect(toast.error).toHaveBeenCalledWith('Failed to edit post');
   });
+  it('should catch error and toast error on rejected fetch edit post', async () => {
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+
+    const mockSetPosts = vi.fn();
+
+    const mockPosts = [
+      {
+        _id: '123',
+        username: 'Test User',
+        content: 'Post to be deleted',
+        timestamp: '2024-02-25T12:00:00Z',
+        reactions: [],
+      },
+    ];
+    render(<PostList userLoggedIn={true} posts={mockPosts} setPosts={mockSetPosts} />);
+
+    const optionsButton = await screen.findByLabelText('More options');
+
+    fireEvent.click(optionsButton);
+    // Ensure the delete button exists
+    const editButton = await screen.findByLabelText('edit-post-button');
+
+    // Click the edit button
+    fireEvent.click(editButton);
+
+    const input = screen.getByLabelText('edit textarea');
+
+    await userEvent.clear(input);
+    await userEvent.type(input, 'Updated post content');
+
+    const saveEditButton = await screen.findByLabelText('save edit button');
+    fireEvent.click(saveEditButton);
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Network error');
+    });
+  });
 
   it('should handle API calls and update state when reacting', async () => {
     global.fetch = vi.fn(() =>
@@ -317,6 +383,34 @@ describe('PostList Component', () => {
 
       expect(mockSetPosts).toHaveBeenCalled();
       expect(toast.success).toHaveBeenCalledWith('Reaction updated!');
+    });
+  });
+
+  it('should catch error and toast error on rejected fetch edit post', async () => {
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+
+    const mockSetPosts = vi.fn();
+
+    const mockPosts = [
+      {
+        _id: '123',
+        username: 'Test User',
+        content: 'Post to be deleted',
+        timestamp: '2024-02-25T12:00:00Z',
+        reactions: [],
+      },
+    ];
+    render(<PostList userLoggedIn={true} posts={mockPosts} setPosts={mockSetPosts} />);
+
+    const laughButtons = await screen.findAllByRole('button', { name: /😂 0/i });
+
+    // Sorts by latest post so laughButtons[0] -> post 2
+    const laughButtonFirstPost = laughButtons[0];
+
+    fireEvent.click(laughButtonFirstPost);
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Network error');
     });
   });
 });

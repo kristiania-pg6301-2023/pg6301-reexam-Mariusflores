@@ -34,7 +34,7 @@ export function PublishPage() {
         toast.error(data.message || 'Failed to post');
       }
     } catch (error) {
-      toast.error('An error occurred. Please try again.');
+      toast.error(error.message || 'An error occurred. Please try again.');
       console.error('Error posting:', error);
     }
   }

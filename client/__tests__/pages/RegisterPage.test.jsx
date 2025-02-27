@@ -174,4 +174,32 @@ describe('RegisterPage', () => {
     expect(fetch).not.toHaveBeenCalled();
     expect(toast.error).toHaveBeenCalledWith('Username and password must be filled out');
   });
+
+  it('should catch and toast error message when register gives error', async () => {
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+
+    render(
+      <MemoryRouter>
+        <RegisterPage />
+      </MemoryRouter>
+    );
+
+    const usernameInput = screen.getByLabelText('username-input');
+    const passwordInput = screen.getByLabelText('password-input');
+    const emailInput = screen.getByLabelText('email-input');
+
+    await userEvent.clear(usernameInput);
+    await userEvent.clear(passwordInput);
+    await userEvent.clear(emailInput);
+
+    await userEvent.type(usernameInput, 'Test Username');
+    await userEvent.type(passwordInput, 'Test Password');
+    await userEvent.type(emailInput, 'Test@email.com');
+
+    fireEvent.submit(screen.getByLabelText('register form'));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Network error');
+    });
+  });
 });

@@ -25,8 +25,7 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
         toast.error(data.message || 'Failed to delete post');
       }
     } catch (error) {
-      toast.error('An error occurred. Please try again.');
-      console.error('Error deleting post:', error);
+      toast.error(error.message);
     }
   }
 
@@ -53,7 +52,7 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
         toast.error(data.message || 'Failed to edit post');
       }
     } catch (error) {
-      toast.error('An error occurred. Please try again.');
+      toast.error(error.message);
       console.error('Error editing post:', error);
     }
   }
@@ -111,7 +110,7 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
         toast.error(data.message || 'Failed to add reaction');
       }
     } catch (error) {
-      toast.error('An error occurred. Please try again.');
+      toast.error(error.message);
       console.error('Error adding reaction:', error);
     }
   }

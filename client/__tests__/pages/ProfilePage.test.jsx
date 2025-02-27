@@ -3,6 +3,7 @@ import { vi } from 'vitest';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { ProfilePage } from '../../src/pages/ProfilePage.jsx';
 import { act } from 'react';
+import { toast } from 'react-toastify';
 
 afterEach(cleanup);
 
@@ -105,7 +106,7 @@ describe('Profile Page', () => {
     expect(screen.queryByLabelText('verified icon')).not.toBeInTheDocument();
   });
 
-  it('should call API and if user is defined', async () => {
+  it('should call API if user is defined', async () => {
     global.fetch = vi.fn(() =>
       Promise.resolve({
         ok: true,
@@ -124,6 +125,20 @@ describe('Profile Page', () => {
         credentials: 'include',
         signal: expect.any(Object),
       });
+    });
+  });
+
+  it('should catch and toast error message if fetch rejected on fetching posts', async () => {
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+
+    render(
+      <MemoryRouter>
+        <ProfilePage user={mockUser} setUser={mockSetUser} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Network error');
     });
   });
 });

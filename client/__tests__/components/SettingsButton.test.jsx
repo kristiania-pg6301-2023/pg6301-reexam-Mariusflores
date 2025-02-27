@@ -122,6 +122,31 @@ describe('SettingsButton Component', () => {
     );
   });
 
+  it('should catch and toast error message saving new username', async () => {
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+
+    render(<SettingsButton user={mockUser} setUser={mockSetUser} />);
+    // Open settings menu
+    fireEvent.click(screen.getByLabelText('settings-button'));
+
+    // Click "Change Username"
+    fireEvent.click(await screen.findByLabelText('change-username'));
+
+    // Ensure the input field appears
+    const input = screen.getByRole('textbox');
+
+    // Type new username
+    await userEvent.clear(input);
+    await userEvent.type(input, 'newUsername');
+
+    // Click "Save" button
+    fireEvent.click(screen.getByLabelText('save-username'));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Network error');
+    });
+  });
+
   it('verifies user when "Become Verified" is clicked ', async () => {
     render(<SettingsButton user={mockUser} setUser={mockSetUser} />);
 
@@ -170,6 +195,21 @@ describe('SettingsButton Component', () => {
 
     await waitFor(() => expect(toast.error).toHaveBeenCalledWith('Verification failed'));
     expect(mockSetUser).not.toHaveBeenCalled();
+  });
+
+  it('should catch and toast error message handleVerify', async () => {
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+
+    render(<SettingsButton user={mockUser} setUser={mockSetUser} />);
+
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(await screen.getByLabelText('verify'));
+
+    fireEvent.click(screen.getByLabelText('confirm-verify'));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Network error');
+    });
   });
 
   it('closes modals correctly', async () => {

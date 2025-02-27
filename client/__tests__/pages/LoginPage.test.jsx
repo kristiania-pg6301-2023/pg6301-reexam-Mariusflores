@@ -146,6 +146,31 @@ describe('LoginPage', () => {
     expect(toast.error).toHaveBeenCalledWith('Please enter username and password');
   });
 
+  it('should catch error and toast error message when fetch rejecting on login', async () => {
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+
+    render(
+      <MemoryRouter>
+        <LoginPage setUser={mockSetUser} />
+      </MemoryRouter>
+    );
+
+    const usernameInput = screen.getByPlaceholderText('Username');
+    const passwordInput = screen.getByPlaceholderText('Password');
+
+    await userEvent.clear(usernameInput);
+    await userEvent.clear(passwordInput);
+
+    await userEvent.type(usernameInput, 'Test User');
+    await userEvent.type(passwordInput, 'Test Password');
+
+    fireEvent.click(screen.getByLabelText('login button'));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Network error');
+    });
+  });
+
   it('should redirect to Google OAuth when Google login button is clicked', () => {
     render(
       <MemoryRouter>

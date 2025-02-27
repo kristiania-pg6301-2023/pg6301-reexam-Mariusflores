@@ -38,7 +38,7 @@ export default function SettingsButton({ user, setUser }) {
         toast.error(data.message || 'Failed to change username.');
       }
     } catch (error) {
-      toast.error(error || 'Internal Server error');
+      toast.error(error.message || 'Internal Server error');
       console.error('Error changing username:', error);
     }
   }

@@ -34,7 +34,7 @@ export function RegisterPage() {
         toast.error(data.message || 'Registration failed, please try again');
       }
     } catch (error) {
-      toast.error('An error occurred. Please try again.');
+      toast.error(error.message || 'An error occurred. Please try again.');
       console.error('Error deleting post:', error);
     }
   }

@@ -134,4 +134,28 @@ describe('Publish Page', () => {
     expect(fetch).not.toHaveBeenCalled();
     expect(toast.error).toHaveBeenCalledWith('Content and title required');
   });
+
+  it('should catch error and toast error message when publishing error', async () => {
+    global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+
+    render(
+      <MemoryRouter>
+        <PublishPage />
+      </MemoryRouter>
+    );
+
+    const titleInput = screen.getByLabelText('post title');
+    const contentInput = screen.getByLabelText('post content');
+
+    await userEvent.clear(contentInput);
+    await userEvent.type(contentInput, postContent);
+    await userEvent.clear(titleInput);
+    await userEvent.type(titleInput, postTitle);
+
+    fireEvent.submit(screen.getByLabelText('publish post form'));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Network error');
+    });
+  });
 });
