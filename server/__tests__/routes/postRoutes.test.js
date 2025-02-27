@@ -112,11 +112,11 @@ describe('Post routes', () => {
     });
   });
 
-  describe('POST /delete/:postId', async () => {
+  describe('DELETE /delete/:postId', async () => {
     it('should return 401 if user not logged in', async () => {
       sessionUtils.getUserFromSession.mockReturnValue(null);
 
-      const response = await request(app).post('/delete/12345');
+      const response = await request(app).delete('/delete/12345');
 
       expect(response.status).toBe(401);
       expect(response.body.message).toBe('Unauthorized. Please log in.');
@@ -125,7 +125,7 @@ describe('Post routes', () => {
     it('should return 400 if not valid post id', async () => {
       sessionUtils.getUserFromSession.mockReturnValue('user1');
 
-      const response = await request(app).post('/delete/12345');
+      const response = await request(app).delete('/delete/12345');
 
       expect(response.status).toBe(400);
       expect(response.body.message).toBe('Invalid post ID');
@@ -139,7 +139,7 @@ describe('Post routes', () => {
 
       postsApi.getPostById.mockResolvedValue(null); // Mock: Post not found
 
-      const response = await request(app).post(`/delete/${nonExistentPostId}`);
+      const response = await request(app).delete(`/delete/${nonExistentPostId}`);
 
       expect(response.status).toBe(404);
       expect(response.body.message).toBe('Post not found');
@@ -150,7 +150,7 @@ describe('Post routes', () => {
       postsApi.getPostById.mockResolvedValue({ userid: 'differentUser' });
 
       const nonExistentPostId = '65c2b1f4a5b3c2d6e9f4a5b3';
-      const response = await request(app).post(`/delete/${nonExistentPostId}`);
+      const response = await request(app).delete(`/delete/${nonExistentPostId}`);
 
       expect(response.status).toBe(403);
       expect(response.body.message).toBe("Cannot delete someone else's post");
@@ -161,7 +161,7 @@ describe('Post routes', () => {
       const existentPostId = '65c2b1f4a5b3c2d6e9f4a5b3';
       postsApi.getPostById.mockResolvedValue({ userid: 'user1', _id: existentPostId });
 
-      const response = await request(app).post(`/delete/${existentPostId}`);
+      const response = await request(app).delete(`/delete/${existentPostId}`);
 
       expect(response.status).toBe(200);
       expect(response.body.message).toBe('Post deleted');

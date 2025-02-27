@@ -3,7 +3,7 @@ import {
   getCommentById,
   getAllCommentsByPostId,
   deleteCommentById,
-} from '../../src/apis/commentApi.js';
+} from '../../src/apis/commentsApi.js';
 
 import { MongoClient } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
@@ -28,9 +28,11 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  await db.collection('posts').deleteMany({});
-  await db.collection('users').deleteMany({});
-  await db.collection('comments').deleteMany({});
+  await Promise.all([
+    db.collection('posts').deleteMany({}),
+    db.collection('users').deleteMany({}),
+    db.collection('comments').deleteMany({}),
+  ]);
 });
 
 describe('Comment Functions', () => {

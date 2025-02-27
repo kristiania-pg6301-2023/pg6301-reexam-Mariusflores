@@ -1,11 +1,6 @@
 import express from 'express';
 import { ObjectId } from 'mongodb';
-import {
-  sanitizeContent,
-  validatePostExists,
-  validatePostId,
-  validateUserSession,
-} from './postRoutes.js';
+import { sanitizeContent, validatePostExists, validatePostId } from './postRoutes.js';
 import { getPostById } from '../apis/postsApi.js';
 import { db } from '../config/db.js';
 import {
@@ -13,31 +8,40 @@ import {
   deleteCommentById,
   getAllCommentsByPostId,
   getCommentById,
-} from '../apis/commentApi.js';
+} from '../apis/commentsApi.js';
+import { getUserFromSession } from '../utils/sessionUtils.js';
 
 const router = express.Router();
 
+export const validateUserSession = (req, res) => {
+  const userId = getUserFromSession(req);
+  if (!userId) {
+    res.status(401).json({ message: 'Unauthorized. Please log in.' });
+
+    return null; // ✅ Ensures null is returned to stop execution
+  }
+  return userId;
+};
+
 router.post('/:postId', async (req, res) => {
   try {
-    console.log('recieved request');
-    console.log('validating user');
     const userId = validateUserSession(req, res);
 
     if (!userId) return;
 
     const postId = req.params.postId;
-    console.log('validating postId');
+
     if (!validatePostId(postId, res)) return;
 
     const post = await getPostById(db, postId);
 
-    console.log('validating post exists');
     if (!validatePostExists(post, res)) return;
-
+    console.log('post exists', postId);
     const { content } = req.body;
 
     const sanitizedContent = sanitizeContent(content);
 
+    console.log('Checking comment length');
     if (sanitizedContent.length > 300) {
       return res.status(400).json({ message: 'Comment exceeds maximum limit' });
     }
@@ -57,11 +61,13 @@ router.get('/:postId', async (req, res) => {
     const userId = validateUserSession(req, res);
     const postId = req.params.postId;
 
+    if (!userId) return;
+
     console.log('Validating postid:', postId);
     if (!validatePostId(postId, res)) return;
 
     const post = await getPostById(db, postId);
-    console.log('Validating post');
+    console.log('post found', post);
 
     if (!validatePostExists(post, res)) return;
 
@@ -97,12 +103,12 @@ router.delete('/delete/:commentId', async (req, res) => {
     }
 
     if (comment.userId !== userId) {
-      res.status(403).json({ message: 'You cannot delete someone others comments' });
+      res.status(403).json({ message: "You cannot delete someone else's comments" });
       return;
     }
 
     await deleteCommentById(db, commentId);
-    res.status(200).json({ message: 'Deleted comment' });
+    res.status(200).json({ message: 'Comment deleted.' });
   } catch (error) {
     console.log('Error deleting comment:', error);
     res.status(500).json({ message: 'Internal Server Error' });

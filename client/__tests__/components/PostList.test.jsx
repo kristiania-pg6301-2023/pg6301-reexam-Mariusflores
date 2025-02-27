@@ -98,7 +98,7 @@ describe('PostList Component', () => {
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(`http://localhost:8000/post/delete/123`, {
         credentials: 'include',
-        method: 'POST',
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });
 

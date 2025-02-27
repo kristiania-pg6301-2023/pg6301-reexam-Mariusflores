@@ -99,33 +99,6 @@ router.post('/publish', async (req, res) => {
 });
 
 /**
- * Delete post by postId
- * Validates that the post belongs to the authenticated user
- */
-router.post('/delete/:postId', async (req, res) => {
-  try {
-    const postId = req.params.postId;
-    const userId = validateUserSession(req, res);
-    if (!userId) return;
-
-    if (!validatePostId(postId, res)) return;
-
-    const post = await getPostById(db, postId);
-    if (!validatePostExists(post, res)) return;
-
-    if (userId.toString() !== post.userid.toString()) {
-      return res.status(403).json({ message: "Cannot delete someone else's post" });
-    }
-
-    await deletePostById(db, new ObjectId(postId));
-    res.status(200).json({ message: 'Post deleted' });
-  } catch (error) {
-    console.error('Error deleting post', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
-
-/**
  * Route to edit post content
  */
 router.post('/edit/:postId', async (req, res) => {
@@ -196,6 +169,37 @@ router.post('/react/:postId', async (req, res) => {
     }
   } catch (error) {
     console.error('Error reacting to post:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+/**
+ * DELETE requests
+ * */
+
+/**
+ * Delete post by postId
+ * Validates that the post belongs to the authenticated user
+ */
+router.delete('/delete/:postId', async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const userId = validateUserSession(req, res);
+    if (!userId) return;
+
+    if (!validatePostId(postId, res)) return;
+
+    const post = await getPostById(db, postId);
+    if (!validatePostExists(post, res)) return;
+
+    if (userId.toString() !== post.userid.toString()) {
+      return res.status(403).json({ message: "Cannot delete someone else's post" });
+    }
+
+    await deletePostById(db, new ObjectId(postId));
+    res.status(200).json({ message: 'Post deleted' });
+  } catch (error) {
+    console.error('Error deleting post', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });

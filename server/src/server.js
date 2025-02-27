@@ -5,7 +5,7 @@ import path from 'path';
 import authRoutes from './routes/authRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import commentRoutes from './routes/commentRoutes.js';
+import commentRoutes from './routes/commentsRoutes.js';
 import { connectDB } from './config/db.js';
 import { corsMiddelware } from './middlewares/corsMiddelware.js';
 import { sessionMiddleware } from './middlewares/sessionMiddleware.js';

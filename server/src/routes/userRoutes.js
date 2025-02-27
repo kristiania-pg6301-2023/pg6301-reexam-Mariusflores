@@ -29,6 +29,7 @@ router.post('/change-username', async (req, res) => {
 
     if (!newUsername) {
       res.status(400).json({ message: 'Username cannot be empty.' });
+      return;
     }
 
     const checkUser = await getUserByUsername(db, newUsername);

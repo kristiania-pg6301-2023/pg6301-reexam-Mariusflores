@@ -12,7 +12,7 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
     try {
       const response = await fetch(`${api_url}/post/delete/${_id}`, {
         credentials: 'include',
-        method: 'POST',
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });
 
