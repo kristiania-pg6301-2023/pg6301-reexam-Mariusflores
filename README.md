@@ -57,7 +57,7 @@ så jeg legger ved test coverage som bilde her.
 ![image](https://github.com/user-attachments/assets/09312583-4f34-437a-b693-5ee6922c0161)
 
 Det oppsto også et problem med å kjøre testene lokalt på min maskin. Når jeg concurrently kjører testene for klient og server sammen. testene under api mappen får ikke kjørt før timeout stopper dem. jeg har gjort tiltak for å utsette timeout i vitest.config.js og lokalt i testfilene hvor dette er et problem
-og etter et par forsøk er dette problemet tilsynelatende fikset. Testene kjører feilfritt i github actions med coverage.
+og etter et par forsøk er dette problemet tilsynelatende fikset. Testene kjører feilfritt i github actions med coverage. lokalt så kjører testene uten problemer hvis man kjører dem separat i server mappen og klient mappen
 
 ### Om prosjektet
 
