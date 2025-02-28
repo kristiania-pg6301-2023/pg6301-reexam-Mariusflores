@@ -4,6 +4,7 @@ import '../styling/Icon.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faPen, faRightToBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
+import logo from '../../assets/navbarlogo.png';
 
 export function NavBar({ user, onLogout }) {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export function NavBar({ user, onLogout }) {
   return (
     <header id="navbar" role={'navigation'}>
       <div className="logo-container">
-        <img src="../../assets/navbarlogo.png" alt="logo" className="logo" />
+        <img src={logo} alt="logo" className="logo" />
       </div>
       <div
         className="link-container"
