@@ -5,9 +5,14 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nHPSu_dn)
 
 [Heroku App](https://pg-socialmedia-23bbe72a4666.herokuapp.com/)
+[Github Repo]([https://pg-socialmedia-23bbe72a4666.herokuapp.com/](https://github.com/kristiania-pg6301-2023/pg6301-reexam-Mariusflores))
 
 
 #### icons created by Freepik - Flaticon
+
+#### Fra rot mappen 
+
+Følgende scripts bruker Concurrently.
 
 ```
 npm test 
@@ -37,18 +42,16 @@ npm start
 Jeg prøvde å laste opp coverage på codecov og ble møtt på denne meldingen da siden jeg ikke kan gi tilgang til organisasjonen dette repoet er del av og måtte prøve å uploade som anonym med public repo. prøvde flere ganger men ble møtt på samme feil 429 selv om jeg ventet ut ventetiden. 
 så jeg legger ved test coverage som bilde her.
 
-### server
+### Server
 
 ![image](https://github.com/user-attachments/assets/13a09fdd-db70-461c-a1f8-db7853b429ba)
 
-### client
+### Klient
 
 ![image](https://github.com/user-attachments/assets/09312583-4f34-437a-b693-5ee6922c0161)
 
 Det oppsto også et problem med å kjøre testene lokalt på min maskin. Når jeg concurrently kjører testene for klient og server sammen. testene under api mappen får ikke kjørt før timeout stopper dem. jeg har gjort tiltak for å utsette timeout i vitest.config.js og lokalt i testfilene hvor dette er et problem 
 og etter et par forsøk er dette problemet tilsynelatende fikset. Testene skal kjøre i github actions (med coverage) til tross for timeout problemet lokalt.
-
-
 
 
 ### Om prosjektet
@@ -70,13 +73,13 @@ både klient og server mappene har sin egne src mappe med kildekode filer satt o
 både klient og server mappene har sin egne \_\_tests\_\_ mappe med test filer satt opp i egne mapper med identiske navn som kildekode motparten
 
 
+
 ### Server siden
 
 #### server.js
 
 Kjører en Express server. Serveren er satt opp med CORS konfigurasjoner for å sikre at serveren tillater vite å kalle på den.
-For session handling og autentisering har jeg valgt å bruke *express-sessions* og *passport.js*  med OAuth. applikasjonen bruker også MongoStore for å lagre cookien opptil 14 dager
-så dersom man kjører applikasjonen lokalt, og stopper serveren, vil bruker fortsatt være pålogget når man starter serveren igjen. Med mindre man logger ut.
+For session handling og autentisering har jeg valgt å bruke *express-sessions* og *passport.js*  med OAuth. applikasjonen bruker også MongoStore for å lagre session opptil 3 dager.
 
 ```
 app.set('trust proxy', 1);
@@ -146,7 +149,7 @@ alle knapper som viser frem ekstra elementer på siden, må man klikke igjen for
 - [x] En bruker skal kunne redigere et innlegg de selv har publisert
 - [x] en bruker skal kunne slette et innlegg de selv har publisert
 - [x] Brukere skal reagere på andres innlegg med en av flere emojis
-- [ ] **Valgfritt**: Brukere kan legge til kommentarer til andres innlegg
+- [x] **Valgfritt**: Brukere kan legge til kommentarer til andres innlegg
 - [ ] **Valgfritt**: Brukere kan legge til andre brukere som venner
 - [x] Alle feil fra server skal presenteres til en bruker på en pen måte, med mulighet for brukeren til å prøve igjen
 
@@ -166,7 +169,7 @@ alle knapper som viser frem ekstra elementer på siden, må man klikke igjen for
 
 ## Bør-krav til teknisk løsning
 
-*[x] Brukere kan logge seg på med mer enn en OpenID Connect Provider (for eksempel Entra ID, Facebook, LinkedIn, Github)
+- [x] Brukere kan logge seg på med mer enn en OpenID Connect Provider (for eksempel Entra ID, Facebook, LinkedIn, Github)
 
 
 
