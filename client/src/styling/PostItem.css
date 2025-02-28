@@ -27,27 +27,47 @@
   color: #d40000;
 }
 
+/* Post Username */
 .post-username {
   font-weight: bold;
-  color: #333;
+  color: #222;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
+.post-username::before {
+  content: '👤';
+  font-size: 16px;
+  color: #555;
+}
+
+/* Post Title */
 .post-title {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
   color: #111;
-  margin-top: 5px;
+  margin-top: 8px;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
 }
 
+/* Post Timestamp */
 .post-timestamp {
   font-size: 12px;
-  color: gray;
+  color: #666;
+  margin-top: 4px;
+  font-style: italic;
 }
 
+/* Post Content */
 .post-content {
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 12px;
   color: #333;
+  line-height: 1.6;
+  text-align: justify;
 }
 
 .error-message {
