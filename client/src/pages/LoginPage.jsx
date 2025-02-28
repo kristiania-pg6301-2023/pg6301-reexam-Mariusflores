@@ -23,7 +23,6 @@ export function LoginPage({ setUser }) {
     e.preventDefault();
 
     if (!username || !password) {
-      console.log('Blocking api call due to empty credentials');
       toast.error('Please enter username and password');
       return;
     }

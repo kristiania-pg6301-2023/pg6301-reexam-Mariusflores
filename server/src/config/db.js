@@ -1,7 +1,9 @@
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
 
-// Database Connection
+/**
+ * Export database connection for reusability
+ * */
 
 dotenv.config();
 

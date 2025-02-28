@@ -260,6 +260,10 @@ router.get('/user/posts/:userid?', async (req, res) => {
   }
 });
 
+/**
+ * Get reactions from post
+ * */
+
 router.get('/reactions/:postId', async (req, res) => {
   try {
     const userId = validateUserSession(req, res);

@@ -34,7 +34,6 @@ export default function CommentsSection({ postId, userLoggedIn }) {
   async function handleAddComment(e) {
     e.preventDefault();
     if (!newComment.trim()) {
-      console.log('blocking api call');
       toast.error('Comment cannot be empty.');
       console.log('sent toast error');
       return;

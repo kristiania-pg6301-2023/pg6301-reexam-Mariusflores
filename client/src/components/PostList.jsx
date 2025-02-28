@@ -76,6 +76,8 @@ export default function PostList({ userLoggedIn, posts, setPosts }) {
         /**
          * If else statement for updating state of posts in different scenarios
          * Checks if backend response returns 'reaction removed'
+         * Had trouble finding logic that fitted both removing and updating reaction
+         * So i put them in an if else statement
          * */
         if (data.message === 'Reaction removed') {
           // If the reaction was removed, filter it out in the state

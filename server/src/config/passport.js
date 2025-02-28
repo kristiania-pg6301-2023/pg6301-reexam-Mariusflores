@@ -55,6 +55,7 @@ passport.use(
 
 /**
  * Setup GitHub OAuth Strategy
+ * also calls findOrCreateUser
  * */
 
 passport.use(

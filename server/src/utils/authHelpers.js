@@ -5,7 +5,11 @@ import crypto from 'node:crypto';
 export async function verifyPassword(user, password) {
   return await bcrypt.compare(password, user.password);
 }
-// Generate a unique 8-digit number
+
+/**
+ * Generate a unique 8-digit number
+ **/
+
 export function generateUserId() {
   const min = 10000000; // Smallest 8-digit number
   const max = 99999999; // Largest 8-digit number
@@ -13,9 +17,13 @@ export function generateUserId() {
   console.log('random num:', randomNum);
   return `local:${randomNum}`;
 }
+
+/**
+ * Generates a unique 8-digit number for use if github or google login doesnt provide username.
+ * */
 export function generateOAuthDefaultNameValue() {
-  const min = 10000000; // Smallest 8-digit number
-  const max = 99999999; // Largest 8-digit number
+  const min = 10000000;
+  const max = 99999999;
   const randomNum = crypto.randomInt(min, max);
   console.log('random num:', randomNum);
   return `user:${randomNum}`;

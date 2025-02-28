@@ -13,6 +13,10 @@ import { getUserFromSession } from '../utils/sessionUtils.js';
 
 const router = express.Router();
 
+/**
+ * Helper functions
+ * */
+
 export const validateUserSession = (req, res) => {
   const userId = getUserFromSession(req);
   if (!userId) {
@@ -23,6 +27,9 @@ export const validateUserSession = (req, res) => {
   return userId;
 };
 
+/**
+ * Post Requests
+ * */
 router.post('/:postId', async (req, res) => {
   try {
     const userId = validateUserSession(req, res);
@@ -55,6 +62,9 @@ router.post('/:postId', async (req, res) => {
   }
 });
 
+/**
+ * Get requests
+ * */
 router.get('/:postId', async (req, res) => {
   try {
     console.log('recieved request');
@@ -83,6 +93,9 @@ router.get('/:postId', async (req, res) => {
   }
 });
 
+/**
+ * Delete requests
+ * */
 router.delete('/delete/:commentId', async (req, res) => {
   try {
     const userId = validateUserSession(req, res);

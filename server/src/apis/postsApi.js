@@ -176,6 +176,9 @@ export async function removeReactionFromPost(db, postId, userId, reaction) {
     .updateOne({ _id: new ObjectId(postId) }, { $pull: { reactions: { userId, reaction } } });
 }
 
+/**
+ * Updates existing reaction from user
+ * */
 export async function updateReactionInPost(db, postId, userId, newReaction) {
   return await db.collection('posts').updateOne(
     { _id: new ObjectId(postId) }, // Find post by ID

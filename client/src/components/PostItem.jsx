@@ -109,7 +109,7 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
 
       {userLoggedIn && (
         <div className="post-actions">
-          {/* 🔹 Toggle Button for Reactions */}
+          {/* Toggle Button for Reactions */}
           <button
             className="action-button"
             onClick={() => setShowReactionsPopup(!showReactionsPopup)}
@@ -118,7 +118,7 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
             {showReactionsPopup ? 'Hide Reactions' : 'Show Reactions'}
           </button>
 
-          {/* 🔹 Toggle Button for Comments */}
+          {/* Toggle Button for Comments */}
           <button
             className="action-button"
             onClick={() => setShowComments(!showComments)}
@@ -130,14 +130,14 @@ export default function PostItem({ userLoggedIn, post, onDelete, onEdit, onReact
         </div>
       )}
 
-      {/* 🔹 Conditional Rendering for Reactions */}
+      {/* Conditional Rendering for Reactions */}
       {showReactionsPopup && (
         <div className="reactions-dropdown">
           <ReactionsPopup postId={post._id} onClose={() => setShowReactionsPopup(false)} />
         </div>
       )}
 
-      {/* 🔹 Conditional Rendering for Comments */}
+      {/* Conditional Rendering for Comments */}
       {showComments && (
         <div className="comments-dropdown">
           <CommentsSection postId={post._id} userLoggedIn={userLoggedIn} />

@@ -1,8 +1,8 @@
+import { ObjectId } from 'mongodb';
+
 /**
  * Create a comment
  * */
-import { ObjectId } from 'mongodb';
-
 export async function createComment(db, postId, userId, content) {
   const newComment = {
     postId: new ObjectId(postId),
@@ -15,7 +15,9 @@ export async function createComment(db, postId, userId, content) {
   await db.collection('comments').insertOne(newComment);
   return newComment;
 }
-
+/**
+ * Get all comments by post id
+ * */
 export async function getAllCommentsByPostId(db, postId) {
   console.log('filtering comments by postId:', postId);
 
@@ -38,23 +40,30 @@ export async function getAllCommentsByPostId(db, postId) {
       },
       {
         $project: {
-          _id: 1, // Keep comment ID
-          content: 1, // Include content
-          timestamp: 1, // Include timestamp
-          username: '$user.username', // Extract username from joined user document
+          _id: 1,
+          content: 1,
+          timestamp: 1,
+          username: '$user.username',
         },
       },
-      { $sort: { timestamp: -1 } }, // Optional: Sort by newest first
+      { $sort: { timestamp: -1 } }, // Sorted by newest first
     ])
     .toArray();
   console.log('Comments retireved:', comments);
   return comments;
 }
 
+/**
+ * Get comment by id
+ * */
+
 export async function getCommentById(db, commentId) {
   return await db.collection('comments').findOne({ _id: new ObjectId(commentId) });
 }
 
+/**
+ * Delete comment
+ * */
 export async function deleteCommentById(db, commentId) {
   return await db.collection('comments').deleteOne({ _id: new ObjectId(commentId) });
 }
