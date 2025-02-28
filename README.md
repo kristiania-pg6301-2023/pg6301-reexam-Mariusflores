@@ -1,17 +1,21 @@
 
 ![Tests](https://github.com/kristiania-pg6301-2023/pg6301-reexam-Mariusflores/actions/workflows/tests.yml/badge.svg)
 ![Deploy to Heroku](https://github.com/kristiania-pg6301-2023/pg6301-reexam-Mariusflores/actions/workflows/deploy.yml/badge.svg)
-![Upload coverage](https://github.com/kristiania-pg6301-2023/pg6301-reexam-Mariusflores/actions/workflows/coverage.yml/badge.svg)
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nHPSu_dn)
 
-* [Heroku App](https://pg-socialmedia-23bbe72a4666.herokuapp.com/)
-* [Github Repo](https://github.com/kristiania-pg6301-2023/pg6301-reexam-Mariusflores)
+[Heroku App](https://pg-socialmedia-23bbe72a4666.herokuapp.com/)
+
 
 #### icons created by Freepik - Flaticon
 
 ```
 npm test 
+```
+*kjører tester*
+
+```
+npm run test:coverage 
 ```
 *kjører tester med coverage*
 ```
@@ -28,9 +32,27 @@ npm start
 ```
 *Kjører programmet med node server.js*
 
+![image](https://github.com/user-attachments/assets/74fa8d7a-17b1-43c0-961c-67158e56f3fc)
+
+Jeg prøvde å laste opp coverage på codecov og ble møtt på denne meldingen da siden jeg ikke kan gi tilgang til organisasjonen dette repoet er del av og måtte prøve å uploade som anonym med public repo. prøvde flere ganger men ble møtt på samme feil 429 selv om jeg ventet ut ventetiden. 
+så jeg legger ved test coverage som bilde her.
+
+### server
+
+![image](https://github.com/user-attachments/assets/13a09fdd-db70-461c-a1f8-db7853b429ba)
+
+### client
+
+![image](https://github.com/user-attachments/assets/09312583-4f34-437a-b693-5ee6922c0161)
+
+Det oppsto også et problem med å kjøre testene lokalt på min maskin. Når jeg concurrently kjører testene for klient og server sammen. testene under api mappen får ikke kjørt før timeout stopper dem. jeg har gjort tiltak for å utsette timeout i vitest.config.js og lokalt i testfilene hvor dette er et problem 
+og etter et par forsøk er dette problemet tilsynelatende fikset. Testene skal kjøre i github actions (med coverage) til tross for timeout problemet lokalt.
+
+
 
 
 ### Om prosjektet
+
 
 #### Workflows
 Prosjektet tar i bruk CI/CD med github actions workflows. Det er 2 workflows en for å kjøre koden og en annen for å deploye til heroku som ikke settes i gang før testene har kjørt uten feil.
@@ -53,8 +75,8 @@ både klient og server mappene har sin egne \_\_tests\_\_ mappe med test filer s
 #### server.js
 
 Kjører en Express server. Serveren er satt opp med CORS konfigurasjoner for å sikre at serveren tillater vite å kalle på den.
-For session handling og autentisering har jeg valgt å bruke express-sessions og passport fordi det funker enkelt med OAuth. applikasjonen bruker også MongoStore for å lagre cookien opptil 14 dager
-så dersom man kjører applikasjonen lokalt, og stopper serveren, vil bruker fortsatt være pålogget når man starter serveren igjen.
+For session handling og autentisering har jeg valgt å bruke *express-sessions* og *passport.js*  med OAuth. applikasjonen bruker også MongoStore for å lagre cookien opptil 14 dager
+så dersom man kjører applikasjonen lokalt, og stopper serveren, vil bruker fortsatt være pålogget når man starter serveren igjen. Med mindre man logger ut.
 
 ```
 app.set('trust proxy', 1);
@@ -85,15 +107,25 @@ Serveren har 4 forskjellige route-prefikser
 for SPA. alle kall som ikke starter med API prefikser skal få tilsendt frontenden
 
 For Autentisering så støtter applikasjonen Google, GitHub og Lokalt
+Id'er til innlegg og kommentarer lagres som standard MongoDB Object id. 
+for brukere blir den lagret automatisk men id'en som blir brukt av applikasjonen er en tilrettelagt <provider>:<string>
+som da har github, google, eller local som provider. ved github og google, brukes id stringen som blir hentet ved innlogging. ved lokal registrering genereres et 8 sifret tall.
+registrering sørger for at lokale brukere ikke kan ha identiske id'er
 
 ### Klient siden
 
 Klient siden kjører med Vite.
 En navigasjons bar er på toppen av siden til enhver tid. Men ikke alle knappene er alltid tilgjengelige;
-En bruker som ikke er logget inn vil kun bli vist home og login knappene i NavBaren, og om de prøver å skifte url til de ikke tilgjengelige rutene, vil de bli dirigert til login
+En bruker som ikke er logget inn (min tolkning av anonym bruker) vil kun bli vist home og login knappene i NavBaren, og om de prøver å skifte url til de ikke tilgjengelige rutene, vil de bli dirigert til login
 en bruker som er logget inn vil bli vist home publish profile og logout knappene
 
 en bruker i home seksjonen av siden vil bli vist alle innlegg og hvor mange reaksjoner hvert innlegg har. men vil ikke kunne se hvem som har reagert eller kommentarer.
+En bruker kan legge ut et innlegg med tittel og innhold
+
+en registrert bruker har full tilgang til alle sidene på nettsiden. Men dersom vedkommende prøver å publisere et innlegg vil en popup notifikasjon komme opp som sier at vedkommende må være verifisert for å kunne publisere.
+for å bli verifisert, må brukeren gå inn på profilsiden og klikke på tannhjul ikonet. da dukker det opp en popup side hvor man enten kan skifte brukernavn eller bli verifisert. trykk på bli verifisert så kan du publisere innlegg
+
+alle knapper som viser frem ekstra elementer på siden, må man klikke igjen for å lukke. man kan ikke trykke hvor som helst på siden, da dette ble nedprioritert ovenfor generell funksjonalitet
 
 ## Funksjonelle Krav:
 
@@ -109,7 +141,7 @@ en bruker i home seksjonen av siden vil bli vist alle innlegg og hvor mange reak
 - [x] En bruker som er logget inn kan klikke på et innlegg for hvem som har reagert på innlegget og kommentarer.
       Detaljene skal inkludere en overskrift, tekst, navn, bilde(om tilgjengelig) på den som publiserte det
 - [x] Brukere kan publisere nye inlegg. innlegg kan være mellom 10 ord og 1000 tegn
-- [ ] Systemet hindrer en bruker fra å publisere mer enn 5 innlegg innenfor en time
+- [x] Systemet hindrer en bruker fra å publisere mer enn 5 innlegg innenfor en time
 - [x] Brukeren skal forhindres fra å sende inn en nyhetsartikkel som mangler tekst
 - [x] En bruker skal kunne redigere et innlegg de selv har publisert
 - [x] en bruker skal kunne slette et innlegg de selv har publisert
