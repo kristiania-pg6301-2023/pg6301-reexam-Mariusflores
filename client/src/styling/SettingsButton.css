@@ -1,6 +1,7 @@
 /* Settings Button */
 .settings-container {
   position: relative;
+  margin-top: 10px;
 }
 
 .settings-button {
