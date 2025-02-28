@@ -5,10 +5,15 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nHPSu_dn)
 
 [Heroku App](https://pg-socialmedia-23bbe72a4666.herokuapp.com/)
-[Github Repo]([https://pg-socialmedia-23bbe72a4666.herokuapp.com/](https://github.com/kristiania-pg6301-2023/pg6301-reexam-Mariusflores))
+
+[Github Repo](https://pg-socialmedia-23bbe72a4666.herokuapp.com/](https://github.com/kristiania-pg6301-2023/pg6301-reexam-Mariusflores))
 
 
 #### icons created by Freepik - Flaticon
+
+#### Fra rot mappen 
+
+Følgende scripts bruker Concurrently.
 
 ```
 npm test 
@@ -46,10 +51,12 @@ så jeg legger ved test coverage som bilde her.
 
 ![image](https://github.com/user-attachments/assets/09312583-4f34-437a-b693-5ee6922c0161)
 
-Det oppsto også et problem med å kjøre testene lokalt på min maskin. Når jeg concurrently kjører testene for klient og server sammen. testene under api mappen får ikke kjørt før timeout stopper dem. jeg har gjort tiltak for å utsette timeout i vitest.config.js og lokalt i testfilene hvor dette er et problem
-og etter et par forsøk er dette problemet tilsynelatende fikset. Testene skal kjøre i github actions (med coverage) til tross for timeout problemet lokalt.
+Det oppsto også et problem med å kjøre testene lokalt på min maskin. Når jeg concurrently kjører testene for klient og server sammen. testene under api mappen får ikke kjørt før timeout stopper dem. jeg har gjort tiltak for å utsette timeout i vitest.config.js og lokalt i testfilene hvor dette er et problem 
+og etter et par forsøk er dette problemet tilsynelatende fikset. Testene kjører feilfritt i github actions med coverage.
+
 
 ### Om prosjektet
+
 
 #### Workflows
 Prosjektet tar i bruk CI/CD med github actions workflows. Det er 2 workflows en for å kjøre koden og en annen for å deploye til heroku som ikke settes i gang før testene har kjørt uten feil.
@@ -63,21 +70,23 @@ Husky er configurert til å kjøre prettier og eslint ved git push for konsisten
 
 #### Mappe oppsett
 
-både klient og server mappene har sin egne src mappe med kildekode filer satt opp i egne mapper
-både klient og server mappene har sin egne \_\_tests\_\_ mappe med test filer satt opp i egne mapper med identiske navn som kildekode motparten
+Både klient og server mappene har sin egne src mappe med kildekode filer satt opp i egne mapper.
+
+Både klient og server mappene har sin egne \_\_tests\_\_ mappe med test filer satt opp i egne mapper med identiske navn som kildekode motparten
+
+#### Kode
+Mesteparten av koden kommer med kommentarer som kjør det lett å navigere rundt filer.
 
 ### Server siden
 
 #### server.js
 
 Kjører en Express server. Serveren er satt opp med CORS konfigurasjoner for å sikre at serveren tillater vite å kalle på den.
-For session handling og autentisering har jeg valgt å bruke _express-sessions_ og _passport.js_ med OAuth. applikasjonen bruker også MongoStore for å lagre cookien opptil 3 dager
-
+For session handling og autentisering har jeg valgt å bruke *express-sessions* og *passport.js*  med OAuth. applikasjonen bruker også MongoStore for å lagre session opptil 3 dager.
 
 ```
 app.set('trust proxy', 1);
 ```
-
 For at applikasjonen kan kjøre med Heroku default proxy
 
 Serveren har 4 forskjellige route-prefikser
@@ -95,9 +104,9 @@ Serveren har 4 forskjellige route-prefikser
     !req.path.startsWith('/post') &&
     !req.path.startsWith('/user')
   ) {
-    return res.sendFile(path.resolve('../client/dist/index.html'));
+    return res.sendFile(path.resolve('../client/dist/index.html')); 
   } else {
-    next();
+    next(); 
   }
 });
 ```
@@ -131,7 +140,7 @@ alle knapper som viser frem ekstra elementer på siden, må man klikke igjen for
   med google eller Entra ID
   - [x] Logge seg inn med bruker navn og passord
   - [x] Logge seg inn med Google
-  - [ ] Logge seg inn med GitHub
+  - [x] Logge seg inn med GitHub
 - [x] En bruker som er logget inn kan se på sin profilside
   - [x] Bruker kan se sine egne innlegg på profilsiden
 - [x] Brukere skal forbli pålogget når de refresher websiden (cookies)
@@ -143,7 +152,7 @@ alle knapper som viser frem ekstra elementer på siden, må man klikke igjen for
 - [x] En bruker skal kunne redigere et innlegg de selv har publisert
 - [x] en bruker skal kunne slette et innlegg de selv har publisert
 - [x] Brukere skal reagere på andres innlegg med en av flere emojis
-- [ ] **Valgfritt**: Brukere kan legge til kommentarer til andres innlegg
+- [x] **Valgfritt**: Brukere kan legge til kommentarer til andres innlegg
 - [ ] **Valgfritt**: Brukere kan legge til andre brukere som venner
 - [x] Alle feil fra server skal presenteres til en bruker på en pen måte, med mulighet for brukeren til å prøve igjen
 
