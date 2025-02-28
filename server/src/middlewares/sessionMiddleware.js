@@ -16,7 +16,7 @@ export function sessionMiddleware() {
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URL,
-      ttl: 14 * 24 * 60 * 60, // Sessions expire in 14 days
+      ttl: 3 * 24 * 60 * 60, // Sessions expire in 3 days
     }),
     cookie: {
       secure: process.env.NODE_ENV === 'production', // Secure cookies only in production
