@@ -1,0 +1,261 @@
+.post-container {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 20px;
+  max-width: 600px;
+  word-wrap: break-word;
+  position: relative;
+  border: 1px solid #ddd;
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ff4d4d;
+  transition: color 0.2s ease-in-out;
+  font-size: 18px;
+  z-index: 10;
+}
+
+.delete-button:hover {
+  color: #d40000;
+}
+
+/* Post Username */
+.post-username {
+  font-weight: bold;
+  color: #222;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-username::before {
+  content: '👤';
+  font-size: 16px;
+  color: #555;
+}
+
+/* Post Title */
+.post-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #111;
+  margin-top: 8px;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+
+/* Post Timestamp */
+.post-timestamp {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* Post Content */
+.post-content {
+  font-size: 16px;
+  margin-top: 12px;
+  color: #333;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+/* Three-dot menu button */
+.menu-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  font-size: 18px;
+}
+
+.menu-button:hover {
+  color: black;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #1a1a1a;
+}
+
+.dropdown-item:hover {
+  background: #f0f0f0;
+}
+
+/* Delete button styling */
+.dropdown-item.delete {
+  color: #ff4d4d;
+}
+
+.dropdown-item.delete:hover {
+  background: #ffe6e6;
+}
+
+/* Edit mode styles */
+.edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-textarea {
+  width: 100%;
+  min-height: 60px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.save-button,
+.cancel-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.save-button {
+  background: #4caf50;
+  color: white;
+}
+
+.cancel-button {
+  background: #f44336;
+  color: white;
+}
+
+.save-button:hover {
+  background: #388e3c;
+}
+
+.cancel-button:hover {
+  background: #d32f2f;
+}
+
+/*Reaction styling*/
+.reaction-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.reaction-button {
+  background-color: #7f7f7f;
+
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background 0.2s ease-in-out;
+}
+
+.reaction-button:hover {
+  background-color: #111111;
+}
+
+/* 🔹 Container for Buttons - Aligns them Side by Side */
+.post-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+/* 🔹 Common Button Styling */
+.action-button {
+  background-color: #e0e0e0;
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.3s ease-in-out;
+}
+
+.action-button:hover {
+  background-color: #bdbdbd;
+}
+
+/* 🔹 Dropdown Wrapper */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* 🔹 Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background-color: white;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  width: 250px; /* Ensures proper spacing */
+}
+
+/* 🔹 Show Dropdown when Button is Clicked */
+.dropdown:hover .dropdown-content,
+.dropdown-content.active {
+  display: block;
+}

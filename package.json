@@ -1,0 +1,49 @@
+{
+  "name": "pg6301-reexam-mariusflores",
+  "version": "1.0.0",
+  "description": "[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nHPSu_dn)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test:client": "cd client && npm test",
+    "test:server": "cd server && npm test",
+    "test": "concurrently npm:test:client npm:test:server",
+    "test:client:coverage": "cd client && npm run test:coverage",
+    "test:server:coverage": "cd server && npm run test:coverage",
+    "test:coverage": "concurrently npm:test:client:coverage npm:test:server:coverage",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "dev": "concurrently npm:dev:server npm:dev:client",
+    "build": "concurrently npm:build:server npm:build:client",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "start:client": "cd client && npm start",
+    "start:server": "cd server && npm start",
+    "start": "concurrently npm:start:client npm:start:server",
+    "lint": "concurrently \"eslint ./client\" \"eslint ./server\"",
+    "prepare": "husky",
+    "heroku-postbuild": "npm install --prefix client && npm run build"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css}": [
+      "eslint --config ./client/eslint.config.js --fix",
+      "prettier --write"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.20.1",
+    "husky": "^9.1.7",
+    "jsdom": "^26.0.0",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.1"
+  }
+}

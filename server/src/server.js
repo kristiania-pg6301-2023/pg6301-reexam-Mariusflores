@@ -1,0 +1,72 @@
+import express from 'express';
+import dotenv from 'dotenv';
+import passport from './config/passport.js';
+import path from 'path';
+import authRoutes from './routes/authRoutes.js';
+import postRoutes from './routes/postRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import commentRoutes from './routes/commentsRoutes.js';
+import { connectDB } from './config/db.js';
+import { corsMiddelware } from './middlewares/corsMiddelware.js';
+import { sessionMiddleware } from './middlewares/sessionMiddleware.js';
+
+dotenv.config();
+
+const app = express();
+
+/**
+ * Middleware
+ * */
+
+app.use(corsMiddelware());
+app.use(express.json());
+
+app.set('trust proxy', 1); // Set app to trust default heroku proxy
+app.use(sessionMiddleware());
+app.use(express.static('../client/dist'));
+
+//Starts passport.js authentication
+app.use(passport.initialize());
+//Uses Express sessions to store logged-in users
+app.use(passport.session());
+
+/**
+ * Routes
+ * */
+app.use('/auth', authRoutes);
+app.use('/post', postRoutes);
+app.use('/user', userRoutes);
+app.use('/comment', commentRoutes);
+
+/**
+ * Serve Frontend
+ * */
+app.use((req, res, next) => {
+  // Only serve the frontend for GET requests that do not match API routes
+  if (
+    req.method === 'GET' &&
+    !req.path.startsWith('/comment') &&
+    !req.path.startsWith('/auth') &&
+    !req.path.startsWith('/post') &&
+    !req.path.startsWith('/user')
+  ) {
+    return res.sendFile(path.resolve('../client/dist/index.html')); // Serve frontend for all non-API routes
+  } else {
+    next(); // Let other routes (like /auth, /post, /user) be handled by their specific handlers
+  }
+});
+
+/**
+ * Start Server
+ * */
+
+const server = app.listen(process.env.PORT || 8000, async () => {
+  try {
+    await connectDB();
+    console.log('Server started on http://localhost:' + server.address().port);
+  } catch (error) {
+    console.error('Error starting server:', error);
+  }
+});
+
+export { app, server };
