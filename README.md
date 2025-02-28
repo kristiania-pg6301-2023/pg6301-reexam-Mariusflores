@@ -131,13 +131,16 @@ registrering sørger for at lokale brukere ikke kan ha identiske id'er
 Klient siden kjører med Vite.
 En navigasjons bar er på toppen av siden til enhver tid. Men ikke alle knappene er alltid tilgjengelige;
 En bruker som ikke er logget inn (min tolkning av anonym bruker) vil kun bli vist home og login knappene i NavBaren, og om de prøver å skifte url til de ikke tilgjengelige rutene, vil de bli dirigert til login
-en bruker som er logget inn vil bli vist home publish profile og logout knappene
 
-en bruker i home seksjonen av siden vil bli vist alle innlegg og hvor mange reaksjoner hvert innlegg har. men vil ikke kunne se hvem som har reagert eller kommentarer.
+En bruker som er logget inn vil bli vist home publish profile og logout knappene
+
+En bruker i home seksjonen av siden vil bli vist alle innlegg og hvor mange reaksjoner hvert innlegg har. men vil ikke kunne se hvem som har reagert eller kommentarer.
+
 En bruker kan legge ut et innlegg med tittel og innhold
 
-en registrert bruker har full tilgang til alle sidene på nettsiden. Men dersom vedkommende prøver å publisere et innlegg vil en popup notifikasjon komme opp som sier at vedkommende må være verifisert for å kunne publisere.
-for å bli verifisert, må brukeren gå inn på profilsiden og klikke på tannhjul ikonet. da dukker det opp en popup side hvor man enten kan skifte brukernavn eller bli verifisert. trykk på bli verifisert så kan du publisere innlegg
+En registrert bruker har full tilgang til alle sidene på nettsiden. Men dersom vedkommende prøver å publisere et innlegg vil en popup notifikasjon komme opp som sier at vedkommende må være verifisert for å kunne publisere.
+
+For å bli verifisert, må brukeren gå inn på profilsiden og klikke på tannhjul ikonet. da dukker det opp en popup side hvor man enten kan skifte brukernavn eller bli verifisert. trykk på bli verifisert så kan du publisere innlegg
 
 alle knapper som viser frem ekstra elementer på siden, må man klikke igjen for å lukke. man kan ikke trykke hvor som helst på siden, da dette ble nedprioritert ovenfor generell funksjonalitet
 
