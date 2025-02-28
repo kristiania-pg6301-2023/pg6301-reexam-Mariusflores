@@ -38,4 +38,3 @@ jobs:
           GITHUB_CLIENT_SECRET: ${{secrets.GITHUBAUTH_CLIENT_SECRET}}
           GITHUB_CALLBACK_URL: ${{secrets.GITHUBAUTH_CALLBACK_URL}}
         run: npm run test:coverage
-
